@@ -4,8 +4,8 @@ Ironhack project at end of module 2 of Barcelona Full Stack Web Development Part
 
 # Developers:
 
-[Chus Santana](https://www.linkedin.com/in/chusantana/)
-[Marc De Mena](https://www.linkedin.com/in/mdemena/)
+- [Chus Santana](https://www.linkedin.com/in/chusantana/)
+- [Marc De Mena](https://www.linkedin.com/in/mdemena/)
 
 # Link to App:
 
