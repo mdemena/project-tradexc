@@ -4,8 +4,8 @@ Ironhack project at end of module 2 of Barcelona Full Stack Web Development Part
 
 # Developers:
 
-- [Chus Santana](https://www.linkedin.com/in/chusantana/)
-- [Marc De Mena](https://www.linkedin.com/in/mdemena/)
+- [Chus Santana](https://github.com/chusantana/)
+- [Marc De Mena](https://github.com/mdemena/)
 
 # Link to App:
 
@@ -187,17 +187,13 @@ Log model
 
 The url to your repository and to your deployed project
 
-[Repository Link](https://github.com/mdemena/project-tradexc)
-[Wireframe Link](https://excalidraw.com/#room=6c51c435333ae206c22e,ndG86DZm6bAAMowyCLuXDw)
-[Trello Linl](https://trello.com/b/rCNCcPCD/tradexc)
-[Deploy Link](https://tradexc.herokuapp.com/)
+- [Repository Link](https://github.com/mdemena/project-tradexc)
+- [Wireframe Link](https://excalidraw.com/#room=6c51c435333ae206c22e,ndG86DZm6bAAMowyCLuXDw)
+- [Trello Linl](https://trello.com/b/rCNCcPCD/tradexc)
+- [Deploy Link](https://tradexc.herokuapp.com/)
 
 ### Slides
 
 The url to your presentation slides
 
 [Slides Link](http://slides.com)
-
-```
-
-```
