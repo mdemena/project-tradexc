@@ -202,7 +202,7 @@ Log model
 The url to your repository and to your deployed project
 
 - [Repository Link](https://github.com/mdemena/project-tradexc)
-- [Wireframe Link](https://excalidraw.com/#room=6c51c435333ae206c22e,ndG86DZm6bAAMowyCLuXDw)
+- [Wireframe Link](https://excalidraw.com/#json=6186794131390464,vWQHeHB7uCgxfIijL4WN8Q)
 - [Trello Linl](https://trello.com/b/rCNCcPCD/tradexc)
 - [Deploy Link](https://tradexc.herokuapp.com/)
 
