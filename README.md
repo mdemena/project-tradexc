@@ -40,8 +40,8 @@ REAL Transactions
 
 | Method | URL         | Description                                              |
 | ------ | ----------- | -------------------------------------------------------- |
-| GET    | /           | Home page                                                |
-| GET    | /about      | About page                                               |
+| GET    | /           | Renders index                                            |
+| GET    | /about      | Renders about                                            |
 | GET    | /auth/login | Redirects to /app/ if user logged in. Renders auth/login |
 | POST   | /auth/login | Redirects to /app/ if user logged in.                    |
 
@@ -51,44 +51,99 @@ body:
     - password
 ```
 
-GET | /auth/signup| redirects to / if user logged in. Renders auth/signup
+| Method | URL          | Description                                               |
+| ------ | ------------ | --------------------------------------------------------- |
+| POST   | /auth/logout | Reditect to /                                             |
+| GET    | /auth/signup | Redirects to /app/ if user logged in. Renders auth/signup |
+| POST   | /auth/signup | Redirects to /app/ if user logged in. Redirect auth/login |
 
 ```
 body:
-    - username
+    - name
+    - email
     - password
 ```
 
-GET | / | renders the homepage. if the user is not logged in, render access.
-GET | /event/id | renders event-detail
-POST | /event/id | update event. redirect /event-detail
+| Method | URL                   | Description                                                               |
+| ------ | --------------------- | ------------------------------------------------------------------------- |
+| GET    | /app/                 | Redirects to /auth/login/ if user not logged in. Renders dashboard        |
+| GET    | /app/wallet           | Redirects to /auth/login/ if user not logged in. Renders wallet           |
+| GET    | /app/wallet           | Redirects to /auth/login/ if user not logged in. Renders wallet           |
+| GET    | /app/wallet/widthdraw | Redirects to /auth/login/ if user not logged in. Renders wallet/widthdraw |
+| POST   | /app/wallet/widthdraw | Redirects to /auth/login/ if user not logged in. Redirect app/wallet      |
 
 ```
 body:
-    - username
-    - event id
-    - image
+    - amount
 ```
 
-GET | /escape-room-list | renders escape-room-list
-POST | /logout | redirects to /
-GET | /escape-room-detail | renders escape-room-detail
-POST | /escape-room/id |
+| Method | URL                 | Description                                                             |
+| ------ | ------------------- | ----------------------------------------------------------------------- |
+| GET    | /app/wallet/deposit | Redirects to /auth/login/ if user not logged in. Renders wallet/deposit |
+| POST   | /app/wallet/deposit | Redirects to /auth/login/ if user not logged in. Redirect app/wallet    |
 
 ```
 body:
-    - username
-    - escape-room
-    - date
-    - reserved time
-    - escape-room id
+    - amount
+```
+
+| Method | URL                      | Description                                                         |
+| ------ | ------------------------ | ------------------------------------------------------------------- |
+| GET    | /app/trade               | Redirects to /auth/login/ if user not logged in. Renders trade      |
+| GET    | /app/trade/buy           | Redirects to /auth/login/ if user not logged in. Renders trade/buy  |
+| GET    | /app/trade/buy/:symbolId | Redirects to /auth/login/ if user not logged in. Renders trade/buy  |
+| POST   | /app/trade/buy           | Redirects to /auth/login/ if user not logged in. Redirect app/trade |
+
+```
+body:
+    - symbol
+    - amount
+```
+
+| Method | URL                       | Description                                                         |
+| ------ | ------------------------- | ------------------------------------------------------------------- |
+| GET    | /app/trade/sell/:symbolId | Redirects to /auth/login/ if user not logged in. Renders trade/sell |
+| POST   | /app/trade/sell           | Redirects to /auth/login/ if user not logged in. Redirect app/trade |
+
+```
+body:
+    - symbol
+    - units
+    - price
+```
+
+| Method | URL       | Description                                                        |
+| ------ | --------- | ------------------------------------------------------------------ |
+| GET    | /app/user | Redirects to /auth/login/ if user not logged in. Renders user      |
+| POST   | /app/user | Redirects to /auth/login/ if user not logged in. Redirect app/user |
+
+```
+body:
+    - name
+    - email
+    - password
+```
+
+| Method | URL               | Description                                                           |
+| ------ | ----------------- | --------------------------------------------------------------------- |
+| GET    | /app/transactions | Redirects to /auth/login/ if user not logged in. Renders transactions |
+| GET    | /app/markets      | Redirects to /auth/login/ if user not logged in. Renders markets      |
+| GET    | /app/support      | Redirects to /auth/login/ if user not logged in. Renders support      |
+| POST   | /app/support      | Redirects to /auth/login/ if user not logged in. Redirect app/support |
+
+```
+body:
+    - name
+    - email
+    - subject
+    - description
 ```
 
 ## Models
 
 ```
 User model
-- username: String
+- name: String
 - password: String
 - email: String
 - avatar: String
