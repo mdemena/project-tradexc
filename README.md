@@ -13,22 +13,36 @@ Ironhack project at end of module 2 of Barcelona Full Stack Web Development Part
 
 An app for improve your money gaming with a Global Digital Coin Exchange.
 
-## User Stories
+## Epics / User Stories
 
-- **404** - As a user I want to see a nice 404 page when I go to a page that doesn’t exist so that I know it was my fault
-- **500** - As a user I want to see a nice error page when the super team screws it up so that I know that is not my fault
-- **homepage** - As a user I want to be able to access the homepage so that I see what the app is about and login and signup
-- **about** - As a user I want to be know who are rear this project and know how to contact if I have a problem
-- **signup** - As a user I want to sign up on the application so that I can trade with my money
-- **login** - As a user I want to be able to log in on the application so that I can get back to my account
-- **logout** - As a user I want to be able to log out from the application so that I can make sure no one will access my account
-- **dashboard** - As a logged user I want to trade whit global exchange markets like NASDAQ, IBEX35 or CryptoMoney
-- **wallet** - As a user I want to work and know all the information of my money and my investments.
-- **trade** - As a user I want trade with investments, buy or selling in the market.
-- **transactions** - As a user I want to see all the transaction I made.
-- **markets** - As a user I want to be able to attend to event so that the organizers can count me in.
-- **profile** - As a user I want to see which escape-rooms are available so I can explore them.
-- **support** - As a user I want to see which escape-rooms are available so I can explore them.
+- Website
+
+  - **404** - As a user I want to see a nice 404 page when I go to a page that doesn’t exist so that I know it was my fault
+  - **500** - As a user I want to see a nice error page when the super team screws it up so that I know that is not my fault
+  - **homepage** - As a user I want to be able to access the homepage so that I see what the app is about and login and signup
+  - **about** - As a user I want to be know who are rear this project and know how to contact if I have a problem
+
+- Authentication
+
+  - **signup** - As a user I want to sign up on the application so that I can trade with my money
+  - **login** - As a user I want to be able to log in on the application so that I can get back to my account
+  - **logout** - As a user I want to be able to log out from the application so that I can make sure no one will access my account
+
+- Applicaction
+
+  - **dashboard** - As a logged user I want to trade whit global exchange markets like NASDAQ, IBEX35 or CryptoMoney
+  - **wallet** - As a user I want to work and know all the information of my money and my investments.
+  - **trade** - As a user I want trade with investments, buy or selling in the market.
+
+- Reports
+
+  - **transactions** - As a user I want to see all the transaction I made.
+  - **markets** - As a user I want to be able to attend to event so that the organizers can count me in.
+
+- Utilities
+
+  - **profile** - As a user I want to see which escape-rooms are available so I can explore them.
+  - **support** - As a user I want to see which escape-rooms are available so I can explore them.
 
 ## Backlog
 
