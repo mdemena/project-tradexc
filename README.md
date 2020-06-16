@@ -171,7 +171,7 @@ Wallet model
 ```
 
 ```
-Stocks model
+Stock model
 - user: Object ID
 - symbol: String
 - name: String
@@ -179,7 +179,7 @@ Stocks model
 ```
 
 ```
-Transactions model
+Transaction model
 - date: Date
 - user: Object ID
 - stock: Object ID
