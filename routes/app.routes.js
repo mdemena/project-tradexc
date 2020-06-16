@@ -1,21 +1,10 @@
 const express = require('express');
+const withAuth = require('../middleware/authenticate');
 const router = express.Router();
 
 /* GET home page */
-router.get('/', (isAuthenticate) => {
-	if (req.session.user) {
-		res.render('app/index');
-	} else {
-		res.redirect('/');
-	}
+router.get('/', withAuth, (req, res, next) => {
+	res.render('app/index');
 });
-
-function isAuthenticate(req, res, next) {
-	if (req.session.user) {
-		next();
-	} else {
-		res.redirect('/');
-	}
-}
 
 module.exports = router;
