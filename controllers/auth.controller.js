@@ -1,4 +1,4 @@
-const User = require('../models/user.model');
+const User = require('../controllers/user.controller');
 const bcrypt = require('bcryptjs');
 
 class authController {
@@ -10,6 +10,17 @@ class authController {
 			return userLogin;
 		} else {
 			throw new Error('Password incorrect. Try again.');
+		}
+	}
+	static async signUp(_name, _email, _password) {
+		try {
+			return await User.add({
+				name: _name,
+				email: _email,
+				password: _password,
+			});
+		} catch (err) {
+			throw err;
 		}
 	}
 }
