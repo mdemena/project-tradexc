@@ -10,6 +10,7 @@ router.get("/app/trade", async (req, res, next) => {
   } else res.redirect("auth/login");
 });
 
+
 router.get("app/trade/buy", async (req, res, next) => {
   if (req.session.user) {
     res.render("app/trade/buy");
@@ -18,7 +19,9 @@ router.get("app/trade/buy", async (req, res, next) => {
 
 router.get("app/trade/buy/:symbolId", async (req, res, next) => {
   if (req.session.user) {
+    const movements = req.body;
     Wallet.create(movements)
+      .save()
       .then((stock) => res.render("app/trade/buy", stock))
       .catch((err) => console.log("Error buy the stock:", err));
   } else res.redirect("auth/login");
@@ -32,7 +35,7 @@ router.get("app/trade/sell", async (req, res, next) => {
 
 router.get("app/trade/sell/:symbolID", async (req, res, next) => {
   if (req.session.user) {
-    Wallet.deleteOne(req.params.id)
+    Wallet.update(req.params.id)
       .then((stock) => res.render("app/trade/buy", stock))
       .catch((err) => console.log("Error sell the stock:", err));
   } else res.redirect("auth/login");
@@ -44,7 +47,11 @@ router.post("app/trade/buy", async (req, res, next) => {
   } else res.redirect("auth/login");
 });
 
-
+router.post("app/trade/sell", async (req, res, next) => {
+    if (req.session.user) {
+      res.render("app/trade/sell", req.session.user);
+    } else res.redirect("auth/login");
+  });
 
 async function getSymbolPrice(symbol) {
   const key = "UBKY9YCP2IW6L5D2";
