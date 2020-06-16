@@ -27,11 +27,11 @@ class StockController {
 		}
 		return editStock;
 	}
-	static async buy(_userId, _symbol, _type, _units) {
+	static async buy(_userId, _symbol, _type, _name, _units) {
 		try {
 			const userWallet = WalletController.findOne({ user: _userId });
 			const buyStock = this.findOne({ symbol: _symbol, user: _userId });
-			let buyPrice = await this.getSymbolPrice(_symbol);
+			let buyPrice = await this.getSymbolPrice(_symbol, _type);
 			let buyAmount = _units * buyPrice;
 			WalletController.addMovement(userWallet._id, {
 				date: new Date(),
@@ -51,7 +51,13 @@ class StockController {
 				await this.registerLog(buyStock, 'Buy');
 				return this.set(hasStock);
 			} else {
-				const newStock = await Stock.create(_stock);
+				const newStock = await Stock.create({
+					user: _userId,
+					symbol: _symbol,
+					name: _name,
+					type: _type,
+					units: _units,
+				});
 				await TransactionController.add({
 					date: new Date(),
 					user: userWallet.user,
@@ -69,10 +75,13 @@ class StockController {
 	}
 	static async sell(_userId, _symbolId, _type, _units) {
 		try {
-			const sellStock = await this.get(_symbolId).populate('stock');
+			const sellStock = await this.get(_symbolId);
 			if (sellStock) {
 				const userWallet = WalletController.findOne({ user: _userId });
-				let sellPrice = await this.getSymbolPrice(sellStock.stock.symbol);
+				let sellPrice = await this.getSymbolPrice(
+					sellStock.symbol,
+					sellStock.type
+				);
 				let sellAmount = _units * sellPrice;
 				sellStock.units -= _units;
 				const editStock = this.set(sellStock);
@@ -119,15 +128,35 @@ class StockController {
 	}
 	static async getSymbolPrice(_symbol, _type) {
 		const key = process.env.API_KEY;
-		const functionName = 'GLOBAL_QUOTE';
-		const apiUrl = `https://www.alphavantage.co/query?function=${functionName}&symbol=${_symbol}&apikey=${key}`;
-
+		const functionName =
+			_type === 'stock' ? 'GLOBAL_QUOTE' : 'CURRENCY_EXCHANGE_RATE';
+		let apiUrl = `https://www.alphavantage.co/query?function=${functionName}&apikey=${key}`;
+		switch (_type) {
+			case 'crypto':
+				apiUrl += `&from_currency=${_symbol}&to_currency=EUR`;
+				break;
+			default:
+				apiUrl += `&symbol=${_symbol}`;
+				break;
+		}
+		let price = 1;
 		try {
 			const responseFromAPI = await axios.get(apiUrl);
-			return responseFromAPI.data['Global Quote']['05. price'];
+			switch (_type) {
+				case 'crypto':
+					price = responseFromAPI.data['Global Quote']['05. price'];
+					break;
+				default:
+					price =
+						responseFromAPI.data['Realtime Currency Exchange Rate'][
+							'5. Exchange Rate'
+						];
+					break;
+			}
+			return price;
 		} catch (err) {
 			console.log('Error while getting the data: ', err);
-			return 1;
+			return price;
 		}
 	}
 }
