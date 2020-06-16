@@ -5,11 +5,13 @@ class authController {
 	static async login(_email, _password) {
 		const userLogin = await User.findOne({ email: _email });
 		if (!userLogin) {
-			return { errorMessage: 'Email is not registered. Try and other email.' };
+			throw new Error('Email is not registered. Try and other email.');
 		} else if (bcrypt.compare(password, userLogin.passwordHash)) {
 			return userLogin;
 		} else {
-			return { errorMessage: 'Password incorrect. Try again.' };
+			throw new Error('Password incorrect. Try again.');
 		}
 	}
 }
+
+module.exports = authController;

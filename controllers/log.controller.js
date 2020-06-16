@@ -10,5 +10,12 @@ class LogController {
 	static async findOne(_filter) {
 		return await Log.findOne(_filter);
 	}
+	static async register(_description, _userId) {
+		await this.add({
+			date: new Date(),
+			user: _userId,
+			description: `${_action} wallet ${_wallet._id} of user ${_wallet.user}`,
+		});
+	}
 }
 module.exports = LogController;

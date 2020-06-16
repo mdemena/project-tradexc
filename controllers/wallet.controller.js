@@ -1,25 +1,33 @@
 const Wallet = require('../models/user.model');
-const Log = require('../controllers/log.controller');
 const LogController = require('../controllers/log.controller');
 
 class WalletController {
+	static async getByUserId(_id) {
+		const wallet = await Wallet.findOne({ user: _id });
+		if (wallet) {
+			wallet.populate('user');
+		}
+		return wallet;
+	}
 	static async get(_id) {
 		const wallet = await Wallet.findById(_id);
-		wallet.populate('user');
+		if (wallet) {
+			wallet.populate('user');
+		}
 		return wallet;
 	}
 	static async set(_wallet) {
 		const editWallet = await Wallet.findByIdAndUpdate(_wallet._id, _wallet);
 		if (editWallet) {
 			editWallet.populate('user');
-			await registerLog(editWallet, 'Editing');
+			await this.registerLog(editWallet, 'Editing');
 		}
 		return editWallet;
 	}
 	static async add(_wallet) {
 		const newWallet = await Wallet.create(_wallet);
 		if (newWallet) {
-			await registerLog(newWallet, 'New');
+			await this.registerLog(newWallet, 'New');
 			this.addMovement(newWallet._id, {
 				date: new Date(),
 				type: 'deposit',
@@ -31,15 +39,25 @@ class WalletController {
 	static async addMovement(_id, _movement) {
 		const movWallet = await this.get(_id);
 		if (movWallet) {
+			switch (_movement.type) {
+				case 'buy':
+				case 'widthdraw':
+					movWallet.amount -= _movement.amount;
+					break;
+				default:
+					movWallet.amount += _movement.amount;
+					break;
+			}
 			movWallet.movements.push(_movement);
-			await registerLog(movWallet, 'New movement in');
+			await this.registerLog(movWallet, 'New movement in');
+			return this.set(movWallet);
 		}
-		return this.set(movWallet);
+		return movWallet;
 	}
 	static async delete(_id) {
 		const delWallet = await Wallet.findByIdAndRemove(_id);
 		if (delWallet) {
-			await registerLog(delWallet, 'Deleting');
+			await this.registerLog(delWallet, 'Deleting');
 		}
 		return delWallet;
 	}
@@ -49,14 +67,12 @@ class WalletController {
 	static async findOne(_filter) {
 		return await Wallet.findOne(_filter);
 	}
-}
-
-async function registerLog(_wallet, _action) {
-	await LogController.add({
-		date: new Date(),
-		user: _wallet.user,
-		description: `${_action} wallet ${_wallet._id} of user ${_wallet.user}`,
-	});
+	static async registerLog(_wallet, _action) {
+		await LogController.register(
+			`${_action} wallet ${_wallet._id} of user ${_wallet.user}`,
+			_wallet.user
+		);
+	}
 }
 
 module.exports = WalletController;
