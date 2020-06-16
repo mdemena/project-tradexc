@@ -14,8 +14,8 @@ const debug = require('debug')(
 );
 
 const app = express();
-require('./configs/session.config')(app);
-require('./configs/db.config')(app);
+//require('./configs/session.config')(app);
+//require('./configs/db.config')(app);
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -43,5 +43,8 @@ app.locals.title = 'TradExc - Generated with IronGenerator';
 
 const index = require('./routes/index.routes');
 app.use('/', index);
+
+const about = require('./routes/about.routes');
+app.use('/', about);
 
 module.exports = app;
