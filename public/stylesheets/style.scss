@@ -484,7 +484,7 @@ section {
 }
 
 .about .video-box {
-  background: url("images/about.jpg") center center no-repeat;
+  background: url("../images/about.jpg") center center no-repeat;
   background-size: cover;
   min-height: 500px;
 }
@@ -597,7 +597,7 @@ section {
 # Counts
 --------------------------------------------------------------*/
 .counts {
-  background: url("images/counts-bg.jpg") center center no-repeat;
+  background: url("../images/counts-bg.jpg") center center no-repeat;
   background-size: cover;
   padding: 80px 0 60px 0;
   position: relative;
@@ -895,7 +895,7 @@ section {
 --------------------------------------------------------------*/
 .testimonials {
   padding: 80px 0;
-  background: url("images/cta-bg.jpg") no-repeat;
+  background: url("../images/cta-bg.jpg") no-repeat;
   background-position: center center;
   background-size: cover;
   position: relative;
