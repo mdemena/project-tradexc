@@ -60,4 +60,7 @@ app.use('/', index);
 const app = require('./routes/app.routes');
 app.use('/app', index);
 
+const about = require('./routes/about.routes');
+app.use('/', about);
+
 module.exports = app;
