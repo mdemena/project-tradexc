@@ -28,7 +28,7 @@ router.post('/login', async (req, res, next) => {
 		return;
 	} catch (error) {
 		res.render('auth/login', {
-			errorMessage: err,
+			errorMessage: error,
 		});
 		return;
 	}
@@ -55,7 +55,7 @@ router.post('/signup', async (req, res, next) => {
 			res.status(500).render('auth/signup', {
 				email: email,
 				password: password,
-				errorMessage: 'username or email exist...',
+				errorMessage: 'email exist...',
 			});
 		} else {
 			next(error);
