@@ -1,3 +1,12 @@
+/**
+* Template Name: Butterfly - v2.0.0
+* Template URL: https://bootstrapmade.com/butterfly-free-bootstrap-theme/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444; }
@@ -396,11 +405,7 @@ section {
   font-size: 14px; }
 
 .about .video-box {
-<<<<<<< HEAD
   background: url("../img/about.jpg") center center no-repeat;
-=======
-  background: url("/img/about.jpg") center center no-repeat;
->>>>>>> development
   background-size: cover;
   min-height: 500px; }
 
@@ -497,11 +502,7 @@ section {
 # Counts
 --------------------------------------------------------------*/
 .counts {
-<<<<<<< HEAD
   background: url("../img/counts-bg.jpg") center center no-repeat;
-=======
-  background: url("/img/counts-bg.jpg") center center no-repeat;
->>>>>>> development
   background-size: cover;
   padding: 80px 0 60px 0;
   position: relative; }
@@ -759,11 +760,7 @@ section {
 --------------------------------------------------------------*/
 .testimonials {
   padding: 80px 0;
-<<<<<<< HEAD
   background: url("../img/cta-bg.jpg") no-repeat;
-=======
-  background: url("/img/cta-bg.jpg") no-repeat;
->>>>>>> development
   background-position: center center;
   background-size: cover;
   position: relative; }
