@@ -57,8 +57,8 @@ app.locals.title = 'TradExc - Generated with IronGenerator';
 
 const index = require('./routes/index.routes');
 app.use('/', index);
-const app = require('./routes/app.routes');
-app.use('/app', index);
+const private = require('./routes/app.routes');
+app.use('/app', private);
 
 const about = require('./routes/about.routes');
 app.use('/', about);
