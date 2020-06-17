@@ -1,30 +1,30 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Auth = require('../controllers/auth.controller');
-const User = require('../controllers/user.controller');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 
 const saltRounds = 10;
 
 // LOGOUT
-router.get('/auth/logout', async (req, res, next) => {
+router.get('/logout', async (req, res, next) => {
 	req.session.destroy();
 	res.redirect('/');
 });
 
 // LOGIN
-router.get('/auth/login', async (req, res, next) => {
+router.get('/login', async (req, res, next) => {
 	res.render('auth/login');
 });
 
-router.post('/auth/login', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 	try {
 		validateData({ email, password }, 'auth/login');
-		const userLogin = await Auth.login(email, password);
+		const { userLogin, userWallet } = await Auth.login(email, password);
 		req.session.user = userLogin;
-		res.redirect('/');
+		req.session.wallet = userWallet;
+		res.redirect('app/');
 		return;
 	} catch (error) {
 		res.render('auth/login', {
@@ -35,16 +35,16 @@ router.post('/auth/login', async (req, res, next) => {
 });
 
 // SIGNUP
-router.get('/auth/signup', async (req, res, next) => {
+router.get('/signup', async (req, res, next) => {
 	res.render('auth/signup');
 });
 
-router.post('/auth/signup', async (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
 	const { name, email, password } = req.body;
 	try {
 		validateData({ email, password }, 'auth/signup');
 		const passwordHash = await bcrypt.hashSync(password, saltRounds);
-		const newUser = await Auth.signUp(name, email, passwordHash);
+		await Auth.signUp(name, email, passwordHash);
 		res.redirect('/auth/login');
 	} catch (error) {
 		if (error instanceof mongoose.Error.ValidationError) {
