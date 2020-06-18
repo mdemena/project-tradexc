@@ -1,13 +1,12 @@
-const express = require("express");
-const Transaction = require("../models/transaction.model");
+const express = require('express');
+const withAuth = require('../middleware/auth.middleware');
+const transactionController = require('../controllers/transaction.controller');
 const router = express.Router();
 
-router.get("/app/transactions", async (req, res, next) => {
-  if (req.session.user) {
-    res.render("app/transactions", req.session.user);
-  } else {
-    res.redirect("/auth/login");
-  }
+router.get('/', withAuth, async (req, res, next) => {
+	res.render('app/transactions', {
+		transactions: await transactionController.listByUser(req.session.user._id),
+	});
 });
 
 module.exports = router;

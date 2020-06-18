@@ -28,27 +28,43 @@ class WalletController {
 		const newWallet = await Wallet.create(_wallet);
 		if (newWallet) {
 			await this.registerLog(newWallet, 'New');
-			this.addMovement(newWallet._id, {
-				date: new Date(),
-				type: 'deposit',
-				amount: newWallet.amount,
-			});
+			this.deposit(newWallet._id, 'deposit', newWallet.amount);
 		}
 		return newWallet;
 	}
-	static async addMovement(_id, _movement) {
+	static async deposit(_id, _amount) {
+		return await this.addMovement(_id, 'deposit', _amount);
+	}
+	static async widthdraw(_id, _amount) {
+		try {
+			return await this.addMovement(_id, 'widthdraw', _amount);
+		} catch (err) {
+			throw err;
+		}
+	}
+	static async addMovement(_id, _type, _amount) {
 		const movWallet = await this.get(_id);
 		if (movWallet) {
-			switch (_movement.type) {
+			switch (_type) {
 				case 'buy':
 				case 'widthdraw':
-					movWallet.amount -= _movement.amount;
+					if (movWallet.amount - _movement.amount < 0) {
+						throw new Error(
+							`You don't have sufficient amount for this widthdraw`
+						);
+					} else {
+						movWallet.amount -= _movement.amount;
+					}
 					break;
 				default:
 					movWallet.amount += _movement.amount;
 					break;
 			}
-			movWallet.movements.push(_movement);
+			movWallet.movements.push({
+				date: new Date(),
+				type: _type,
+				amount: _amount,
+			});
 			await this.registerLog(movWallet, 'New movement in');
 			return this.set(movWallet);
 		}

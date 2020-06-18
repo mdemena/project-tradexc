@@ -14,16 +14,18 @@ class UserController {
 		return editUser;
 	}
 	static async add(_user) {
-		const newUser = await User.create(_user);
-		if (newUser) {
+		try {
+			const newUser = await User.create(_user);
 			await this.registerLog(editUser, 'New');
-			await WalletController.add({
+			const newWallet = await WalletController.add({
 				user: newUser._id,
 				amount: 10000,
 				movements: [],
 			});
+			return { newUser, newWallet };
+		} catch (err) {
+			throw err;
 		}
-		return newUser;
 	}
 	static async delete(_id) {
 		const delUser = await User.findByIdAndRemove(_id);

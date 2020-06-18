@@ -1,70 +1,61 @@
-const express = require("express");
-const Wallet = require("../models/wallet.model");
-const Stock = require("../models/stock.model");
+const express = require('express');
+const withAuth = require('../middleware/auth.middleware');
+const tradeController = require('../controllers/trade.controller');
 const router = express.Router();
 
 /* GET Trade */
-router.get("/app/trade", async (req, res, next) => {
-  if (req.session.user) {
-    res.render("app/trade");
-  } else res.redirect("auth/login");
+router.get('/', withAuth, async (req, res, next) => {
+	res.render('app/trade', {
+		trades: await tradeController.listByUser(req.session.user._id),
+	});
 });
 
-
-router.get("app/trade/buy", async (req, res, next) => {
-  if (req.session.user) {
-    res.render("app/trade/buy");
-  } else res.redirect("auth/login");
+router.get('/buy', withAuth, async (req, res, next) => {
+	res.render('app/trade/buy');
 });
 
-router.get("app/trade/buy/:symbolId", async (req, res, next) => {
-  if (req.session.user) {
-    const movements = req.body;
-    Wallet.create(movements)
-      .save()
-      .then((stock) => res.render("app/trade/buy", stock))
-      .catch((err) => console.log("Error buy the stock:", err));
-  } else res.redirect("auth/login");
+router.get('/buy/:symbol-:name', withAuth, async (req, res, next) => {
+	res.render('app/trade/buy', {
+		symbol: req.params.symbol,
+		name: req.params.name,
+	});
 });
 
-router.get("app/trade/sell", async (req, res, next) => {
-  if (req.session.user) {
-    res.render("app/trade/sell", req.session.user);
-  } else res.redirect("auth/login");
+router.get('/sell', withAuth, async (req, res, next) => {
+	res.render('app/trade/sell', {
+		trades: await tradeController.listByUser(req.session.user._id),
+	});
 });
 
-router.get("app/trade/sell/:symbolID", async (req, res, next) => {
-  if (req.session.user) {
-    Wallet.update(req.params.id)
-      .then((stock) => res.render("app/trade/buy", stock))
-      .catch((err) => console.log("Error sell the stock:", err));
-  } else res.redirect("auth/login");
+router.get('/sell/:symbolID', withAuth, async (req, res, next) => {
+	res.render('app/trade/sell');
 });
 
-router.post("app/trade/buy", async (req, res, next) => {
-  if (req.session.user) {
-    res.render("app/trade/buy", req.session.user);
-  } else res.redirect("auth/login");
+router.post('/buy', withAuth, async (req, res, next) => {
+	try {
+		const { symbol, name, type, units } = req.body;
+		await tradeController.buy(req.session.user._id, symbol, name, type, units);
+		res.redirect('app/trade/');
+	} catch (err) {
+		res.render('app/trade/buy', {
+			symbol,
+			name,
+			type,
+			units,
+			errorMessage: err.message,
+		});
+	}
 });
 
-router.post("app/trade/sell", async (req, res, next) => {
-    if (req.session.user) {
-      res.render("app/trade/sell", req.session.user);
-    } else res.redirect("auth/login");
-  });
-
-async function getSymbolPrice(symbol) {
-  const key = "UBKY9YCP2IW6L5D2";
-  const functionName = "GLOBAL_QUOTE";
-  const apiUrl = `https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol}&apikey=${key}`;
-
-  try {
-    const responseFromAPI = await axios.get(apiUrl);
-    return responseFromAPI.data["Global Quote"]["05. price"];
-  } catch (err) {
-    console.log("Error while getting the data: ", err);
-    return 1;
-  }
-}
+router.post('/sell', withAuth, async (req, res, next) => {
+	const { symbolId, units } = req.body;
+	await tradeController.sell(req.session.user._id, symbolId, units);
+	res.redirect('app/trade/');
+	res.render('app/trade/sell', {
+		symbolId,
+		units,
+		errorMessage: err.message,
+	});
+});
 
 module.exports = router;

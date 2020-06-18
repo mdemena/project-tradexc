@@ -1,10 +1,10 @@
 const Stock = require('../models/stock.model');
-const WalletController = require('../controllers/wallet.controller');
-const TransactionController = require('../controllers/transaction.controller');
-const LogController = require('../controllers/log.controller');
+const WalletController = require('./wallet.controller');
+const TransactionController = require('./transaction.controller');
+const LogController = require('./log.controller');
 const Transaction = require('../models/transaction.model');
 
-class StockController {
+class TradeController {
 	static async get(_id) {
 		const stock = await Stock.findById(_id);
 		if (stock) {
@@ -27,7 +27,7 @@ class StockController {
 		}
 		return editStock;
 	}
-	static async buy(_userId, _symbol, _type, _name, _units) {
+	static async buy(_userId, _symbol, _name, _type, _units) {
 		try {
 			const userWallet = WalletController.findOne({ user: _userId });
 			const buyStock = this.findOne({ symbol: _symbol, user: _userId });
@@ -49,7 +49,7 @@ class StockController {
 					price: buyPrice,
 				});
 				await this.registerLog(buyStock, 'Buy');
-				return this.set(hasStock);
+				return this.set(buyStock);
 			} else {
 				const newStock = await Stock.create({
 					user: _userId,
@@ -73,7 +73,7 @@ class StockController {
 			throw err;
 		}
 	}
-	static async sell(_userId, _symbolId, _type, _units) {
+	static async sell(_userId, _symbolId, _units) {
 		try {
 			const sellStock = await this.get(_symbolId);
 			if (sellStock) {
@@ -116,6 +116,9 @@ class StockController {
 	}
 	static async list() {
 		return await Stock.find();
+	}
+	static async listByUser(_userId) {
+		return await Stock.find({ user: _userId });
 	}
 	static async findOne(_filter) {
 		return await Stock.findOne(_filter);
@@ -161,4 +164,4 @@ class StockController {
 	}
 }
 
-module.exports = StockController;
+module.exports = TradeController;

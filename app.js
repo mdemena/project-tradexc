@@ -57,14 +57,17 @@ app.locals.title = 'TradExc - Generated with IronGenerator';
 
 const index = require('./routes/index.routes');
 app.use('/', index);
-
+const auth = require('./routes/auth.routes');
+app.use('/auth', auth);
+const market = require('./routes/market.routes');
+app.use('/app/market', market);
+const trade = require('./routes/trade.routes');
+app.use('/app/trade', trade);
+const wallet = require('./routes/wallet.routes');
+app.use('/app/wallet', wallet);
+const transactions = require('./routes/transactions.routes');
+app.use('/app/transactions', transactions);
 const private = require('./routes/app.routes');
 app.use('/app', private);
-
-const about = require('./routes/about.routes');
-app.use('/', about);
-
-const login = require('./routes/auth.routes');
-app.use('/app/auth/login', login);
 
 module.exports = app;
