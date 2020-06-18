@@ -16,7 +16,7 @@ class UserController {
 	static async add(_user) {
 		try {
 			const newUser = await User.create(_user);
-			await this.registerLog(editUser, 'New');
+			await this.registerLog(newUser, 'New');
 			const newWallet = await WalletController.add({
 				user: newUser._id,
 				amount: 10000,
@@ -24,6 +24,7 @@ class UserController {
 			});
 			return { newUser, newWallet };
 		} catch (err) {
+			console.log(err);
 			throw err;
 		}
 	}

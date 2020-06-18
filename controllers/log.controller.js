@@ -14,7 +14,7 @@ class LogController {
 		await this.add({
 			date: new Date(),
 			user: _userId,
-			description: `${_action} wallet ${_wallet._id} of user ${_wallet.user}`,
+			description: _description,
 		});
 	}
 }
