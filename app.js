@@ -65,6 +65,6 @@ const about = require('./routes/about.routes');
 app.use('/', about);
 
 const login = require('./routes/auth.routes');
-app.use('/autj/login', login);
+app.use('/app/auth/login', login);
 
 module.exports = app;
