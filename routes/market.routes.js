@@ -1,9 +1,9 @@
 const express = require('express');
-const { withAuth } = require('../middleware/auth.middleware');
+const withAuth = require('../middleware/auth.middleware');
 const router = express.Router();
 
 router.get('/app/market', withAuth, async (req, res, next) => {
-	res.render('app/market');
+	res.render('app/market', req.session.user);
 });
 
 module.exports = router;
