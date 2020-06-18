@@ -55,8 +55,8 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'TradExc - Generated with IronGenerator';
 
-const index = require('./routes/index.routes');
-app.use('/', index);
+const public = require('./routes/index.routes');
+app.use('/', public);
 const auth = require('./routes/auth.routes');
 app.use('/auth', auth);
 const market = require('./routes/market.routes');
