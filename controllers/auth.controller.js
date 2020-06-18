@@ -2,6 +2,7 @@ const userController = require('../controllers/user.controller');
 const walletController = require('../controllers/wallet.controller');
 const bcrypt = require('bcryptjs');
 
+
 class authController {
 	static async login(_email, _password) {
 		const userLogin = await userController.findOne({ email: _email });
@@ -9,17 +10,17 @@ class authController {
 			throw 'Email is not registered. Try and other email.';
 		} else if (bcrypt.compare(password, userLogin.passwordHash)) {
 			const userWallet = walletController.getByUserId(userLogin._id);
-			return { userLogin, userWallet };
+			return userLogin;
 		} else {
 			throw 'Password incorrect. Try again.';
 		}
 	}
 	static async signUp(_name, _email, _password) {
 		try {
-			return await User.add({
+			return await userController.add({
 				name: _name,
 				email: _email,
-				password: _password,
+				passwordHash: _password,
 			});
 		} catch (err) {
 			throw err;

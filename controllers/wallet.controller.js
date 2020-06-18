@@ -28,7 +28,7 @@ class WalletController {
 		const newWallet = await Wallet.create(_wallet);
 		if (newWallet) {
 			await this.registerLog(newWallet, 'New');
-			this.deposit(newWallet._id, 'deposit', newWallet.amount);
+			this.deposit(newWallet._id, newWallet.amount);
 		}
 		return newWallet;
 	}

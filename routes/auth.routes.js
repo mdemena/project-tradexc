@@ -21,13 +21,14 @@ router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 	try {
 		validateData({ email, password }, 'auth/login');
-		const { userLogin, userWallet } = await Auth.login(email, password);
+		const userLogin = await Auth.login(email, password);
 		req.session.user = userLogin;
-		req.session.wallet = userWallet;
-		res.redirect('app/');
+		//req.session.wallet = userWallet;
+		res.redirect('/app');
 		return;
 	} catch (error) {
 		res.render('auth/login', {
+			layout: 'auth/layout',
 			errorMessage: error,
 		});
 		return;
@@ -42,7 +43,7 @@ router.get('/signup', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
 	const { name, email, password } = req.body;
 	try {
-		validateData({ email, password }, 'auth/signup');
+		validateData({ name, email, password }, 'auth/signup');
 		const passwordHash = await bcrypt.hashSync(password, saltRounds);
 		await Auth.signUp(name, email, passwordHash);
 		res.redirect('/auth/login');
@@ -57,6 +58,7 @@ router.post('/signup', async (req, res, next) => {
 				.status(500)
 				.render('auth/signup', {
 					layout: 'auth/layout',
+					name: name,
 					email: email,
 					password: password,
 					errorMessage: 'email exist...',
@@ -68,8 +70,9 @@ router.post('/signup', async (req, res, next) => {
 });
 
 function validateData(data, urlRender) {
-	if (!data.email || !data.password) {
+	if (!data.name|| !data.email || !data.password ) {
 		res.render(urlRender, {
+			name: data.name,
 			email: data.email,
 			password: data.password,
 			errorMessage: 'Email and password are mandatory',
