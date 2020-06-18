@@ -24,7 +24,6 @@ class UserController {
 			});
 			return { newUser, newWallet };
 		} catch (err) {
-			console.log(err);
 			throw err;
 		}
 	}
