@@ -14,7 +14,7 @@ router.get('/logout', async (req, res, next) => {
 
 // LOGIN
 router.get('/login', async (req, res, next) => {
-	res.render('auth/login');
+	res.render('auth/login', { layout: 'auth/layout' });
 });
 
 router.post('/login', async (req, res, next) => {
@@ -36,7 +36,7 @@ router.post('/login', async (req, res, next) => {
 
 // SIGNUP
 router.get('/signup', async (req, res, next) => {
-	res.render('auth/signup');
+	res.render('auth/signup', { layout: 'auth/layout' });
 });
 
 router.post('/signup', async (req, res, next) => {
@@ -49,14 +49,18 @@ router.post('/signup', async (req, res, next) => {
 	} catch (error) {
 		if (error instanceof mongoose.Error.ValidationError) {
 			res.status(500).render('auth/signup', {
+				layout: 'auth/layout',
 				errorMessage: error.message,
 			});
 		} else if (error.code === 11000) {
-			res.status(500).render('auth/signup', {
-				email: email,
-				password: password,
-				errorMessage: 'email exist...',
-			});
+			res
+				.status(500)
+				.render('auth/signup', {
+					layout: 'auth/layout',
+					email: email,
+					password: password,
+					errorMessage: 'email exist...',
+				});
 		} else {
 			next(error);
 		}
@@ -75,6 +79,7 @@ function validateData(data, urlRender) {
 	const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
 	if (!regex.test(data.password)) {
 		res.status(500).render(urlRender, {
+			layout: 'auth/layout',
 			email: data.email,
 			password: data.password,
 			errorMessage:
