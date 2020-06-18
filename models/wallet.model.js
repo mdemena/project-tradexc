@@ -1,14 +1,23 @@
 const mongoose = require('mongoose');
 
-const walletSchema = new mongoose.Schema({
-	user: { type: mongoose.SchemaTypes.ObjectId, required: true },
-	amount: { type: Number, required: true },
-	movements: [{ 
-        date:{type:Date,required:true},
-        type:{type:String, enum:['deposit','widthdraw','buy','sell'], required:true},
-        amount:{type:Number, required:true}
-    }],
-});
+const walletSchema = new mongoose.Schema(
+	{
+		user: { type: mongoose.SchemaTypes.ObjectId, required: true },
+		amount: { type: Number, required: true },
+		movements: [
+			{
+				date: { type: Date, required: true },
+				type: {
+					type: String,
+					enum: ['deposit', 'widthdraw', 'buy', 'sell'],
+					required: true,
+				},
+				amount: { type: Number, required: true },
+			},
+		],
+	},
+	{ timestamps: true }
+);
 
 const Wallet = mongoose.model('Wallet', walletSchema);
 
