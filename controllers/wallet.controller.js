@@ -1,4 +1,4 @@
-const Wallet = require('../models/user.model');
+const Wallet = require('../models/wallet.model');
 const LogController = require('../controllers/log.controller');
 
 class WalletController {
@@ -48,16 +48,16 @@ class WalletController {
 			switch (_type) {
 				case 'buy':
 				case 'widthdraw':
-					if (movWallet.amount - _movement.amount < 0) {
+					if (movWallet.amount - _amount < 0) {
 						throw new Error(
 							`You don't have sufficient amount for this widthdraw`
 						);
 					} else {
-						movWallet.amount -= _movement.amount;
+						movWallet.amount -= _amount;
 					}
 					break;
 				default:
-					movWallet.amount += _movement.amount;
+					movWallet.amount += _amount;
 					break;
 			}
 			movWallet.movements.push({

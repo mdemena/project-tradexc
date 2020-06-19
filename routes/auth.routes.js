@@ -20,18 +20,18 @@ router.get('/login', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 	try {
-		validateData({ email, password }, 'auth/login');
-		const userLogin = await Auth.login(email, password);
+		validateLogin(email, password);
+		const { userLogin, userWallet } = await Auth.login(email, password);
 		req.session.user = userLogin;
-		//req.session.wallet = userWallet;
+		req.session.wallet = userWallet;
 		res.redirect('/app');
-		return;
 	} catch (error) {
-		res.render('auth/login', {
+		res.status(500).render('auth/login', {
 			layout: 'auth/layout',
-			errorMessage: error,
+			email: email,
+			password: password,
+			errorMessage: error.message,
 		});
-		return;
 	}
 });
 
@@ -43,7 +43,7 @@ router.get('/signup', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
 	const { name, email, password } = req.body;
 	try {
-		validateData({ name, email, password }, 'auth/signup');
+		validateSignup(name, email, password);
 		const passwordHash = await bcrypt.hashSync(password, saltRounds);
 		await Auth.signUp(name, email, passwordHash);
 		res.redirect('/auth/login');
@@ -54,41 +54,43 @@ router.post('/signup', async (req, res, next) => {
 				errorMessage: error.message,
 			});
 		} else if (error.code === 11000) {
-			res
-				.status(500)
-				.render('auth/signup', {
-					layout: 'auth/layout',
-					name: name,
-					email: email,
-					password: password,
-					errorMessage: 'email exist...',
-				});
+			res.status(500).render('auth/signup', {
+				layout: 'auth/layout',
+				name: name,
+				email: email,
+				password: password,
+				errorMessage: 'Email exist...',
+			});
 		} else {
-			next(error);
+			res.status(500).render('auth/signup', {
+				layout: 'auth/layout',
+				name: name,
+				email: email,
+				password: password,
+				errorMessage: error.message,
+			});
 		}
 	}
 });
 
-function validateData(data, urlRender) {
-	if (!data.name|| !data.email || !data.password ) {
-		res.render(urlRender, {
-			name: data.name,
-			email: data.email,
-			password: data.password,
-			errorMessage: 'Email and password are mandatory',
-		});
-		return false;
+function validateLogin(_email, _password) {
+	if (!_email || !_password) {
+		throw new Error('Email and password are mandatory');
 	}
+	validatePassword(_password);
+}
+function validateSignup(_name, _email, _password) {
+	if (!_name || !_email || !_password) {
+		throw new Error('Name, email and password are mandatory');
+	}
+	validatePassword(_password);
+}
+function validatePassword(_password) {
 	const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-	if (!regex.test(data.password)) {
-		res.status(500).render(urlRender, {
-			layout: 'auth/layout',
-			email: data.email,
-			password: data.password,
-			errorMessage:
-				'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.',
-		});
-		return;
+	if (!regex.test(_password)) {
+		throw new Error(
+			'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.'
+		);
 	}
 }
 
