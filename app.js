@@ -61,6 +61,12 @@ const public = require('./routes/public.routes');
 app.use('/', public);
 const auth = require('./routes/auth.routes');
 app.use('/auth', auth);
+app.all('/app', (req, res, next) => {
+	if (req.session.user) {
+		return next();
+	}
+	res.redirect('/auth/login');
+});
 const market = require('./routes/market.routes');
 app.use('/app/market', market);
 const trade = require('./routes/trade.routes');
