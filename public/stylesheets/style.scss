@@ -1077,10 +1077,12 @@ section {
 /*--------------------------------------------------------------
 # Gallery
 --------------------------------------------------------------*/
+
 .gallery .gallery-item {
   overflow: hidden;
   border-right: 3px solid #fff;
   border-bottom: 3px solid #fff;
+  height: 400px;
 }
 
 .gallery .gallery-item img {
@@ -1092,7 +1094,7 @@ section {
 }
 
 .gallery container {
-  height: 800px;
+  height: 1000px;
 }
 
 /*--------------------------------------------------------------
