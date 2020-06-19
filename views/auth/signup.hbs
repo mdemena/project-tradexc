@@ -8,6 +8,7 @@
         <div class="col-lg-7">
           <div class="p-5">
             <div class="text-center">
+              <h1><a href="/" class="logo mr-auto"><img src="../images/favicon.png" alt="" class="img-fluid" width="50px" height="60px"> TradExc </a></h1>
               <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
             </div>
             <form action="/auth/signup" method="POST" class="user">
@@ -47,11 +48,16 @@
                   </a> --}}
             </form>
             <hr>
-            <div class="text-center">
+            <!--<div class="text-center">
               <a class="small" href="forgot-password.html">Forgot Password?</a>
-            </div>
+            </div>-->
             <div class="text-center">
-              <a class="small" href="/">Already have an account? Login!</a>
+              <a class="small" href="/auth/login">Already have an account? Login!</a>
+            </div>
+            <div class="container py-4 text-center">
+              <div class="copyright">
+                &copy; Copyright <strong><span><a href="/"> TradExc </a></span></strong>
+              </div>
             </div>
           </div>
         </div>

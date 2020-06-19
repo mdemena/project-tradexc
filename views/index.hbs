@@ -6,7 +6,7 @@
             <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
                 <h1>The Global Digital Coin Trade & Exchange</h1>
                 <h2>Secure, Professional & User-First</h2>
-                <div><a href="/signup" class="btn-get-started scrollto">Start Trade</a></div>
+                <div><a href="/auth/signup" class="btn-get-started scrollto">Start Trade</a></div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img">
                 <img src="images/hero-img.png" class="img-fluid" alt="">
@@ -58,6 +58,7 @@
 </section><!-- End Counts Section -->
 
 <!-- ======= Clients Section ======= -->
+<!--
 <section id="clients" class="clients">
     <div class="container">
 
@@ -114,7 +115,8 @@
         </div>
 
     </div>
-</section><!-- End Clients Section -->
+</section>-->
+<!-- End Clients Section -->
 
 
 
@@ -182,21 +184,186 @@
             </div>
         </div>
     </div>
-</section><!-- End Testimonials Section -->-->
+</section><!-- End Testimonials Section -->
 
 
 <!-- ======= Gallery Section ======= -->
 <section id="gallery" class="gallery">
     <div class="container">
 
-        <div class="section-title">
+        <!--<div class="section-title">
             <h2>Gallery</h2>
             <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
                 consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia
                 fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>-->
+
+
+
+        <div class="section-title">
+            <h2>Markets</h2>
         </div>
 
-        <div class="row no-gutters">
+        <!-- TradingView Widget BEGIN -->
+        <h3>Cryptocurrency</h3>
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <div class="tradingview-widget-copyright"><a
+                    href="/" rel="noopener"
+                    target="_blank"><span class="blue-text">Cryptocurrency Markets by TradExc</span></a></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"
+                async>
+                    {
+                        "width": "100%",
+                            "height": "100%",
+                                "defaultColumn": "overview",
+                                    "screener_type": "crypto_mkt",
+                                        "displayCurrency": "USD",
+                                            "colorTheme": "light",
+                                                "locale": "en"
+                    }
+                </script>
+        </div>
+        <!-- TradingView Widget END -->
+        <!-- TradingView Widget BEGIN -->
+        <h3>Market</h3>
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <div class="tradingview-widget-copyright"><a href="/" rel="noopener"
+                    target="_blank"><span class="blue-text">Market Data by TradExc</span></a></div>
+            <script type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+                    {
+                        "width": "100%",
+                            "height": "100%",
+                                "symbolsGroups": [
+                                    {
+                                        "name": "Índices",
+                                        "originalName": "Indices",
+                                        "symbols": [
+                                            {
+                                                "name": "FOREXCOM:SPXUSD",
+                                                "displayName": "S&P 500"
+                                            },
+                                            {
+                                                "name": "FOREXCOM:NSXUSD",
+                                                "displayName": "Nasdaq 100"
+                                            },
+                                            {
+                                                "name": "FOREXCOM:DJI",
+                                                "displayName": "Dow 30"
+                                            },
+                                            {
+                                                "name": "INDEX:NKY",
+                                                "displayName": "Nikkei 225"
+                                            },
+                                            {
+                                                "name": "INDEX:DEU30",
+                                                "displayName": "DAX Index"
+                                            },
+                                            {
+                                                "name": "FOREXCOM:UKXGBP",
+                                                "displayName": "FTSE 100"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Materias primas",
+                                        "originalName": "Commodities",
+                                        "symbols": [
+                                            {
+                                                "name": "CME_MINI:ES1!",
+                                                "displayName": "E-Mini S&P"
+                                            },
+                                            {
+                                                "name": "CME:6E1!",
+                                                "displayName": "Euro"
+                                            },
+                                            {
+                                                "name": "COMEX:GC1!",
+                                                "displayName": "Gold"
+                                            },
+                                            {
+                                                "name": "NYMEX:CL1!",
+                                                "displayName": "Crude Oil"
+                                            },
+                                            {
+                                                "name": "NYMEX:NG1!",
+                                                "displayName": "Natural Gas"
+                                            },
+                                            {
+                                                "name": "CBOT:ZC1!",
+                                                "displayName": "Corn"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Bonos",
+                                        "originalName": "Bonds",
+                                        "symbols": [
+                                            {
+                                                "name": "CME:GE1!",
+                                                "displayName": "Eurodollar"
+                                            },
+                                            {
+                                                "name": "CBOT:ZB1!",
+                                                "displayName": "T-Bond"
+                                            },
+                                            {
+                                                "name": "CBOT:UB1!",
+                                                "displayName": "Ultra T-Bond"
+                                            },
+                                            {
+                                                "name": "EUREX:FGBL1!",
+                                                "displayName": "Euro Bund"
+                                            },
+                                            {
+                                                "name": "EUREX:FBTP1!",
+                                                "displayName": "Euro BTP"
+                                            },
+                                            {
+                                                "name": "EUREX:FGBM1!",
+                                                "displayName": "Euro BOBL"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Forex",
+                                        "originalName": "Forex",
+                                        "symbols": [
+                                            {
+                                                "name": "FX:EURUSD"
+                                            },
+                                            {
+                                                "name": "FX:GBPUSD"
+                                            },
+                                            {
+                                                "name": "FX:USDJPY"
+                                            },
+                                            {
+                                                "name": "FX:USDCHF"
+                                            },
+                                            {
+                                                "name": "FX:AUDUSD"
+                                            },
+                                            {
+                                                "name": "FX:USDCAD"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                    "colorTheme": "light",
+                                        "isTransparent": false,
+                                            "locale": "en"
+                    }
+                </script>
+        </div>
+        <!-- TradingView Widget END -->
+
+
+
+
+        <!--<div class="row no-gutters"></div>
 
             <div class="col-lg-3 col-md-4">
                 <div class="gallery-item">
@@ -262,7 +429,9 @@
                 </div>
             </div>
 
-        </div>
+        </div>-->
+
 
     </div>
+
 </section><!-- End Gallery Section -->
