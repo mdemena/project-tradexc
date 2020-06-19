@@ -19,6 +19,11 @@
   <!-- Custom styles for this template-->
   <link href="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.0.7/css/sb-admin-2.min.css" rel="stylesheet">
 
+  <!-- Custom fonnt awesome-->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+ 
+
 </head>
 
 <body id="page-top"></body>
@@ -28,11 +33,14 @@
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-      <div class="sidebar-brand-icon rotate-n-15">
-        <i class="fas fa-laugh-wink"></i>
-      </div>
-      <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+      
+       
+        
+      
+      <div class="sidebar-brand-text mx-3"><img src="images/favicon.png" whidth="60px" height="35px"alt="" class=""></div>
+      
+      <div class="sidebar-brand-text mx-3">TradExc</div>
     </a>
 
     <!-- Divider -->
@@ -40,7 +48,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="/">
+      <a class="nav-link" href="/app">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -53,7 +61,53 @@
       Interface
     </div>
 
+    <!-- Nav Item - Wallet -->
+    <li class="nav-item">
+      <a class="nav-link" href="/wallet">
+        <i class="fas fa-fw fa-university"></i>
+        <span>Wallet</span></a>
+    </li>
+
+    <!-- Nav Item - Transactions -->
+    <li class="nav-item">
+      <a class="nav-link" href="/transaction">
+        <i class="fas fa-fw fa fa-exchange"></i>
+        <span>Transaction</span></a>
+    </li>
+
+    <!-- Nav Item - Trade -->
+    <li class="nav-item">
+      <a class="nav-link" href="/trade">
+        <i class="fas fa-fw fa-line-chart"></i>
+        <span>Trade</span></a>
+    </li>
+
+    <!-- Nav Item - Market -->
+    <li class="nav-item">
+      <a class="nav-link" href="/market">
+        <i class="fas fa-fw fa fa-btc"></i>
+        <span>Market</span></a>
+    </li>
+
+    <!-- Nav Item - Profile -->
+    <li class="nav-item">
+      <a class="nav-link" href="/profile">
+        <i class="fas fa-fw fa-user"></i>
+        <span>Profile</span></a>
+    </li>
+
+    <!-- Nav Item - Support -->
+    <li class="nav-item">
+      <a class="nav-link" href="/support">
+        <i class="fas fa-fw fa-life-ring"></i>
+        <span>Support</span></a>
+    </li>
+
+     <!-- Divider -->
+    <hr class="sidebar-divider">
+
     <!-- Nav Item - Pages Collapse Menu -->
+    <!--
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
         aria-controls="collapseTwo">
@@ -70,6 +124,7 @@
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
+    <!--
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
         aria-expanded="true" aria-controls="collapseUtilities">
@@ -85,7 +140,7 @@
           <a class="collapse-item" href="utilities-other.html">Other</a>
         </div>
       </div>
-    </li>
+    </li>-->
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -96,6 +151,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
+    <!--
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
         aria-controls="collapsePages">
@@ -114,7 +170,7 @@
           <a class="collapse-item" href="blank.html">Blank Page</a>
         </div>
       </div>
-    </li>
+    </li>-->
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
@@ -155,6 +211,7 @@
           <i class="fa fa-bars"></i>
         </button>
 
+
         <!-- Topbar Search -->
         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
           <div class="input-group">
@@ -167,6 +224,9 @@
             </div>
           </div>
         </form>
+
+        
+
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -313,12 +373,12 @@
           <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-              <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+              <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{{user.name}}} User.Name</span>
+              <img class="img-profile rounded-circle" src="https://media-exp1.licdn.com/dms/image/C4D03AQFQDkTIp730EQ/profile-displayphoto-shrink_200_200/0?e=1597881600&v=beta&t=TDA-HFqXyJ2pjj-Wf6XcauNy73psL3FwFBOD21kvmEY">{{{user.image}}}
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="/app/profile">
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
               </a>
@@ -353,7 +413,7 @@
     <footer class="sticky-footer bg-white">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright &copy; Your Website 2019</span>
+          <span>Copyright &copy; TradExc 2019</span>
         </div>
       </div>
     </footer>
@@ -383,8 +443,8 @@
       </div>
       <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-primary" href="login.html">Logout</a>
+        <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" href="/auth/logout">Logout</a>
       </div>
     </div>
   </div>
