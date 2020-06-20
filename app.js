@@ -77,5 +77,7 @@ const transactions = require('./routes/transactions.routes');
 app.use('/app/transactions', transactions);
 const private = require('./routes/app.routes');
 app.use('/app', private);
+const user = require('./routes/user.routes');
+app.use('/app/user', user);
 
 module.exports = app;
