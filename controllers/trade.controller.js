@@ -33,41 +33,47 @@ class TradeController {
 			const buyStock = this.findOne({ symbol: _symbol, user: _userId });
 			let buyPrice = await this.getSymbolPrice(_symbol, _type);
 			let buyAmount = _units * buyPrice;
-			WalletController.addMovement(userWallet._id, {
-				date: new Date(),
-				type: 'buy',
-				amount: buyAmount,
-			});
-			if (buyStock) {
-				buyStock.units += _stock.units;
-				await TransactionController.add({
+			if (buyAmount <= userWallet.amount) {
+				WalletController.addMovement(userWallet._id, {
 					date: new Date(),
-					user: userWallet.user,
-					stock: buyStock._id,
 					type: 'buy',
-					units: _stock.units,
-					price: buyPrice,
+					amount: buyAmount,
 				});
-				await this.registerLog(buyStock, 'Buy');
-				return this.set(buyStock);
+				if (buyStock) {
+					buyStock.units += _stock.units;
+					await TransactionController.add({
+						date: new Date(),
+						user: userWallet.user,
+						stock: buyStock._id,
+						type: 'buy',
+						units: _stock.units,
+						price: buyPrice,
+					});
+					await this.registerLog(buyStock, 'Buy');
+					return this.set(buyStock);
+				} else {
+					const newStock = await Stock.create({
+						user: _userId,
+						symbol: _symbol,
+						name: _name,
+						type: _type,
+						units: _units,
+					});
+					await TransactionController.add({
+						date: new Date(),
+						user: userWallet.user,
+						stock: newStock._id,
+						type: 'buy',
+						units: _stock.units,
+						price: buyPrice,
+					});
+					await this.registerLog(hasStock, 'Buy');
+					return newStock;
+				}
 			} else {
-				const newStock = await Stock.create({
-					user: _userId,
-					symbol: _symbol,
-					name: _name,
-					type: _type,
-					units: _units,
-				});
-				await TransactionController.add({
-					date: new Date(),
-					user: userWallet.user,
-					stock: newStock._id,
-					type: 'buy',
-					units: _stock.units,
-					price: buyPrice,
-				});
-				await this.registerLog(hasStock, 'Buy');
-				return newStock;
+				throw new Error(
+					`You don't have sufficient amount in your wallet for this buy`
+				);
 			}
 		} catch (err) {
 			throw err;
@@ -76,7 +82,7 @@ class TradeController {
 	static async sell(_userId, _symbolId, _units) {
 		try {
 			const sellStock = await this.get(_symbolId);
-			if (sellStock) {
+			if (sellStock && sellStock.units >= _units) {
 				const userWallet = WalletController.findOne({ user: _userId });
 				let sellPrice = await this.getSymbolPrice(
 					sellStock.symbol,
@@ -100,19 +106,12 @@ class TradeController {
 				});
 				await this.registerLog(sellStock, 'Sell');
 				return editStock;
+			} else {
+				throw new Error(`You don't have sufficient units for this sell`);
 			}
 		} catch (err) {
 			throw err;
 		}
-	}
-
-	static async addMovement(_id, _movement) {
-		const movWallet = await this.get(_id);
-		if (movWallet) {
-			movWallet.movements.push(_movement);
-			await this.registerLog(movWallet, 'New movement in');
-		}
-		return this.set(movWallet);
 	}
 	static async list() {
 		return await Stock.find();
