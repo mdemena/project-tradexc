@@ -8,7 +8,8 @@ class authController {
 		if (!userLogin) {
 			throw 'Email is not registered. Try and other email.';
 		} else if (bcrypt.compare(_password, userLogin.passwordHash)) {
-			const userWallet = walletController.getByUserId(userLogin._id);
+			const userWallet = await walletController.getByUserId(userLogin._id);
+			console.log(userWallet);
 			return { userLogin, userWallet };
 		} else {
 			throw 'Password incorrect. Try again.';

@@ -28,7 +28,7 @@ class WalletController {
 		const newWallet = await Wallet.create(_wallet);
 		if (newWallet) {
 			await this.registerLog(newWallet, 'New');
-			this.deposit(newWallet._id, newWallet.amount);
+			this.deposit(newWallet._id, 10000);
 		}
 		return newWallet;
 	}
@@ -50,7 +50,7 @@ class WalletController {
 				case 'widthdraw':
 					if (movWallet.amount - _amount < 0) {
 						throw new Error(
-							`You don't have sufficient amount for this widthdraw`
+							`You don't have sufficient amount for this ` + _type
 						);
 					} else {
 						movWallet.amount -= _amount;

@@ -14,7 +14,11 @@ router.get('/logout', async (req, res, next) => {
 
 // LOGIN
 router.get('/login', async (req, res, next) => {
+	// if (req.session.user) {
+	// 	res.redirect('/app');
+	// } else {
 	res.render('auth/login', { layout: 'auth/layout' });
+	// }
 });
 
 router.post('/login', async (req, res, next) => {
