@@ -4,6 +4,7 @@ const transactionsController = require('../controllers/transaction.controller');
 
 /* GET home page */
 router.get('/', (req, res, next) => {
+
 	const transactions = transactionsController.listByUser(req.session.user_id);
 	let totalTransactions = 0;
 	let totalBuy = 0;
@@ -33,6 +34,7 @@ router.get('/', (req, res, next) => {
 		totalBuy: totalBuy,
 		totalSell: totalSell,
 	});
+
 });
 
 module.exports = router;

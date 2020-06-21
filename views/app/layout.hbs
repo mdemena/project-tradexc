@@ -7,6 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <!-- Favicons -->
+  <link href="/images/favicon.png" rel="icon">
+  <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
+
   <title>TradExc Dashboard</title>
 
   <!-- Custom fonts for this template-->
@@ -204,7 +208,7 @@
 
   </ul>
 
-  
+
   <!-- End of Sidebar -->
 
   <!-- Content Wrapper -->
@@ -235,9 +239,8 @@
           </div>
         </form>
 
-        <div class="sidebar-brand-text mx-3"><img src="images/favicon.png" whidth="60px"
-            height="35px" alt="" class="">
-          TradExc 
+        <div class="sidebar-brand-text mx-3"><img src="images/favicon.png" whidth="60px" height="35px" alt="" class="">
+          TradExc
         </div>
 
         <!-- Topbar Navbar -->
@@ -268,7 +271,7 @@
 
           <!-- Nav Item - Alerts -->
           <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" href="app/support-list" id="alertsDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-bell fa-fw"></i>
               <!-- Counter - Alerts -->
@@ -280,6 +283,7 @@
               <h6 class="dropdown-header">
                 Alerts Center
               </h6>
+              <!--
               <a class="dropdown-item d-flex align-items-center" href="#">
                 <div class="mr-3">
                   <div class="icon-circle bg-primary">
@@ -312,8 +316,8 @@
                   <div class="small text-gray-500">December 2, 2019</div>
                   Spending Alert: We've noticed unusually high spending for your account.
                 </div>
-              </a>
-              <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+              </a>-->
+              <a class="dropdown-item text-center small text-gray-500" href="/app/support/list">Show All Alerts</a>
             </div>
           </li>
 
@@ -385,9 +389,10 @@
           <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-              <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{name}} User.Name</span>
+              <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.name}}</span>
               <img class="img-profile rounded-circle"
-                src="https://media-exp1.licdn.com/dms/image/C4D03AQFQDkTIp730EQ/profile-displayphoto-shrink_200_200/0?e=1597881600&v=beta&t=TDA-HFqXyJ2pjj-Wf6XcauNy73psL3FwFBOD21kvmEY">{{image}}
+                src="https://media-exp1.licdn.com/dms/image/C4D03AQFQDkTIp730EQ/profile-displayphoto-shrink_200_200/0?e=1597881600&v=beta&t=TDA-HFqXyJ2pjj-Wf6XcauNy73psL3FwFBOD21kvmEY">
+
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
