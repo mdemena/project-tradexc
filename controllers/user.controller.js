@@ -19,7 +19,7 @@ class UserController {
 			await this.registerLog(newUser, 'New');
 			const newWallet = await WalletController.add({
 				user: newUser._id,
-				amount: 10000,
+				amount: 0,
 				movements: [],
 			});
 			return { newUser, newWallet };
