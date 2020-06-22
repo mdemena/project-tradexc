@@ -63,7 +63,7 @@ app.use('/', public);
 const auth = require('./routes/auth.routes');
 app.use('/auth', auth);
 app.all('/app', (req, res, next) => {
-	if (req.session.user) {
+	if (req.session.user && req.session.wallet) {
 		return next();
 	}
 	res.redirect('/auth/login');
@@ -83,7 +83,7 @@ app.use('/app', private);
 const user = require('./routes/user.routes');
 app.use('/app/user', user);
 
-const support= require('./routes/support.routes');
+const support = require('./routes/support.routes');
 app.use('/app/support', support);
 
 module.exports = app;

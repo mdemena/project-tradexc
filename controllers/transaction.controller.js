@@ -1,4 +1,5 @@
 const Transaction = require('../models/transaction.model');
+const LogController = require('./log.controller');
 
 class TransactionController {
 	static async add(_transaction) {

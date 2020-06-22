@@ -32,8 +32,18 @@ class WalletController {
 		}
 		return newWallet;
 	}
+	static async sell(_id, _amount) {
+		return await this.addMovement(_id, 'sell', _amount);
+	}
 	static async deposit(_id, _amount) {
 		return await this.addMovement(_id, 'deposit', _amount);
+	}
+	static async buy(_id, _amount) {
+		try {
+			return await this.addMovement(_id, 'buy', _amount);
+		} catch (err) {
+			throw err;
+		}
 	}
 	static async widthdraw(_id, _amount) {
 		try {
