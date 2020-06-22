@@ -1,0 +1,279 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Trade</h1>
+</div>
+<div class="row">
+    <!-- Money in Wallet -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{walletAmount}} EUR</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+                <a href="/app/wallet" class="stretched-link" data-toggle="tooltip" data-placement="top"
+                    title="Go to Wallet" target="_self"></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Buyed Amount</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{buyAmount}} EUR</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Selled Amount</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{sellAmount}} EUR</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content Row -->
+<div class="row">
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Inventory</h6>
+                <div class="dataTables_length" id="dataTable_length">
+                    <a name="" id="" class="btn btn-primary" href="/app/trade/buy" role="button">Buy</a>
+                </div>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Trading:</div>
+                        <a class="dropdown-item" href="/app/trade/buy">Buy</a>
+                        <a class="dropdown-item" href="/app/trade/sell">Sell</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered dataTable" id="tradeTable" width="100%"
+                                    cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-sort="ascending"
+                                                aria-label="Symbol: activate to sort column descending"
+                                                style="width: 100px;">
+                                                Symbol</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Name: activate to sort column ascending"
+                                                style="width: 325px;">Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Type: activate to sort column ascending"
+                                                style="width: 100px;">Type</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Units: activate to sort column ascending"
+                                                style="width: 100px;">Units</th>
+                                            <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="2"
+                                                style="width: 100px;">Units</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">Symbol</th>
+                                            <th rowspan="1" colspan="1">Name</th>
+                                            <th rowspan="1" colspan="1">Type</th>
+                                            <th rowspan="1" colspan="1">Units</th>
+                                            <th rowspan="1" colspan="1">Actions</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {{#each trades }}
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">{{this.symbol}}</td>
+                                            <td>{{this.name}}</td>
+                                            <td>{{this.type}}</td>
+                                            <td>{{this.units}}</td>
+                                            <td><a name="" id="buyTrade" class="btn btn-primary"
+                                                    href="/app/trade/buy/{{this.type}}/{{this.symbol}}-{{this.name}}"
+                                                    role="button">Buy</a></td>
+                                            <td><a name="" id="sellTrade" class="btn btn-danger"
+                                                    href="/app/trade/sell/{{this.type}}/{{this.units}}/{{this.symbol}}-{{this.name}}"
+                                                    role="button">Sell</a></td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Investments Sources</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Trading:</div>
+                        <a class="dropdown-item" href="/app/trade/buy">Buy</a>
+                        <a class="dropdown-item" href="/app/trade/sell">Sell</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="balanceInvestPie"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    {{#each balanceInvest}}
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> {{this.symbol}}
+                    </span>
+                    <ul class="invisible">
+                        <li class="symbolsList">{{this.symbol}}</li>
+                    </ul>
+                    <ul class="invisible">
+                        <li class="amountsList">{{this.amount}}</li>
+                    </ul>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content Row -->
+<div class="row">
+    <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Trading:</div>
+                        <a class="dropdown-item" href="/app/trade/buy">Buy</a>
+                        <a class="dropdown-item" href="/app/trade/sell">Sell</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        {{!-- <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="dataTable_length">
+                                    <a name="" id="" class="btn btn-primary" href="/app/trade/buy" role="button">Buy</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                            class="form-control form-control-sm" placeholder=""
+                                            aria-controls="dataTable"></label></div>
+                            </div>
+                        </div> --}}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered dataTable" id="tradeTable" width="100%"
+                                    cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-sort="descending"
+                                                aria-label="Date: activate to sort column ascending"
+                                                style="width: 217px;">
+                                                Date</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Symbol: activate to sort column ascending"
+                                                style="width: 217px;">
+                                                Symbol</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Name: activate to sort column ascending"
+                                                style="width: 325px;">Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Type: activate to sort column ascending"
+                                                style="width: 159px;">Type</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Units: activate to sort column ascending"
+                                                style="width: 76px;">Units</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Price: activate to sort column ascending"
+                                                style="width: 76px;">Price</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Total: activate to sort column ascending"
+                                                style="width: 76px;">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">Date</th>
+                                            <th rowspan="1" colspan="1">Symbol</th>
+                                            <th rowspan="1" colspan="1">Name</th>
+                                            <th rowspan="1" colspan="1">Type</th>
+                                            <th rowspan="1" colspan="1">Units</th>
+                                            <th rowspan="1" colspan="1">Price</th>
+                                            <th rowspan="1" colspan="1">Total</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {{#each transactions }}
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">{{this.date}}</td>
+                                            {{#with this.stock}}
+                                            <td>{{symbol}}</td>
+                                            <td>{{name}}</td>
+                                            {{/with}}
+                                            <td>{{this.type}}</td>
+                                            <td>{{this.units}}</td>
+                                            <td>{{this.price}} EUR</td>
+                                            <td>{{this.total}} EUR</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="/javascripts/trade.js"></script>

@@ -1,38 +1,51 @@
 const express = require('express');
 const router = express.Router();
 const transactionsController = require('../controllers/transaction.controller');
+const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
 router.get('/', (req, res, next) => {
 
 	const transactions = transactionsController.listByUser(req.session.user_id);
-	let totalTransactions = 0;
-	let totalBuy = 0;
-	let totalSell = 0;
+	// Begin Dashboard data
+	let transAmount = 0;
+	let transCount = 0;
+	let transBuys = 0;
+	let transSells = 0;
+	let balanceBuySell = 0;
+	let walletAmount = req.session.wallet.amount;
+	const balanceInvest = tradeController.groupedByUserBySymbol(
+		req.session.user._id
+	);
+
 	if (transactions.length > 0) {
-		totalTransAmount = transactions
-			.listByUser(req.session.user_id)
-			.reduce(
-				(total, trans) =>
-					(total += trans.type === 'buy' ? trans.amount : -1 * trans.amount),
-				0
-			);
-		totalBuyAmount = transactions
-			.listByUser(req.session.user_id)
-			.filter((trans) => trans.type === 'buy')
-			.reduce((total, trans) => (total += trans.amount), 0);
-		totalSellAmount = transactions
-			.listByUser(req.session.user_id)
-			.filter((trans) => trans.type === 'sell')
-			.reduce((total, trans) => (total += trans.amount), 0);
+		transAmount = transactions.reduce(
+			(total, trans) =>
+				(total += trans.type === 'buy' ? trans.amount : -1 * trans.amount),
+			0
+		);
+		transCount = transactions.length;
+		transBuys = transactions.filter((trans) => trans.type === 'buy').length;
+		transSells = transactions.filter((trans) => trans.type === 'sell').length;
+		balanceBuySell =
+			transactions
+				.filter((trans) => trans.type === 'buy')
+				.reduce((total, trans) => (total += trans.amount), 0) /
+			transactions
+				.filter((trans) => trans.type === 'sell')
+				.reduce((total, trans) => (total += trans.amount), 0);
 	}
+	// End Dashboard data
 	res.render('app/index', {
 		layout: 'app/layout',
 		user: req.session.user,
-		walletAmount: req.session.wallet.amount,
-		totalTransactions: totalTransactions,
-		totalBuy: totalBuy,
-		totalSell: totalSell,
+		walletAmount: walletAmount,
+		transAmount: transAmount,
+		transCount: transCount,
+		transBuys: transBuys,
+		transSells: transSells,
+		balanceBuySell: (balanceBuySell * 100).toFixed(2),
+		balanceInvest: balanceInvest,
 	});
 
 });

@@ -11,6 +11,9 @@ const transactionSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 );
+transactionSchema.virtual('total').get(function () {
+	return this.units * this.price;
+});
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
 
