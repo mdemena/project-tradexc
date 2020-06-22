@@ -114,10 +114,10 @@ class TradeController {
 		}
 	}
 	static async list() {
-		return await Stock.find();
+		return await Stock.find().populate('user').populate('stock');
 	}
 	static async listByUser(_userId) {
-		return await Stock.find({ user: _userId });
+		return await Stock.find({ user: _userId }).populate('stock');
 	}
 	static async findOne(_filter) {
 		return await Stock.findOne(_filter);
@@ -160,6 +160,34 @@ class TradeController {
 			console.log('Error while getting the data: ', err);
 			return price;
 		}
+	}
+	static async groupedByUserBySymbol(_id) {
+		return await Stock.aggregate([
+			{ $match: { user: _id } },
+			{
+				$lookup: {
+					from: 'transaction',
+					localField: '_id',
+					foreignField: 'symbol',
+					as: 'transactions',
+				},
+			},
+			//{ $unwind: '$transactions' },
+			// {
+			// 	$project: {
+			// 		symbol: true,
+			// 		quantity: { $size: '$products' },
+			// 	},
+			// },
+			{
+				$group: {
+					_id: '$symbol',
+					amount: {
+						$sum: { $multiply: ['$transactions.price', '$transactions.units'] },
+					},
+				},
+			},
+		]);
 	}
 }
 
