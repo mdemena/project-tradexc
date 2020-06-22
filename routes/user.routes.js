@@ -16,7 +16,7 @@ router.post("/", async (req, res, next) => {
   try {
     validateSignup(name, email, password);
     const passwordHash = await bcrypt.hashSync(password, saltRounds);
-    await UserController.set({ _id: req.session.user._id, name, passwordHash });
+    await UserController.set({ _id: req.session.user._id, name, email, passwordHash });
 
     req.session.user.name = name;
     req.session.user.email = email;

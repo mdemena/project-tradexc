@@ -35,12 +35,11 @@
 
   <!-- Sidebar -->
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-      <div class="sidebar-brand-text mx-3 d-block d-sm-block d-md-none"><img src="images/favicon.png" whidth="60px"
+      <div class="sidebar-brand-text mx-3 d-block d-sm-block d-md-block"><img src="images/favicon.png" whidth="60px"
           height="35px" alt="" class="">
-      </div>
-      <div class="sidebar-brand-text mx-3"><img src="images/favicon.png" whidth="60px" height="35px" alt="" class="">
         <div class="sidebar-brand-text mx-3">TradExc</div>
       </div>
     </a>
@@ -198,10 +197,8 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-      <div class="sidebar-brand-text mx-3 d-block d-sm-block d-md-none"><img src="images/favicon.png" whidth="60px"
+      <div class="sidebar-brand-text mx-3 d-block d-sm-block d-md-block"><img src="images/favicon.png" whidth="60px"
           height="35px" alt="" class="">
-      </div>
-      <div class="sidebar-brand-text mx-3"><img src="images/favicon.png" whidth="60px" height="35px" alt="" class="">
         <div class="sidebar-brand-text mx-3">TradExc</div>
       </div>
     </a>
@@ -227,6 +224,7 @@
 
 
         <!-- Topbar Search -->
+        <!--
         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
@@ -237,42 +235,44 @@
               </button>
             </div>
           </div>
-        </form>
+        </form> -->
 
         <div class="sidebar-brand-text mx-3"><img src="images/favicon.png" whidth="60px" height="35px" alt="" class="">
-          TradExc
+
         </div>
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
 
           <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+          <!--
           <li class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-search fa-fw"></i>
-            </a>
-            <!-- Dropdown - Messages -->
-            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-              aria-labelledby="searchDropdown">
-              <form class="form-inline mr-auto w-100 navbar-search">
-                <div class="input-group">
-                  <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                    aria-label="Search" aria-describedby="basic-addon2">
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
-                      <i class="fas fa-search fa-sm"></i>
-                    </button>
-                  </div>
+            </a>-->
+
+
+          <!-- Dropdown - Messages -->
+          <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+            <form class="form-inline mr-auto w-100 navbar-search">
+              <div class="input-group">
+                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                  aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search fa-sm"></i>
+                  </button>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
+          </div>
           </li>
 
           <!-- Nav Item - Alerts -->
           <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="app/support-list" id="alertsDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="app/support-list" id="alertsDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-bell fa-fw"></i>
               <!-- Counter - Alerts -->
               <span class="badge badge-danger badge-counter">3+</span>
@@ -317,7 +317,7 @@
                   Spending Alert: We've noticed unusually high spending for your account.
                 </div>
               </a>-->
-              <a class="dropdown-item text-center small text-gray-500" href="/app/support/list">Show All Alerts</a>
+              <a class="dropdown-item text-center small text-gray-500" href="/app/support-list">Show All Alerts</a>
             </div>
           </li>
 
@@ -390,8 +390,8 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.name}}</span>
-              <img class="img-profile rounded-circle"
-                src="https://media-exp1.licdn.com/dms/image/C4D03AQFQDkTIp730EQ/profile-displayphoto-shrink_200_200/0?e=1597881600&v=beta&t=TDA-HFqXyJ2pjj-Wf6XcauNy73psL3FwFBOD21kvmEY">
+              <img class="img-fluid img-profile rounded-circle float-left"
+                src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
 
             </a>
             <!-- Dropdown - User Information -->
@@ -421,7 +421,7 @@
       </nav>
       <!-- End of Topbar -->
       <!-- Begin Page Content -->
-      <div class="container-fluid">
+      <div class="container col-md-12 col-xl-12">
         {{{body}}}
       </div>
       <!-- /.container-fluid -->
@@ -431,7 +431,9 @@
     <footer class="sticky-footer bg-white">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright &copy; TradExc 2019</span>
+          <span>Copyright &copy; TradExc <script>
+              document.write(new Date().getFullYear())
+            </script></span>
         </div>
       </div>
     </footer>
@@ -481,8 +483,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="stylesheets/startbootstrap/js/demo/chart-area-demo.js"></script>
-<script src="stylesheets/startbootstrap/js/demo/chart-pie-demo.js"></script>
+<script src="../stylesheets/startbootstrap/js/demo/chart-area-demo.js"></script>
+<script src="../stylesheets/startbootstrap/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
