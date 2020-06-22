@@ -1,79 +1,116 @@
-<div class="container-fluid">
+<div class="content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header bg-gradient-primary">
+            <h4 class="card-title text-center" style="color: white">Edit Profile</h4>
+            <p class="card-category text-center" style="color: white">Complete your profile</p>
 
-  <!-- Outer Row -->
-  <div class="row justify-content-center">
-
-
-
-    <div class="card o-hidden border-0 shadow-lg my-5">
-      <div class="card-body p-0">
-        <!-- Nested Row within Card Body -->
-        <div class="row">
-
-
-          <div class="p-5">
-            <div class="text-center">
-
-              <h1 class="h4 text-gray-900 mb-4">Profile</h1>
+            <div class="card-avatar">
+              <a href="javascript:;">
+                <img class="img-fluid img-profile rounded-circle float-left"
+                  src="https://source.unsplash.com/QAB-WJcbgJk/150x150" />
+              </a>
             </div>
-            <form action="/app/user" method="POST" class="user">
+            <div class="card-body float-left text-center">
 
-              <!--<div class="form-group row">-->
-              <div class="form-group">
-                <input type="text" class="form-control form-control-user" name="name" id="exampleFirstName"
-                  placeholder="Name" value="{{user.name}}">
-              </div>
+              <h4 class="card-title text-white">{{user.name}}</h4>
+              <h6 class="card-category text-white">Product Manager</h6>
+            </div>
+            <div class="card-body float-right text-center">
 
-              <!--</div>-->
-              <div class="form-group">
-                <input type="email" class="form-control form-control-user" name="email" id="exampleInputEmail"
-                  placeholder="Email Address" value="{{user.email}}">
-              </div>
+              <h6 class="card-category text-white">Barcelona</h6>
+              <h6 class="card-category text-white">Spain</h6>
+              <h6 class="card-title text-white">Passionate about Technology, ever since I had my first computer, a
+                Sinclair zx81</h6>
+            </div>
+          </div>
+          <div class="card-body">
 
-              <div class="form-group">
-                <input type="password" class="form-control form-control-user" name="password" id="exampleInputPassword"
-                  placeholder="Password" value="{{user.password}}">
+
+            <form action="/app/user" method="POST">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Ocupation</label>
+                    <input type="text" class="form-control" disabled value="Product Manager" placeholder="Ocupation">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Email address</label>
+                    <input type="email" name="email" class="form-control" value="{{user.email}}" placeholder="Email">
+                  </div>
+                </div>
               </div>
-              <!--<div class="form-group">
-            <input type="image" class="form-control form-control-user" name="image" id="exampleInputImage"
-              placeholder="image" value="{{image}}">
-          </div>-->
-              <!--
-                <div class="col-sm-6">
-                  <input type="password" class="form-control form-control-user" name="password" id="exampleRepeatPassword"
-                    placeholder="Repeat Password">
-                </div>-->
-                <hr>
-              <div>
-                <button type="submit" class="btn btn-primary btn-user btn-block">Save</button>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Name</label>
+                    <input type="text" name="name" class="form-control" value="{{user.name}}" placeholder="Name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Password</label>
+                    <input type="password" class="form-control" value="{{user.password}}" placeholder="password">
+                  </div>
+                </div>
               </div>
-              {{#if errorMessage}}
-              <hr>
-              <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
-              {{/if}}
-              {{!-- <a href="index.html" class="btn btn-google btn-user btn-block">
-                    <i class="fab fa-google fa-fw"></i> Login with Google
-                  </a>
-                  <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                    <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                  </a> --}}
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Adress</label>
+                    <input type="text" class="form-control" disabled placeholder="Adress">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">City</label>
+                    <input type="text" class="form-control" disabled placeholder="City">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Country</label>
+                    <input type="text" class="form-control" disabled placeholder="Country">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Postal Code</label>
+                    <input type="text" class="form-control" disabled placeholder="Postal Code">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">
+                      About Me</label>
+                    <textarea class="form-control" rows="3"
+                      placeholder="Add a short presentation to let people know more about you." disabled></textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                  <div class="clearfix"></div>
+                  {{#if errorMessage}}
+                  <hr>
+                  <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+                  {{/if}}
+                </div>
+              </div>
             </form>
-            <hr>
-            <!--<div class="text-center">
-              <a class="small" href="forgot-password.html">Forgot Password?</a>
-            </div>-->
-            <!--
-            <div class="text-center">
-              <a class="small" href="/auth/login">Already have an account? Login!</a>
-            </div>
-            <div class="container py-4 text-center">
-              <div class="copyright">
-                &copy; Copyright <strong><span><a href="/"> TradExc </a></span></strong>-->
           </div>
         </div>
-
 
       </div>
     </div>
   </div>
 </div>
+
+<!--
