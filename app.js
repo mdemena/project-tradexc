@@ -59,6 +59,7 @@ hbs.registerPartials(__dirname + '/views/app/partials', function (err) {});
 
 const public = require('./routes/public.routes');
 app.use('/', public);
+
 const auth = require('./routes/auth.routes');
 app.use('/auth', auth);
 app.all('/app', (req, res, next) => {
@@ -75,9 +76,14 @@ const wallet = require('./routes/wallet.routes');
 app.use('/app/wallet', wallet);
 const transactions = require('./routes/transactions.routes');
 app.use('/app/transactions', transactions);
+
 const private = require('./routes/app.routes');
 app.use('/app', private);
+
 const user = require('./routes/user.routes');
 app.use('/app/user', user);
+
+const support= require('./routes/support.routes');
+app.use('/app/support', support);
 
 module.exports = app;

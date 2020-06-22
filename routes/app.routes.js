@@ -5,6 +5,7 @@ const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
 router.get('/', (req, res, next) => {
+
 	const transactions = transactionsController.listByUser(req.session.user_id);
 	// Begin Dashboard data
 	let transAmount = 0;
@@ -46,6 +47,7 @@ router.get('/', (req, res, next) => {
 		balanceBuySell: (balanceBuySell * 100).toFixed(2),
 		balanceInvest: balanceInvest,
 	});
+
 });
 
 module.exports = router;

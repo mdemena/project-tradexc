@@ -1,73 +1,84 @@
-<div class="container">
+<div class="content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header bg-gradient-primary">
+            <h4 class="card-title text-center text-white">Support</h4>
+            <p class="card-category text-center text-white">Message for Support</p>
+          </div>
+          <div class="card-body">
+            <form action="/app/support" method="POST">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Name</label>
+                    <input type="text" class="form-control" name="name" value="{{user.name}}" placeholder="Name">
+                  </div>
+                </div>
 
-  <br><br>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Email address</label>
+                    <input type="email" name="email" class="form-control" name="email" value="{{user.email}}" placeholder="email">
+                  </div>
+                </div>
+              </div>
+              <!--
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Fist Name</label>
+                    <input type="text" name="name" class="form-control" value="{{user.name}}">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Password</label>
+                    <input type="password" class="form-control" value="{{user.password}}">
+                  </div>
+                </div>
+              </div>-->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Subject</label>
+                    <input type="text" class="form-control" name="subject" placeholder="Subject Message">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
 
-  <!-- Nested Row within Card Body -->
-  <div class="row">
-    <div class="col-lg-6 d-none d-lg-block"></div>
-    <div class="col-lg-4">
-      <div class="p-5">
-        <div class="text-center">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">
+                      Message</label>
+                    <textarea class="form-control" rows="5"
+                      placeholder="Describe in as much detail as possible what is your question to support"></textarea>
+                  </div>
 
-          <h1 class="h4 text-gray-900 mb-4">Support</h1>
+                </div>
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-warning pull-right">List Messages</button>
+                  <div class="clearfix"></div>
+                  {{#if errorMessage}}
+                  <hr>
+                  <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+                  {{/if}}
+                </div>
+                <div class="col-md-6 float-left">
+                  <button type="submit" class="btn btn-primary pull-right">Send Message</button>
+                  <div class="clearfix"></div>
+                  {{#if errorMessage}}
+                  <hr>
+                  <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+                  {{/if}}
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <form action="/app/support" method="POST" class="user">
-
-          <!--<div class="form-group row">-->
-          <div class="form-group">
-            <input type="text" class="form-control form-control-user" name="name" id="exampleFirstName"
-              placeholder="Name" value="{{name}}">
-          </div>
-
-          <!--</div>-->
-          <div class="form-group">
-            <input type="email" class="form-control form-control-user" name="email" id="exampleInputEmail"
-              placeholder="Email Address" value="{{email}}">
-          </div>
-
-          <div class="form-group">
-            <input type="text" class="form-control form-control-user" name="subject" id="exampleInputSubject"
-              placeholder="Subject" value="">
-          </div>
-
-          <div class="form-group">
-            <input type="text area" class="form-control form-control-user" name="message" id="exampleInputMessage"
-              placeholder="Message" value="">
-          </div>
-          <!--
-                <div class="col-sm-6">
-                  <input type="password" class="form-control form-control-user" name="password" id="exampleRepeatPassword"
-                    placeholder="Repeat Password">
-                </div>-->
-          <button type="submit" class="btn btn-prymary btn-user btn-block">Save</button>
-
-          {{#if errorMessage}}
-          <hr>
-          <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
-          {{/if}}
-          {{!-- <a href="index.html" class="btn btn-google btn-user btn-block">
-                    <i class="fab fa-google fa-fw"></i> Login with Google
-                  </a>
-                  <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                    <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                  </a> --}}
-        </form>
-        <hr>
-        <!--<div class="text-center">
-              <a class="small" href="forgot-password.html">Forgot Password?</a>
-            </div>-->
-        <!--
-            <div class="text-center">
-              <a class="small" href="/auth/login">Already have an account? Login!</a>
-            </div>
-            <div class="container py-4 text-center">
-              <div class="copyright">
-                &copy; Copyright <strong><span><a href="/"> TradExc </a></span></strong>-->
       </div>
     </div>
   </div>
-
-
-
-
 </div>
