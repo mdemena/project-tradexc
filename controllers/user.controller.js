@@ -16,12 +16,12 @@ class UserController {
 	static async add(_user) {
 		try {
 			const newUser = await User.create(_user);
-			await this.registerLog(newUser, 'New');
 			const newWallet = await WalletController.add({
 				user: newUser._id,
 				amount: 0,
 				movements: [],
 			});
+			await this.registerLog(newUser, 'New');
 			return { newUser, newWallet };
 		} catch (err) {
 			throw err;

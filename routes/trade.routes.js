@@ -141,7 +141,6 @@ router.post('/buy', async (req, res, next) => {
 
 router.post('/sell', async (req, res, next) => {
 	const { symbolCode, symbolName, type, units, price } = req.body;
-	console.log({ symbolCode, symbolName, type, units, price });
 	try {
 		const newWallet = await tradeController.sell(
 			req.session.user._id,

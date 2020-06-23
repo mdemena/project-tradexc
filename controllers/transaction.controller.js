@@ -12,8 +12,8 @@ class TransactionController {
 	static async list() {
 		return await Transaction.find().populate('stock');
 	}
-	static async listByUser(_userId) {
-		return await Transaction.find({ user: _userId }).populate('stock');
+	static async listByUser(_user) {
+		return await Transaction.find({ user: _user }).populate('stock');
 	}
 	static async findOne(_filter) {
 		return await Transaction.findOne(_filter);
