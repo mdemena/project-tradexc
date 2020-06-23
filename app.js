@@ -9,6 +9,7 @@ const logger = require('morgan');
 const path = require('path');
 const mongoose = require('mongoose');
 const app_name = require('./package.json').name;
+const dateFormat = require('dateformat');
 const debug = require('debug')(
 	`${app_name}:${path.basename(__filename).split('.')[0]}`
 );
@@ -68,6 +69,12 @@ app.all('/app', (req, res, next) => {
 	}
 	res.redirect('/auth/login');
 });
+app.all('/app/*', (req, res, next) => {
+	if (req.session.user && req.session.wallet) {
+		return next();
+	}
+	res.redirect('/auth/login');
+});
 const market = require('./routes/market.routes');
 app.use('/app/market', market);
 const trade = require('./routes/trade.routes');
@@ -86,4 +93,23 @@ app.use('/app/user', user);
 const support = require('./routes/support.routes');
 app.use('/app/support', support);
 
+hbs.registerHelper('dateFormat', function (_date) {
+	//return _date.toLocaleDateString('es-ES');
+	return dateFormat(_date, 'dd/MM/yyyy HH:mm');
+});
+hbs.registerHelper('roundNumber2', function (_number) {
+	return _number.toFixed(2);
+});
+hbs.registerHelper('isStock', function (_type) {
+	return _type === 'stock';
+});
+hbs.registerHelper('isCrypto', function (_type) {
+	return _type === 'crypto';
+});
+hbs.registerHelper('isBuy', function (_action) {
+	return _action === 'buy';
+});
+hbs.registerHelper('isSell', function (_action) {
+	return _action === 'sell';
+});
 module.exports = app;

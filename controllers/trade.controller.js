@@ -20,6 +20,14 @@ class TradeController {
 		}
 		return stock;
 	}
+	static async getByUserSymbol(_user, _symbol) {
+		const stock = await Stock.findOne({ user: _user, symbol: _symbol });
+		if (stock) {
+			stock.populate('user');
+			stock.populate('stock');
+		}
+		return stock;
+	}
 	static async add(_stock) {
 		const newStock = await Stock.create(_stock);
 		if (newStock) {
@@ -30,18 +38,18 @@ class TradeController {
 	static async set(_stock) {
 		const editStock = await Stock.findByIdAndUpdate(_stock._id, _stock);
 		if (editStock) {
-			this.registerLog(newStock, 'Editing');
+			this.registerLog(editStock, 'Editing');
 		}
 		return editStock;
 	}
-	static async buy(_userId, _symbol, _name, _type, _units, _price) {
+	static async buy(_user, _symbol, _name, _type, _units, _price) {
 		try {
-			const userWallet = await WalletController.getByUserId(_userId);
-			const buyStock = await this.findOne({ symbol: _symbol, user: _userId });
+			const userWallet = await WalletController.getByUserId(_user);
+			const buyStock = await this.getByUserSymbol(_user, _symbol);
 			//let buyPrice = await this.getSymbolPrice(_symbol, _type);
 			const buyAmount = _units * _price;
 			if (buyAmount <= userWallet.amount) {
-				await WalletController.buy(userWallet._id, buyAmount);
+				const newWallet = await WalletController.buy(userWallet._id, buyAmount);
 				if (buyStock) {
 					buyStock.units += _units;
 					await TransactionController.add({
@@ -52,8 +60,9 @@ class TradeController {
 						units: _units,
 						price: _price,
 					});
+					await this.set(buyStock);
 					await this.registerLog(buyStock, 'Buy');
-					return this.set(buyStock);
+					return { buyStock, newWallet };
 				} else {
 					const newStock = await Stock.create({
 						user: _userId,
@@ -71,7 +80,7 @@ class TradeController {
 						price: _price,
 					});
 					await this.registerLog(newStock, 'Buy');
-					return newStock;
+					return { newStock, newWallet };
 				}
 			} else {
 				throw new Error(
@@ -82,29 +91,34 @@ class TradeController {
 			throw err;
 		}
 	}
-	static async sell(_userId, _symbolId, _units) {
+	static async sell(_user, _symbol, _units, _price) {
 		try {
-			const sellStock = await this.get(_symbolId);
+			const sellStock = await this.getByUserSymbol(_user, _symbol);
+			console.log(sellStock);
 			if (sellStock && sellStock.units >= _units) {
-				const userWallet = WalletController.findOne({ user: _userId });
-				let sellPrice = await this.getSymbolPrice(
-					sellStock.symbol,
-					sellStock.type
-				);
-				let sellAmount = _units * sellPrice;
+				const userWallet = WalletController.findOne({ user: _user });
+				// const sellPrice = await this.getSymbolPrice(
+				// 	sellStock.symbol,
+				// 	sellStock.type
+				// );
+				const sellPrice = _price;
+				const sellAmount = _units * sellPrice;
 				sellStock.units -= _units;
 				const editStock = this.set(sellStock);
 				await TransactionController.add({
 					date: new Date(),
-					user: _userId,
+					user: _user,
 					stock: sellStock._id,
 					type: 'sell',
 					units: _units,
 					price: sellPrice,
 				});
-				WalletController.sell(userWallet._id, sellAmount);
+				const newWallet = await WalletController.sell(
+					userWallet._id,
+					sellAmount
+				);
 				await this.registerLog(sellStock, 'Sell');
-				return editStock;
+				return newWallet;
 			} else {
 				throw new Error(`You don't have sufficient units for this sell`);
 			}
@@ -115,11 +129,8 @@ class TradeController {
 	static async list() {
 		return await Stock.find().populate('user').populate('stock');
 	}
-	static async listByUser(_userId) {
-		return await Stock.find({ user: _userId }).populate('stock');
-	}
-	static async findOne(_filter) {
-		return await Stock.findOne(_filter);
+	static async listByUser(_user) {
+		return await Stock.find({ user: _user }).populate('stock');
 	}
 	static async registerLog(_stock, _action) {
 		await LogController.register(
