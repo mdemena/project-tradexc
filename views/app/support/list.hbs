@@ -1,0 +1,75 @@
+<!-- Tickets Support -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Tickets Support</h1>
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <!--
+                    <div class="card-header bg-gradient-primary">
+                        <h4 class="card-title text-center text-white">Support</h4>
+                        <p class="card-category text-center text-white">Ticket from Support</p>
+                    </div><br>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Subject</label>
+                                    <input type="text" class="form-control" name="subject"
+                                        value="{{support.subject}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">
+                                        Message</label>
+                                    <imput type="text" class="form-control" rows="5" name="message"
+                                        value="{{support.message}}"></imput>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+                    {{#each support}}
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Subject</label>
+                                <input type="text" class="form-control" name="subject" value="{{this.subject}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">
+                                    Message</label>
+                                <input type="text" class="form-control"  name="message"
+                                    value="{{this.message}}">
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    <hr>
+    <div class="col-md-6">
+        <a href="/app/support/ticket" class="btn btn-warning pull-right">New Ticket</a>
+        <div class="clearfix"></div>
+        {{#if errorMessage}}
+        <hr>
+        <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+        {{/if}}
+    </div>

@@ -5,9 +5,9 @@ const supportController = require('../controllers/support.controller');
 const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
-router.get('/', (req, res, next) => {
-	const support = supportController.listByUser(req.session.user._id);
-	const transactions = transactionsController.listByUser(req.session.user_id);
+router.get('/', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
+	const transactions = await transactionsController.listByUser(req.session.user_id);
 	// Begin Dashboard data
 	let transAmount = 0;
 	let transCount = 0;
@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 	let transSells = 0;
 	let balanceBuySell = 0;
 	let walletAmount = req.session.wallet.amount;
-	const balanceInvest = tradeController.groupedByUserBySymbol(
+	const balanceInvest = await tradeController.groupedByUserBySymbol(
 		req.session.user._id
 	);
 
@@ -47,9 +47,10 @@ router.get('/', (req, res, next) => {
 		transSells: transSells,
 		balanceBuySell: (balanceBuySell * 100).toFixed(2),
 		balanceInvest: balanceInvest,
-		support: support,
+		supports: support,
+		
 	});
-	console.log(support);
+	
 
 });
 
