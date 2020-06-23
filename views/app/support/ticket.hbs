@@ -8,7 +8,7 @@
             <p class="card-category text-center text-white">Message for Support</p>
           </div>
           <div class="card-body">
-            <form action="/app/support" method="POST">
+            <form action="/app/support" method="GET">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -54,12 +54,12 @@
                     <label class="bmd-label-floating">
                       Message</label>
                     <textarea class="form-control" rows="5"
-                      placeholder="Describe in as much detail as possible what is your question to support"></textarea>
+                      placeholder="Describe in as much detail as possible what is your question to support" name="message"></textarea>
                   </div>
 
                 </div>
                 <div class="col-md-6">
-                  <button type="submit" class="btn btn-warning pull-right">List Messages</button>
+                  <button onclick="window.location.href='/app/support'" class="btn btn-warning pull-right">List Messages</button>
                   <div class="clearfix"></div>
                   {{#if errorMessage}}
                   <hr>

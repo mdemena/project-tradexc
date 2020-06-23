@@ -1,0 +1,28 @@
+<div class="font-weight-bold">
+    <div class="small text-gray-500">subject{{this.subject}}</div>
+    <div class="text-truncate">messsage{{this.message}}</div>
+    <div class="small text-gray-500">updated{{this.updatedAt}}</div>
+</div>
+
+
+{{#each support}}
+<a class="dropdown-item d-flex align-items-center" href="#">
+    <div class="dropdown-list-image mr-3">
+        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+        <div class="status-indicator bg-success"></div>
+    </div>
+    <div class="font-weight-bold">
+        <div class="small text-gray-500">{{this.subject}}</div>
+        <div class="text-truncate">{{this.message}}</div>
+        <div class="small text-gray-500">{{this.updatedAt}}</div>
+    </div>
+</a>
+{{/each}}
+<div class="col-md-6">
+    <button onclick="window.location.href='/app/support'" class="btn btn-warning pull-right">New Ticket</button>
+    <div class="clearfix"></div>
+    {{#if errorMessage}}
+    <hr>
+    <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+    {{/if}}
+</div>
