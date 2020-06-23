@@ -32,8 +32,26 @@ class WalletController {
 		}
 		return newWallet;
 	}
+	static async sell(_id, _amount) {
+		try {
+			return await this.addMovement(_id, 'sell', _amount);
+		} catch (err) {
+			throw err;
+		}
+	}
 	static async deposit(_id, _amount) {
-		return await this.addMovement(_id, 'deposit', _amount);
+		try {
+			return await this.addMovement(_id, 'deposit', _amount);
+		} catch (err) {
+			throw err;
+		}
+	}
+	static async buy(_id, _amount) {
+		try {
+			return await this.addMovement(_id, 'buy', _amount);
+		} catch (err) {
+			throw err;
+		}
 	}
 	static async widthdraw(_id, _amount) {
 		try {
@@ -45,20 +63,14 @@ class WalletController {
 	static async addMovement(_id, _type, _amount) {
 		const movWallet = await this.get(_id);
 		if (movWallet) {
-			switch (_type) {
-				case 'buy':
-				case 'widthdraw':
-					if (movWallet.amount - _amount < 0) {
-						throw new Error(
-							`You don't have sufficient amount for this ` + _type
-						);
-					} else {
-						movWallet.amount -= _amount;
-					}
-					break;
-				default:
-					movWallet.amount += _amount;
-					break;
+			if (_type === 'buy' || _type === 'widthdraw') {
+				if (movWallet.amount - _amount < 0) {
+					throw new Error(`You don't have sufficient amount for this ` + _type);
+				} else {
+					movWallet.amount -= _amount;
+				}
+			} else {
+				movWallet.amount += _amount;
 			}
 			movWallet.movements.push({
 				date: new Date(),

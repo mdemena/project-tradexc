@@ -1,5 +1,6 @@
 const userController = require('../controllers/user.controller');
 const walletController = require('../controllers/wallet.controller');
+const LogController = require('../controllers/log.controller');
 const bcrypt = require('bcryptjs');
 
 class authController {
@@ -9,7 +10,7 @@ class authController {
 			throw 'Email is not registered. Try and other email.';
 		} else if (bcrypt.compare(_password, userLogin.passwordHash)) {
 			const userWallet = await walletController.getByUserId(userLogin._id);
-			console.log(userWallet);
+			await this.registerLog(userLogin, 'Login');
 			return { userLogin, userWallet };
 		} else {
 			throw 'Password incorrect. Try again.';
@@ -17,14 +18,28 @@ class authController {
 	}
 	static async signUp(_name, _email, _password) {
 		try {
-			return await userController.add({
+			const newUser = await userController.add({
 				name: _name,
 				email: _email,
 				passwordHash: _password,
 			});
+			await this.registerLog(newUser, 'Registered new user');
+			return newUser;
 		} catch (err) {
 			throw err;
 		}
+	}
+	static async logout(_user) {
+		try {
+			const logoutUser = await userController.get(_user);
+			await this.registerLog(logoutUser, 'Logout user');
+			return newUser;
+		} catch (err) {
+			throw err;
+		}
+	}
+	static async registerLog(_user, _action) {
+		await LogController.register(`${_action} user ${_user._id}`, _user._id);
 	}
 }
 

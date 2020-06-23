@@ -1,4 +1,5 @@
 const Transaction = require('../models/transaction.model');
+const LogController = require('./log.controller');
 
 class TransactionController {
 	static async add(_transaction) {
@@ -9,12 +10,10 @@ class TransactionController {
 		return newTransaction;
 	}
 	static async list() {
-		return await Transaction.find().populate('user').populate('stock');
+		return await Transaction.find().populate('stock');
 	}
-	static async listByUser(_userId) {
-		return await Transaction.find({ user: _userId })
-			.populate('user')
-			.populate('stock');
+	static async listByUser(_user) {
+		return await Transaction.find({ user: _user }).populate('stock');
 	}
 	static async findOne(_filter) {
 		return await Transaction.findOne(_filter);

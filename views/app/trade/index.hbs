@@ -9,7 +9,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{walletAmount}} EUR</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 walletAmount}} EUR</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -26,7 +26,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Buyed Amount</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{buyAmount}} EUR</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 buyAmount}} EUR</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -41,7 +41,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Selled Amount</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{sellAmount}} EUR</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 sellAmount}} EUR</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -96,8 +96,8 @@
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Units: activate to sort column ascending"
                                                 style="width: 100px;">Units</th>
-                                            <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="2"
-                                                style="width: 100px;">Units</th>
+                                            <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                                                style="width: 100px;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -116,12 +116,15 @@
                                             <td>{{this.name}}</td>
                                             <td>{{this.type}}</td>
                                             <td>{{this.units}}</td>
-                                            <td><a name="" id="buyTrade" class="btn btn-primary"
-                                                    href="/app/trade/buy/{{this.type}}/{{this.symbol}}-{{this.name}}"
-                                                    role="button">Buy</a></td>
-                                            <td><a name="" id="sellTrade" class="btn btn-danger"
-                                                    href="/app/trade/sell/{{this.type}}/{{this.units}}/{{this.symbol}}-{{this.name}}"
-                                                    role="button">Sell</a></td>
+                                            <td>
+                                                <div class="d-flex flex-row justify-content-around align-items-center">
+                                                    <a name="" id="buyTrade" class="btn btn-primary"
+                                                        href="/app/trade/buy/{{this.type}}/{{this.symbol}}-{{this.name}}"
+                                                        role="button">Buy</a><a name="" id="sellTrade"
+                                                        class="btn btn-danger"
+                                                        href="/app/trade/sell/{{this.type}}/{{this.units}}/{{this.symbol}}-{{this.name}}"
+                                                        role="button">Sell</a></div>
+                                            </td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -165,7 +168,7 @@
                         <li class="symbolsList">{{this.symbol}}</li>
                     </ul>
                     <ul class="invisible">
-                        <li class="amountsList">{{this.amount}}</li>
+                        <li class="amountsList">{{roundNumber2 this.amount}}</li>
                     </ul>
                     {{/each}}
                 </div>
@@ -209,34 +212,34 @@
                         </div> --}}
                         <div class="row">
                             <div class="col-sm-12">
-                                <table class="table table-bordered dataTable" id="tradeTable" width="100%"
+                                <table class="table table-bordered dataTable" id="transactionsTable" width="100%"
                                     cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
                                         <tr role="row">
                                             <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-sort="descending"
                                                 aria-label="Date: activate to sort column ascending"
-                                                style="width: 217px;">
+                                                style="width: 100px;">
                                                 Date</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Symbol: activate to sort column ascending"
-                                                style="width: 217px;">
+                                                style="width: 100px;">
                                                 Symbol</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Name: activate to sort column ascending"
                                                 style="width: 325px;">Name</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Type: activate to sort column ascending"
-                                                style="width: 159px;">Type</th>
+                                                style="width: 100px;">Type</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Units: activate to sort column ascending"
                                                 style="width: 76px;">Units</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Price: activate to sort column ascending"
-                                                style="width: 76px;">Price</th>
+                                                style="width: 100px;">Price</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Total: activate to sort column ascending"
-                                                style="width: 76px;">Total</th>
+                                                style="width: 100px;">Total</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -253,15 +256,13 @@
                                     <tbody>
                                         {{#each transactions }}
                                         <tr role="row" class="odd">
-                                            <td class="sorting_1">{{this.date}}</td>
-                                            {{#with this.stock}}
-                                            <td>{{symbol}}</td>
-                                            <td>{{name}}</td>
-                                            {{/with}}
+                                            <td class="sorting_1">{{dateFormat this.date}}</td>
+                                            <td>{{this.stock.symbol}}</td>
+                                            <td>{{this.stock.name}}</td>
                                             <td>{{this.type}}</td>
                                             <td>{{this.units}}</td>
-                                            <td>{{this.price}} EUR</td>
-                                            <td>{{this.total}} EUR</td>
+                                            <td>{{roundNumber2 this.price}} EUR</td>
+                                            <td>{{roundNumber2 this.total}} EUR</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
