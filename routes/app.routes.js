@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const transactionsController = require('../controllers/transaction.controller');
+const supportController = require('../controllers/support.controller');
 const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
 router.get('/', async (req, res, next) => {
-	const transactions = await transactionsController.listByUser(
-		req.session.user._id
-	);
-	// Begin Dashboard data
+	const support = await supportController.listByUser(req.session.user._id);
+	const transactions = await transactionsController.listByUser(req.session.user_id);
+
+  // Begin Dashboard data
 	let transAmount = 0;
 	let transCount = 0;
 	let transBuys = 0;
@@ -49,6 +50,8 @@ router.get('/', async (req, res, next) => {
 		transSells: transSellsCount,
 		balanceBuySell: balanceBuySell * 100,
 		balanceInvest: balanceInvest,
+		supports: support,
+		
 	});
 });
 

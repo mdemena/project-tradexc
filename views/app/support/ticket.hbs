@@ -8,7 +8,7 @@
             <p class="card-category text-center text-white">Message for Support</p>
           </div>
           <div class="card-body">
-            <form action="/app/support" method="POST">
+            <form action="/app/support/ticket" method="POST">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -20,7 +20,8 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="bmd-label-floating">Email address</label>
-                    <input type="email" name="email" class="form-control" name="email" value="{{user.email}}" placeholder="email">
+                    <input type="email" name="email" class="form-control" name="email" value="{{user.email}}"
+                      placeholder="email">
                   </div>
                 </div>
               </div>
@@ -54,19 +55,13 @@
                     <label class="bmd-label-floating">
                       Message</label>
                     <textarea class="form-control" rows="5"
-                      placeholder="Describe in as much detail as possible what is your question to support"></textarea>
+                      placeholder="Describe in as much detail as possible what is your question to support"
+                      name="message"></textarea>
                   </div>
 
                 </div>
-                <div class="col-md-6">
-                  <button type="submit" class="btn btn-warning pull-right">List Messages</button>
-                  <div class="clearfix"></div>
-                  {{#if errorMessage}}
-                  <hr>
-                  <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
-                  {{/if}}
-                </div>
-                <div class="col-md-6 float-left">
+
+                <div class="col-md-6 ">
                   <button type="submit" class="btn btn-primary pull-right">Send Message</button>
                   <div class="clearfix"></div>
                   {{#if errorMessage}}
@@ -76,9 +71,19 @@
                 </div>
               </div>
             </form>
+
           </div>
         </div>
       </div>
+      
     </div>
+    <div class="col-md-6">
+        <button onclick="window.location.href='/app/support'" class="btn btn-warning pull-right">List Messages</button>
+        <div class="clearfix"></div>
+        {{#if errorMessage}}
+        <hr>
+        <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+        {{/if}}
+      </div>
   </div>
 </div>

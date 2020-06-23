@@ -69,7 +69,7 @@
 
     <!-- Nav Item - Transactions -->
     <li class="nav-item">
-      <a class="nav-link" href="/app/transaction">
+      <a class="nav-link" href="/app/transactions">
         <i class="fas fa-fw fa fa-exchange"></i>
         <span>Transaction</span></a>
     </li>
@@ -268,11 +268,12 @@
 
           <!-- Nav Item - Alerts -->
           <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="app/support-list" id="alertsDropdown" role="button"
+            <a class="nav-link dropdown-toggle" href="/app/support" id="alertsDropdown" role="button"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
               <i class="fas fa-bell fa-fw"></i>
               <!-- Counter - Alerts -->
-              <span class="badge badge-danger badge-counter">3+</span>
+              <span class="badge badge-danger badge-counter">3+{{supportNum}}</span>
             </a>
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -280,6 +281,7 @@
               <h6 class="dropdown-header">
                 Alerts Center
               </h6>
+              {{> list supports }}
               <!--
               <a class="dropdown-item d-flex align-items-center" href="#">
                 <div class="mr-3">
@@ -314,7 +316,7 @@
                   Spending Alert: We've noticed unusually high spending for your account.
                 </div>
               </a>-->
-              <a class="dropdown-item text-center small text-gray-500" href="/app/support-list">Show All Alerts</a>
+              <a class="dropdown-item text-center small text-gray-500" href="/app/support">Show All Alerts</a>
             </div>
           </li>
 
