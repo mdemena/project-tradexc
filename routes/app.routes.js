@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const transactionsController = require('../controllers/transaction.controller');
+const supportController = require('../controllers/support.controller');
 const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
 router.get('/', (req, res, next) => {
-
+	const support = supportController.listByUser(req.session.user._id);
 	const transactions = transactionsController.listByUser(req.session.user_id);
 	// Begin Dashboard data
 	let transAmount = 0;
@@ -46,7 +47,9 @@ router.get('/', (req, res, next) => {
 		transSells: transSells,
 		balanceBuySell: (balanceBuySell * 100).toFixed(2),
 		balanceInvest: balanceInvest,
+		support: support,
 	});
+	console.log(support);
 
 });
 
