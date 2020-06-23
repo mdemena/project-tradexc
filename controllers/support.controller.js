@@ -33,8 +33,9 @@ class SupportController {
   }
 
   static async listByUser(_userId) {
-    return await Support.find({ user: _userId }).populate("user");
+    return await Support.find({ user: _userId });
   }
+  
   static async findOne(_filter) {
     return await Support.findOne(_filter);
   }

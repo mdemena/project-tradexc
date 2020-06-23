@@ -6,21 +6,13 @@
 <div class="row">
 
     <!-- Money in Wallet -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Balance</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{wallet.amount}} EUR</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{> primaryUp this }}
+    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Balance</div>
+    <div class="h5 mb-0 font-weight-bold text-gray-800">{{wallet.amount}} EUR</div>
+    {{> primaryDown this }}
+
+
+
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
@@ -36,8 +28,8 @@
             </div>
         </div>
     </div>
-    
-   <div class="col-xl-3 col-md-6 mb-4">
+
+    <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-danger shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -53,32 +45,33 @@
         </div>
     </div>
     <!-- Total Buyed -->
-  <div class="col-xl-3 col-md-6 mb-4">
-    <div class="card border-left-info shadow h-100 py-2">
-      <div class="card-body">
-        <div class="row no-gutters align-items-center">
-          <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Balance (Buy/Sell)</div>
-            <div class="row no-gutters align-items-center">
-              <div class="col-auto">
-                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{balanceBuySell}}%</div>
-              </div>
-              <div class="col">
-                <div class="progress progress-sm mr-2">
-                  <div class="progress-bar bg-info" role="progressbar" style="width: {{balanceBuySell}}%"
-                    aria-valuenow="{{balanceBuySell}}" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Balance (Buy/Sell)</div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{balanceBuySell}}%</div>
+                            </div>
+                            <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar"
+                                        style="width: {{balanceBuySell}}%" aria-valuenow="{{balanceBuySell}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="col-auto">
-            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-    
+
 </div>
 <div class="row">
     <div class="col-xl-6 col-lg-6">
@@ -114,7 +107,7 @@
                             </div>
                         </div> --}}
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="table-responsive">
                                 <table class="table table-bordered dataTable" id="tradeTable" width="100%"
                                     cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
@@ -145,12 +138,12 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        {{#each wallet }}
+                                        {{#each wallet.movements }}
                                         <tr role="row" class="odd">
-                                            <td class="sorting_1">{{this.createdAt}}</td>
-                                            <td>{{this.movements.0.type}}</td>
-                                            <td>{{this.movements.0.amount}}</td>
-                                            <td>{{this.amount}} EUR</td>
+                                            <td class="sorting_1">{{this.date}}</td>
+                                            <td>{{this.type}}</td>
+                                            <td>{{this.amount}}</td>
+                                            <td>{{wallet.amount}} EUR</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
