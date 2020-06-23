@@ -36,7 +36,9 @@ class TradeController {
 		return newStock;
 	}
 	static async set(_stock) {
-		const editStock = await Stock.findByIdAndUpdate(_stock._id, _stock);
+		const editStock = await Stock.findByIdAndUpdate(_stock._id, _stock, {
+			new: true,
+		});
 		if (editStock) {
 			this.registerLog(editStock, 'Editing');
 		}
@@ -65,7 +67,7 @@ class TradeController {
 					return { buyStock, newWallet };
 				} else {
 					const newStock = await Stock.create({
-						user: _userId,
+						user: _user,
 						symbol: _symbol,
 						name: _name,
 						type: _type,
@@ -96,15 +98,16 @@ class TradeController {
 			const sellStock = await this.getByUserSymbol(_user, _symbol);
 			console.log(sellStock);
 			if (sellStock && sellStock.units >= _units) {
-				const userWallet = WalletController.findOne({ user: _user });
+				const userWallet = await WalletController.findOne({ user: _user });
 				// const sellPrice = await this.getSymbolPrice(
 				// 	sellStock.symbol,
 				// 	sellStock.type
 				// );
+				console.log(userWallet);
 				const sellPrice = _price;
 				const sellAmount = _units * sellPrice;
 				sellStock.units -= _units;
-				const editStock = this.set(sellStock);
+				const editStock = await this.set(sellStock);
 				await TransactionController.add({
 					date: new Date(),
 					user: _user,
