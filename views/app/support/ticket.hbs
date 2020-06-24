@@ -69,21 +69,23 @@
                   <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
                   {{/if}}
                 </div>
+                <div class="col-md-6">
+                  <a href="/app/support" class="btn btn-warning pull-right">
+                    List Messages</a>
+                  <div class="clearfix"></div>
+                  {{#if errorMessage}}
+                  <hr>
+                  <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+                  {{/if}}
+                </div>
               </div>
-            </form>
-
           </div>
+          </form>
+
         </div>
       </div>
-      
     </div>
-    <div class="col-md-6">
-        <button onclick="window.location.href='/app/support'" class="btn btn-warning pull-right">List Messages</button>
-        <div class="clearfix"></div>
-        {{#if errorMessage}}
-        <hr>
-        <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
-        {{/if}}
-      </div>
+
   </div>
+
 </div>

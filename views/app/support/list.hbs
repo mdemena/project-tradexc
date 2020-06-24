@@ -2,74 +2,98 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Tickets Support</h1>
 </div>
-<div class="content">
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <!--
-                    <div class="card-header bg-gradient-primary">
-                        <h4 class="card-title text-center text-white">Support</h4>
-                        <p class="card-category text-center text-white">Ticket from Support</p>
-                    </div><br>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Subject</label>
-                                    <input type="text" class="form-control" name="subject"
-                                        value="{{support.subject}}">
+<div class="row">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Messages</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Support:</div>
+                        <a class="dropdown-item" href="/app/support/ticket">New Ticket</a>
+                        <a class="dropdown-item" href="/app/support/list">List Messages</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        {{!-- <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="dataTable_length">
+                                    <a name="" id="" class="btn btn-primary" href="/app/trade/Deposit" role="button">Deposit</a>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                            class="form-control form-control-sm" placeholder=""
+                                            aria-controls="dataTable"></label></div>
+                            </div>
+                        </div> --}}
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered dataTable" id="tradeTable" width="100%"
+                                    cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            colspan="1" aria-sort="descending"
+                                            aria-label="Date: activate to sort column ascending" style="width: 15%;">
+                                            Date</th>
+                                        <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            colspan="1" aria-sort="descending"
+                                            aria-label="Subject: activate to sort column ascending" style="width: 20%;">
+                                            Subject</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            colspan="1" aria-label="Message: activate to sort column ascending"
+                                            style="width: 100px;">
+                                            Message</th>
+                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            colspan="1" aria-label="Status: activate to sort column ascending"
+                                            style="width: 20%;">Status</th>
 
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">
-                                        Message</label>
-                                    <imput type="text" class="form-control" rows="5" name="message"
-                                        value="{{support.message}}"></imput>
-                                </div>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <th rowspan="1" colspan="1">Date</th>
+                                        <th rowspan="1" colspan="1">Subject</th>
+                                        <th rowspan="1" colspan="1">Message</th>
+                                        <th rowspan="1" colspan="1">Status</th>
+
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {{#each support}}
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">{{dateFormat this.date}}</td>
+                                            <td>{{this.subject}}</td>
+                                            <td>{{this.message}}</td>
+                                            <td>{{this.status}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div>-->
-
-                    {{#each support}}
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="bmd-label-floating">Subject</label>
-                                <input type="text" class="form-control" name="subject" value="{{this.subject}}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="bmd-label-floating">
-                                    Message</label>
-                                <input type="text" class="form-control"  name="message"
-                                    value="{{this.message}}">
-                                </input>
-                            </div>
-                        </div>
-                    </div>
-                    {{/each}}
                 </div>
             </div>
         </div>
     </div>
-    
-    <br>
+</div>
+
+
+
+<br>
+<div class="col-md-6">
+    <a href="/app/support/ticket" class="btn btn-success pull-right">New Ticket</a>
+    <div class="clearfix"></div>
+    {{#if errorMessage}}
     <hr>
-    <div class="col-md-6">
-        <a href="/app/support/ticket" class="btn btn-warning pull-right">New Ticket</a>
-        <div class="clearfix"></div>
-        {{#if errorMessage}}
-        <hr>
-        <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
-        {{/if}}
-    </div>
+    <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+    {{/if}}
+</div>
