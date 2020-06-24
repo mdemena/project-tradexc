@@ -5,6 +5,7 @@ const supportController = require("../controllers/support.controller");
 
 
 router.get("/", async (req, res, next) => {
+  
   res.render("app/support/list", {
     layout: "app/layout",
     user: req.session.user,
@@ -35,10 +36,10 @@ router.post("/ticket", async (req, res, next) => {
       status,
     });
 
-    res.redirect("/app");
+    res.redirect("/app/support");
   } catch (err) {
     console.log(err);
-    res.render("app/support", {
+    res.render("app/ticket", {
       layout: "app/layout",
       user: req.session.user,
       name,
