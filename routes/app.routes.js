@@ -8,7 +8,7 @@ const tradeController = require('../controllers/trade.controller');
 router.get('/', async (req, res, next) => {
 	const support = await supportController.listByUser(req.session.user._id);
 	const transactions = await transactionsController.listByUser(
-		req.session.user_id
+		req.session.user._id
 	);
 
 	// Begin Dashboard data

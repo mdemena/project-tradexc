@@ -2,6 +2,7 @@ const Stock = require('../models/stock.model');
 const WalletController = require('./wallet.controller');
 const TransactionController = require('./transaction.controller');
 const LogController = require('./log.controller');
+const mongoose = require('mongoose');
 const axios = require('axios');
 
 const arrCrypto = [
@@ -192,27 +193,31 @@ class TradeController {
 	}
 	static async groupedByUserBySymbol(_id) {
 		return await Stock.aggregate([
-			{ $match: { user: _id } },
 			{
-				$lookup: {
-					from: 'transaction',
-					localField: '_id',
-					foreignField: 'symbol',
-					as: 'transactions',
+				$match: {
+					user: mongoose.Types.ObjectId('5eebc5ae07fe01642b46011b'),
 				},
 			},
-			//{ $unwind: '$transactions' },
-			// {
-			// 	$project: {
-			// 		symbol: true,
-			// 		quantity: { $size: '$products' },
-			// 	},
-			// },
+			{
+				$lookup: {
+					from: 'transactions',
+					localField: '_id',
+					foreignField: 'stock',
+					as: 'trans',
+				},
+			},
+			{
+				$unwind: {
+					path: '$trans',
+				},
+			},
 			{
 				$group: {
-					_id: '$symbol',
+					_id: { symbol: '$symbol', name: '$name' },
 					amount: {
-						$sum: { $multiply: ['$transactions.price', '$transactions.units'] },
+						$sum: {
+							$multiply: ['$trans.units', '$trans.price'],
+						},
 					},
 				},
 			},

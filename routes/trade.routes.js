@@ -1,7 +1,6 @@
 const express = require('express');
 const tradeController = require('../controllers/trade.controller');
 const transactionController = require('../controllers/transaction.controller');
-const walletController = require('../controllers/wallet.controller');
 const router = express.Router();
 
 /* GET Trade */
@@ -10,6 +9,10 @@ router.get('/', async (req, res, next) => {
 	const transactions = await transactionController.listByUser(
 		req.session.user._id
 	);
+	const balanceInvest = await tradeController.groupedByUserBySymbol(
+		req.session.user._id
+	);
+	console.log(balanceInvest);
 	let buyAmount = 0;
 	let sellAmount = 0;
 	let walletAmount = req.session.wallet.amount;
@@ -31,6 +34,7 @@ router.get('/', async (req, res, next) => {
 		sellAmount: sellAmount,
 		trades: trades,
 		transactions: transactions,
+		balanceInvest: balanceInvest,
 	});
 });
 
