@@ -12,6 +12,7 @@ router.get('/', async (req, res, next) => {
 	);
 
 	// Begin Dashboard data
+	let supportCount = support.length;
 	let transAmount = 0;
 	let transCount = 0;
 	let transBuysCount = 0;

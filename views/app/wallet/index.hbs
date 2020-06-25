@@ -8,7 +8,7 @@
     <!-- Money in Wallet -->
     {{> primaryUp this }}
     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Balance</div>
-    <div class="h5 mb-0 font-weight-bold text-gray-800">{{wallet.amount}} EUR</div>
+    <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 wallet.amount}} EUR</div>
     {{> primaryDown this }}
 
 
@@ -19,7 +19,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Deposit</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{transAmount}} EUR</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">EUR</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -124,9 +124,7 @@
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="amount: activate to sort column ascending"
                                                 style="width: 100px;">Amount</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Balance: activate to sort column ascending"
-                                                style="width: 100px;">Balance</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -134,16 +132,16 @@
                                             <th rowspan="1" colspan="1">Date</th>
                                             <th rowspan="1" colspan="1">Type</th>
                                             <th rowspan="1" colspan="1">Amount</th>
-                                            <th rowspan="1" colspan="1">Balance</th>
+                                            
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         {{#each wallet.movements }}
                                         <tr role="row" class="odd">
-                                            <td class="sorting_1">{{this.date}}</td>
+                                            <td class="sorting_1">{{dateFormat this.date}}</td>
                                             <td>{{this.type}}</td>
-                                            <td>{{this.amount}}</td>
-                                            <td>{{wallet.amount}} EUR</td>
+                                            <td>{{roundNumber2 this.amount}} EUR</td>
+                                            
                                         </tr>
                                         {{/each}}
                                     </tbody>
