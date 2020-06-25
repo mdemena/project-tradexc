@@ -18,7 +18,9 @@ const transactionSchema = new mongoose.Schema(
 transactionSchema.virtual('total').get(function () {
 	return this.units * this.price;
 });
-
+transactionSchema.virtual('signedTotal').get(function () {
+	return this.units * this.price * (this.type === 'buy' ? -1 : 1);
+});
 const Transaction = mongoose.model('Transaction', transactionSchema);
 
 module.exports = Transaction;

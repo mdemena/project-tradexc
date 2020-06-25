@@ -39,7 +39,7 @@ router.get('/', async (req, res, next) => {
 		transSellsCount = transSells.length;
 		balanceBuySell =
 			transBuysAmount /
-			(transSellsAmount === 0 ? transBuysAmount : transSellsAmount);
+			(transSellsCount === 0 ? transBuysCount : transSellsCount);
 	}
 	// End Dashboard data
 	res.render('app/index', {

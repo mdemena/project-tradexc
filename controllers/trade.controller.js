@@ -2,7 +2,8 @@ const Stock = require('../models/stock.model');
 const WalletController = require('./wallet.controller');
 const TransactionController = require('./transaction.controller');
 const LogController = require('./log.controller');
-const mongoose = require('mongoose');
+const UtilitiesController = require('./utilities.controllers');
+const dateFormat = require('dateformat');
 const axios = require('axios');
 
 const arrCrypto = [
@@ -180,7 +181,7 @@ class TradeController {
 		if (_type === 'crypto') {
 			return arrCrypto;
 		} else {
-			const key = 'UBKY9YCP2IW6L5D2';
+			const key = process.env.API_KEY;
 			const functionName = 'SYMBOL_SEARCH';
 			const apiUrl = `https://www.alphavantage.co/query?function=${functionName}&keywords=${_keywords}&apikey=${key}`;
 			try {
@@ -191,38 +192,64 @@ class TradeController {
 			}
 		}
 	}
+	static async getEvolutionSymbolsByUser(_id) {
+		const key = process.env.API_KEY;
+		const symbols = await this.listByUser(_id);
+		const returnLabels = UtilitiesController.getLastNDays(30);
+		const returnDatasets = [];
+
+		symbols.forEach((symbol) => async () => {
+			const itemData = { symbol: symbol.symbol, dataset: [] };
+			let dataArrayName =
+				symbol.type === 'crypto'
+					? 'Time Series (Digital Currency Daily)'
+					: 'Time Series (Daily)';
+			let dataFieldName =
+				symbol.type === 'crypto' ? '4a. close (EUR)' : '4. close';
+			let functionName =
+				symbol.type === 'crypto'
+					? 'DIGITAL_CURRENCY_DAILY'
+					: 'TIME_SERIES_INTRADAY';
+
+			const apiUrl =
+				`https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol.symbol}&apikey=${key}` +
+				(symbol.type === 'crypto' ? '&market=EUR' : '');
+			try {
+				const responseFromAPI = await axios.get(apiUrl);
+				if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
+					const dataToProcess = responseFromAPI.data[dataArrayName];
+					returnLabels.forEach((date) => {
+						if (dataToProcess.indexOf(dateFormat(date, 'yyyy-mm-dd') >= 0)) {
+							itemData.dataset.push(
+								dataToProcess[dateFormat(date, 'yyyy-mm-dd')][dataFieldName]
+							);
+						}
+					});
+				}
+				if (itemData.dataset.length > 0) {
+					returnDatasets.push(itemData);
+				}
+			} catch (err) {
+				console.log('Error while getting the data: ', err);
+			}
+		});
+
+		return { returnLabels, returnDatasets };
+	}
+
 	static async groupedByUserBySymbol(_id) {
-		return await Stock.aggregate([
-			{
-				$match: {
-					user: mongoose.Types.ObjectId('5eebc5ae07fe01642b46011b'),
-				},
-			},
-			{
-				$lookup: {
-					from: 'transactions',
-					localField: '_id',
-					foreignField: 'stock',
-					as: 'trans',
-				},
-			},
-			{
-				$unwind: {
-					path: '$trans',
-				},
-			},
-			{
-				$group: {
-					_id: { symbol: '$symbol', name: '$name' },
-					amount: {
-						$sum: {
-							$multiply: ['$trans.units', '$trans.price'],
-						},
-					},
-				},
-			},
-		]);
+		const trades = await this.listByUser(_id);
+		const transactions = await TransactionController.listByUser(_id);
+		return trades.map((trade) => ({
+			_id: { symbol: trade.symbol, name: trade.name },
+			amount: transactions
+				.filter((t) => t.stock.symbol === trade.symbol)
+				.reduce(
+					(total, trans) =>
+						(total += trans.total * (trans.type === 'sell' ? -1 : 1)),
+					0
+				),
+		}));
 	}
 }
-
 module.exports = TradeController;

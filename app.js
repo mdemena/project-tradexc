@@ -98,21 +98,21 @@ app.use('/app/support', support);
 
 hbs.registerHelper('dateFormat', function (_date) {
 	//return _date.toLocaleDateString('es-ES');
-	return dateFormat(_date, 'dd/MM/yyyy HH:mm');
+	return dateFormat(_date, 'dd/mm/yyyy HH:MM');
 });
 hbs.registerHelper('roundNumber2', function (_number) {
 	return _number.toFixed(2);
 });
-hbs.registerHelper('isStock', function (_type) {
-	return _type === 'stock';
-});
-hbs.registerHelper('isCrypto', function (_type) {
-	return _type === 'crypto';
-});
-hbs.registerHelper('isBuy', function (_action) {
-	return _action === 'buy';
-});
-hbs.registerHelper('isSell', function (_action) {
-	return _action === 'sell';
-});
+// hbs.registerHelper('isStock', function (_type) {
+// 	return _type === 'stock';
+// });
+// hbs.registerHelper('isCrypto', function (_type) {
+// 	return _type === 'crypto';
+// });
+// hbs.registerHelper('isBuy', function (_action) {
+// 	return _action === 'buy';
+// });
+// hbs.registerHelper('isSell', function (_action) {
+// 	return _action === 'sell';
+// });
 module.exports = app;

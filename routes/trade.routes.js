@@ -12,6 +12,7 @@ router.get('/', async (req, res, next) => {
 	const balanceInvest = await tradeController.groupedByUserBySymbol(
 		req.session.user._id
 	);
+
 	console.log(balanceInvest);
 	let buyAmount = 0;
 	let sellAmount = 0;
