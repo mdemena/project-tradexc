@@ -195,55 +195,60 @@ class TradeController {
 	static async getEvolutionSymbolsByUser(_id) {
 		const key = process.env.API_KEY;
 		const symbols = await this.listByUser(_id);
-		const returnLabels = await (
-			await UtilitiesController.getLastNDays(30)
-		).reverse();
+		const returnLabels = await UtilitiesController.getLastNDays(30);
 		const returnDatasets = [];
-		console.log(symbols);
-		await symbols.forEach(async function (sym, index) {
-			const itemData = { symbol: sym.symbol, dataset: [] };
-			console.log(itemData);
-			let dataArrayName =
-				sym.type === 'crypto'
-					? 'Time Series (Digital Currency Daily)'
-					: 'Time Series (Daily)';
-			let dataFieldName =
-				sym.type === 'crypto' ? '4a. close (EUR)' : '4. close';
-			let functionName =
-				sym.type === 'crypto'
-					? 'DIGITAL_CURRENCY_DAILY'
-					: 'TIME_SERIES_INTRADAY';
+		await Promise.all(
+			symbols.map(async function (sym, index) {
+				const itemData = { symbol: sym.symbol, dataset: [] };
+				let dataArrayName =
+					sym.type === 'crypto'
+						? 'Time Series (Digital Currency Daily)'
+						: 'Time Series (Daily)';
+				let dataFieldName =
+					sym.type === 'crypto' ? '4a. close (EUR)' : '4. close';
+				let functionName =
+					sym.type === 'crypto'
+						? 'DIGITAL_CURRENCY_DAILY'
+						: 'TIME_SERIES_DAILY';
 
-			const apiUrl =
-				`https://www.alphavantage.co/query?function=${functionName}&symbol=${sym.symbol}&apikey=${key}` +
-				(sym.type === 'crypto' ? '&market=EUR' : '');
-			try {
-				const responseFromAPI = await axios.get(apiUrl);
-				//console.log(responseFromAPI);
-				if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
-					const dataToProcess = responseFromAPI.data[dataArrayName];
-					await returnLabels.forEach((date) => {
-						if (
-							dataToProcess.find(
-								(date) => date === dateFunctions(date).format('YYYY-MM-DD')
-							)
-						) {
-							itemData.dataset.push(
-								dataToProcess[dateFunctions(date).format('YYYY-MM-DD')][
-									dataFieldName
-								]
-							);
+				const apiUrl =
+					`https://www.alphavantage.co/query?function=${functionName}&symbol=${sym.symbol}&apikey=${key}` +
+					(sym.type === 'crypto' ? '&market=EUR' : '');
+				try {
+					axios.get(apiUrl).then((responseFromAPI) => {
+						if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
+							const dataToProcess = responseFromAPI.data[dataArrayName];
+							const dataKeys = Object.keys(dataToProcess);
+							returnLabels.forEach((date) => {
+								if (
+									dataKeys.find(
+										(d) => d === dateFunctions(date).format('YYYY-MM-DD')
+									)
+								) {
+									itemData.dataset.push(
+										parseFloat(
+											dataToProcess[dateFunctions(date).format('YYYY-MM-DD')][
+												dataFieldName
+											]
+										)
+									);
+								} else {
+									itemData.dataset.push(0.0);
+								}
+							});
+						}
+						console.log(itemData);
+						console.log(itemData.dataset.length);
+						if (itemData.dataset.length > 0) {
+							returnDatasets.push(itemData);
 						}
 					});
+				} catch (err) {
+					console.log('Error while getting the data: ', err);
 				}
-				if (itemData.dataset.length > 0) {
-					returnDatasets.push(itemData);
-				}
-			} catch (err) {
-				console.log('Error while getting the data: ', err);
-			}
-		});
-
+			})
+		);
+		console.log('Datasets', returnDatasets);
 		return { labels: returnLabels, datasets: returnDatasets };
 	}
 
