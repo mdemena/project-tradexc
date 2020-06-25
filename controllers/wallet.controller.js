@@ -17,10 +17,12 @@ class WalletController {
 		return wallet;
 	}
 	static async set(_wallet) {
-		const editWallet = await Wallet.findByIdAndUpdate(_wallet._id, _wallet);
+		const editWallet = await Wallet.findByIdAndUpdate(_wallet._id, _wallet, {
+			new: true,
+		});
 		if (editWallet) {
 			editWallet.populate('user');
-			await this.registerLog(editWallet, 'Editing');
+			await this.registerLog(editWallet, 'Updated');
 		}
 		return editWallet;
 	}
@@ -78,7 +80,7 @@ class WalletController {
 				amount: _amount,
 			});
 			await this.registerLog(movWallet, 'New movement in');
-			return this.set(movWallet);
+			return await this.set(movWallet);
 		}
 		return movWallet;
 	}

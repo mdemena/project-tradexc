@@ -1,7 +1,6 @@
 const express = require('express');
 const tradeController = require('../controllers/trade.controller');
 const transactionController = require('../controllers/transaction.controller');
-const walletController = require('../controllers/wallet.controller');
 const router = express.Router();
 
 /* GET Trade */
@@ -10,6 +9,11 @@ router.get('/', async (req, res, next) => {
 	const transactions = await transactionController.listByUser(
 		req.session.user._id
 	);
+	const balanceInvest = await tradeController.groupedByUserBySymbol(
+		req.session.user._id
+	);
+
+	console.log(balanceInvest);
 	let buyAmount = 0;
 	let sellAmount = 0;
 	let walletAmount = req.session.wallet.amount;
@@ -31,6 +35,7 @@ router.get('/', async (req, res, next) => {
 		sellAmount: sellAmount,
 		trades: trades,
 		transactions: transactions,
+		balanceInvest: balanceInvest,
 	});
 });
 
@@ -45,6 +50,7 @@ router.get('/buy', async (req, res, next) => {
 		symbol: '',
 		symbolCode: '',
 		symbolName: '',
+		units: 0,
 		price: 0,
 	});
 });
@@ -62,6 +68,7 @@ router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
 		symbolName: req.params.name,
 		isStock: req.params.type === 'stock',
 		isCrypto: req.params.type === 'crypto',
+		units: 0,
 		price: await tradeController.getSymbolPrice(
 			req.params.symbol,
 			req.params.type
@@ -115,7 +122,7 @@ router.post('/buy', async (req, res, next) => {
 				price
 			);
 			req.session.wallet = newWallet;
-			res.redirect('app/trade/');
+			res.redirect('/app/trade/');
 		} else {
 			throw new Error(
 				`You don't have sufficient amount in your wallet for this buy. Wallet: ${
@@ -149,7 +156,7 @@ router.post('/sell', async (req, res, next) => {
 			price
 		);
 		req.session.wallet = newWallet;
-		res.redirect('app/trade/');
+		res.redirect('/app/trade/');
 	} catch (err) {
 		res.render('app/trade/trade', {
 			layout: 'app/layout',

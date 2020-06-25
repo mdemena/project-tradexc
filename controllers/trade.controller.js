@@ -2,6 +2,8 @@ const Stock = require('../models/stock.model');
 const WalletController = require('./wallet.controller');
 const TransactionController = require('./transaction.controller');
 const LogController = require('./log.controller');
+const UtilitiesController = require('./utilities.controllers');
+const dateFormat = require('dateformat');
 const axios = require('axios');
 
 const arrCrypto = [
@@ -36,7 +38,9 @@ class TradeController {
 		return newStock;
 	}
 	static async set(_stock) {
-		const editStock = await Stock.findByIdAndUpdate(_stock._id, _stock);
+		const editStock = await Stock.findByIdAndUpdate(_stock._id, _stock, {
+			new: true,
+		});
 		if (editStock) {
 			this.registerLog(editStock, 'Editing');
 		}
@@ -65,7 +69,7 @@ class TradeController {
 					return { buyStock, newWallet };
 				} else {
 					const newStock = await Stock.create({
-						user: _userId,
+						user: _user,
 						symbol: _symbol,
 						name: _name,
 						type: _type,
@@ -96,15 +100,16 @@ class TradeController {
 			const sellStock = await this.getByUserSymbol(_user, _symbol);
 			console.log(sellStock);
 			if (sellStock && sellStock.units >= _units) {
-				const userWallet = WalletController.findOne({ user: _user });
+				const userWallet = await WalletController.findOne({ user: _user });
 				// const sellPrice = await this.getSymbolPrice(
 				// 	sellStock.symbol,
 				// 	sellStock.type
 				// );
+				console.log(userWallet);
 				const sellPrice = _price;
 				const sellAmount = _units * sellPrice;
 				sellStock.units -= _units;
-				const editStock = this.set(sellStock);
+				const editStock = await this.set(sellStock);
 				await TransactionController.add({
 					date: new Date(),
 					user: _user,
@@ -176,7 +181,7 @@ class TradeController {
 		if (_type === 'crypto') {
 			return arrCrypto;
 		} else {
-			const key = 'UBKY9YCP2IW6L5D2';
+			const key = process.env.API_KEY;
 			const functionName = 'SYMBOL_SEARCH';
 			const apiUrl = `https://www.alphavantage.co/query?function=${functionName}&keywords=${_keywords}&apikey=${key}`;
 			try {
@@ -187,34 +192,64 @@ class TradeController {
 			}
 		}
 	}
+	static async getEvolutionSymbolsByUser(_id) {
+		const key = process.env.API_KEY;
+		const symbols = await this.listByUser(_id);
+		const returnLabels = UtilitiesController.getLastNDays(30);
+		const returnDatasets = [];
+
+		symbols.forEach((symbol) => async () => {
+			const itemData = { symbol: symbol.symbol, dataset: [] };
+			let dataArrayName =
+				symbol.type === 'crypto'
+					? 'Time Series (Digital Currency Daily)'
+					: 'Time Series (Daily)';
+			let dataFieldName =
+				symbol.type === 'crypto' ? '4a. close (EUR)' : '4. close';
+			let functionName =
+				symbol.type === 'crypto'
+					? 'DIGITAL_CURRENCY_DAILY'
+					: 'TIME_SERIES_INTRADAY';
+
+			const apiUrl =
+				`https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol.symbol}&apikey=${key}` +
+				(symbol.type === 'crypto' ? '&market=EUR' : '');
+			try {
+				const responseFromAPI = await axios.get(apiUrl);
+				if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
+					const dataToProcess = responseFromAPI.data[dataArrayName];
+					returnLabels.forEach((date) => {
+						if (dataToProcess.indexOf(dateFormat(date, 'yyyy-mm-dd') >= 0)) {
+							itemData.dataset.push(
+								dataToProcess[dateFormat(date, 'yyyy-mm-dd')][dataFieldName]
+							);
+						}
+					});
+				}
+				if (itemData.dataset.length > 0) {
+					returnDatasets.push(itemData);
+				}
+			} catch (err) {
+				console.log('Error while getting the data: ', err);
+			}
+		});
+
+		return { returnLabels, returnDatasets };
+	}
+
 	static async groupedByUserBySymbol(_id) {
-		return await Stock.aggregate([
-			{ $match: { user: _id } },
-			{
-				$lookup: {
-					from: 'transaction',
-					localField: '_id',
-					foreignField: 'symbol',
-					as: 'transactions',
-				},
-			},
-			//{ $unwind: '$transactions' },
-			// {
-			// 	$project: {
-			// 		symbol: true,
-			// 		quantity: { $size: '$products' },
-			// 	},
-			// },
-			{
-				$group: {
-					_id: '$symbol',
-					amount: {
-						$sum: { $multiply: ['$transactions.price', '$transactions.units'] },
-					},
-				},
-			},
-		]);
+		const trades = await this.listByUser(_id);
+		const transactions = await TransactionController.listByUser(_id);
+		return trades.map((trade) => ({
+			_id: { symbol: trade.symbol, name: trade.name },
+			amount: transactions
+				.filter((t) => t.stock.symbol === trade.symbol)
+				.reduce(
+					(total, trans) =>
+						(total += trans.total * (trans.type === 'sell' ? -1 : 1)),
+					0
+				),
+		}));
 	}
 }
-
 module.exports = TradeController;

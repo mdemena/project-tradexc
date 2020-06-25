@@ -8,7 +8,7 @@ const tradeController = require('../controllers/trade.controller');
 router.get('/', async (req, res, next) => {
 	const support = await supportController.listByUser(req.session.user._id);
 	const transactions = await transactionsController.listByUser(
-		req.session.user_id
+		req.session.user._id
 	);
 
 	// Begin Dashboard data
@@ -39,7 +39,7 @@ router.get('/', async (req, res, next) => {
 		transSellsCount = transSells.length;
 		balanceBuySell =
 			transBuysAmount /
-			(transSellsAmount === 0 ? transBuysAmount : transSellsAmount);
+			(transSellsCount === 0 ? transBuysCount : transSellsCount);
 	}
 	// End Dashboard data
 	res.render('app/index', {
