@@ -6,13 +6,17 @@ const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
 router.get('/', async (req, res, next) => {
-	const support = await supportController.listByUser(req.session.user._id);
+	const tickets = await supportController.listByUser(req.session.user._id);
 	const transactions = await transactionsController.listByUser(
 		req.session.user._id
 	);
-
+	if (!req.session.evolutionSymbols) {
+		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+			req.session.user._id
+		);
+	}
 	// Begin Dashboard data
-	let supportCount = support.length;
+	let supportCount = tickets.length;
 	let transAmount = 0;
 	let transCount = 0;
 	let transBuysCount = 0;
@@ -53,7 +57,8 @@ router.get('/', async (req, res, next) => {
 		transSells: transSellsCount,
 		balanceBuySell: balanceBuySell * 100,
 		balanceInvest: balanceInvest,
-		supports: support,
+		evolutionSymbols: req.session.evolutionSymbols,
+		supports: tickets,
 	});
 });
 

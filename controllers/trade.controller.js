@@ -3,7 +3,7 @@ const WalletController = require('./wallet.controller');
 const TransactionController = require('./transaction.controller');
 const LogController = require('./log.controller');
 const UtilitiesController = require('./utilities.controllers');
-const dateFormat = require('dateformat');
+const dateFunctions = require('dayjs');
 const axios = require('axios');
 
 const arrCrypto = [
@@ -195,33 +195,43 @@ class TradeController {
 	static async getEvolutionSymbolsByUser(_id) {
 		const key = process.env.API_KEY;
 		const symbols = await this.listByUser(_id);
-		const returnLabels = UtilitiesController.getLastNDays(30);
+		const returnLabels = await (
+			await UtilitiesController.getLastNDays(30)
+		).reverse();
 		const returnDatasets = [];
-
-		symbols.forEach((symbol) => async () => {
-			const itemData = { symbol: symbol.symbol, dataset: [] };
+		console.log(symbols);
+		await symbols.forEach(async function (sym, index) {
+			const itemData = { symbol: sym.symbol, dataset: [] };
+			console.log(itemData);
 			let dataArrayName =
-				symbol.type === 'crypto'
+				sym.type === 'crypto'
 					? 'Time Series (Digital Currency Daily)'
 					: 'Time Series (Daily)';
 			let dataFieldName =
-				symbol.type === 'crypto' ? '4a. close (EUR)' : '4. close';
+				sym.type === 'crypto' ? '4a. close (EUR)' : '4. close';
 			let functionName =
-				symbol.type === 'crypto'
+				sym.type === 'crypto'
 					? 'DIGITAL_CURRENCY_DAILY'
 					: 'TIME_SERIES_INTRADAY';
 
 			const apiUrl =
-				`https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol.symbol}&apikey=${key}` +
-				(symbol.type === 'crypto' ? '&market=EUR' : '');
+				`https://www.alphavantage.co/query?function=${functionName}&symbol=${sym.symbol}&apikey=${key}` +
+				(sym.type === 'crypto' ? '&market=EUR' : '');
 			try {
 				const responseFromAPI = await axios.get(apiUrl);
+				//console.log(responseFromAPI);
 				if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
 					const dataToProcess = responseFromAPI.data[dataArrayName];
-					returnLabels.forEach((date) => {
-						if (dataToProcess.indexOf(dateFormat(date, 'yyyy-mm-dd') >= 0)) {
+					await returnLabels.forEach((date) => {
+						if (
+							dataToProcess.find(
+								(date) => date === dateFunctions(date).format('YYYY-MM-DD')
+							)
+						) {
 							itemData.dataset.push(
-								dataToProcess[dateFormat(date, 'yyyy-mm-dd')][dataFieldName]
+								dataToProcess[dateFunctions(date).format('YYYY-MM-DD')][
+									dataFieldName
+								]
 							);
 						}
 					});
@@ -234,7 +244,7 @@ class TradeController {
 			}
 		});
 
-		return { returnLabels, returnDatasets };
+		return { labels: returnLabels, datasets: returnDatasets };
 	}
 
 	static async groupedByUserBySymbol(_id) {

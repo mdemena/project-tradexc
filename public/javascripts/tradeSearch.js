@@ -1,5 +1,5 @@
 async function searchSymbol(_keywords) {
-	const _type = Array.from(document.getElementsByName('type')).find(
+	const _type = Array.from(document.getElementsByName('type')).filter(
 		(r) => r.checked
 	).value;
 	const apiUrl = `/app/trade/searchSymbol/${_type}/${_keywords}`;
