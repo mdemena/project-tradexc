@@ -33,7 +33,7 @@ router.get("/", async (req, res, next) => {
         .reduce((total, trans) => (total += trans.total), 0);
     }
   }
-  benefits += -buyAmount + sellAmount - 10000;
+  benefits += 10000 - buyAmount + sellAmount - 10000;
   percentBenefits = (benefits / 10000) * 100;
   // End Dashboard data
   res.render("app/transactions", {
