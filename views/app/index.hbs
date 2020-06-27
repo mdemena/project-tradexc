@@ -94,38 +94,16 @@
 <div class="row">
 
   <!-- Area Chart -->
-  <div class="col-xl-8 col-lg-7">
+  <div class="col-lg-6 col-xl-12">
     <div class="card shadow mb-4">
       <!-- Card Header - Dropdown -->
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Last 30 days evolutions of your Investments</h6>
       </div>
       <!-- Card Body -->
       <div class="card-body">
         <div class="chart-area">
-          <canvas id="investmentsChart"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pie Chart -->
-  <div class="col-xl-4 col-lg-5">
-    <div class="card shadow mb-4">
-      <!-- Card Header - Dropdown -->
-      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Investments Sources</h6>
-      </div>
-      <!-- Card Body -->
-      <div class="card-body">
-        <div class="chart-pie pt-4 pb-2">
-          <canvas id="balanceInvestPie"></canvas>
-          {{#each balanceInvest}}
-          <ul class="invisible">
-            <li class="data-graph" class="data-graph" data-name="{{this._id.name}} ({{this._id.symbol}})"
-              data-amount="{{roundNumber2 this.amount}}"></li>
-          </ul>
-          {{/each}}
+          <canvas id="evolutionChart"></canvas>
         </div>
       </div>
     </div>
@@ -136,7 +114,7 @@
 <div class="row">
 
   <!-- Content Column -->
-  <div class="col-lg-6 col-xl-12 mb-4">
+  <div class="col-xl-8 col-lg-7 mb-4">
     <!-- Project Card Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
@@ -171,6 +149,27 @@
       </div>
     </div>
   </div>
+  <!-- Pie Chart -->
+  <div class="col-xl-4 col-lg-5">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Investments Sources</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="chart-pie pt-4 pb-2">
+          <canvas id="balanceInvestPie"></canvas>
+          {{#each balanceInvest}}
+          <ul class="invisible">
+            <li class="data-graph" class="data-graph" data-name="{{this._id.name}} ({{this._id.symbol}})"
+              data-amount="{{roundNumber2 this.amount}}"></li>
+          </ul>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- Bootstrap core JavaScript-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -186,6 +185,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="/stylesheets/startbootstrap/js/demo/chart-area-demo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="/javascripts/private.js"></script>
 <script src="/javascripts/dashboard.js"></script>

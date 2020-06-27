@@ -9,7 +9,7 @@ const logger = require('morgan');
 const path = require('path');
 const mongoose = require('mongoose');
 const app_name = require('./package.json').name;
-const dateFormat = require('dateformat');
+const dayjs = require('dayjs');
 const debug = require('debug')(
 	`${app_name}:${path.basename(__filename).split('.')[0]}`
 );
@@ -98,7 +98,7 @@ app.use('/app/support', support);
 
 hbs.registerHelper('dateFormat', function (_date) {
 	//return _date.toLocaleDateString('es-ES');
-	return dateFormat(_date, 'dd/mm/yyyy HH:MM');
+	return dayjs(_date).format('DD/MM/YYYY HH:mm');
 });
 hbs.registerHelper('roundNumber2', function (_number) {
 	return _number.toFixed(2);
