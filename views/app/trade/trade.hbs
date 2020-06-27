@@ -1,0 +1,100 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-gradient-primary">
+                        <h4 class="card-title text-center" style="color: white">{{title}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/app/trade/{{action}}" autocomplete="off" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Type</label>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="type" id="typeStock"
+                                                    value="stock" aria-checked="true" checked
+                                                    {{#if hasSymbol}}disabled{{/if}}>Stock
+                                            </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="type" id="typeCrypto"
+                                                    value="crypto" {{#if hasSymbol}}disabled{{/if}}>Cryptocurrency
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Symbol</label>
+                                        <div class="autocomplete">
+                                            <input type="text" id="symbolId" class="form-control"
+                                                {{#if hasSymbol}}readonly{{/if}} placeholder="Type to init search ..."
+                                                value="{{symbol}}">
+                                            <input type="hidden" name="symbolCode" id="symbolCodeId"
+                                                value="{{symbolCode}}">
+                                            <input type="hidden" name="symbolName" id="symbolNameId"
+                                                value="{{symbolName}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Price</label>
+                                        <input type="text" class="form-control" id="priceId" name="price"
+                                            value="{{price}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Quantity</label>
+                                        <input type="number" class="form-control" placeholder="Quantity" min="0"
+                                            {{#if units}}max="{{units}}" {{/if}} name="units" id="unitsId"
+                                            value="{{units}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Total</label>
+                                        <input type="number" class="form-control" disabled id="totalId"
+                                            placeholder="Total" min="0" value="0">
+                                        <input type="hidden" id="walletAmountId" value="{{walletAmount}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary pull-right">{{title}}</button>
+                                    <div class="clearfix"></div>
+                                    {{#if errorMessage}}
+                                    <hr>
+                                    <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.0.7/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="/javascripts/tradeSearch.js"></script>

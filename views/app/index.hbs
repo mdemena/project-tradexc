@@ -1,0 +1,190 @@
+<title>TradExc Wallet</title>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+  {{!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+      class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
+</div>
+
+<!-- Content Row -->
+<div class="row">
+
+  <!-- Money in Wallet -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wallet</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 walletAmount}} EUR</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+          </div>
+        </div>
+        <a href="/app/wallet" class="stretched-link" data-toggle="tooltip" data-placement="top" title="Go to Wallet"
+          target="_self"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Money Trade -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Investments</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 transAmount}} EUR</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Total Trades -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Transactions</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{transCount}}<br />(Buys: {{transBuys}},
+              Sells:
+              {{transSells}})</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Total Buyed -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Balance (Buy/Sell)</div>
+            <div class="row no-gutters align-items-center">
+              <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{roundNumber2 balanceBuySell}}%</div>
+              </div>
+              <div class="col">
+                <div class="progress progress-sm mr-2">
+                  <div class="progress-bar bg-info" role="progressbar" style="width: {{roundNumber2 balanceBuySell}}%"
+                    aria-valuenow="{{roundNumber2 balanceBuySell}}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Content Row -->
+
+<div class="row">
+
+  <!-- Area Chart -->
+  <div class="col-lg-6 col-xl-12">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Last 30 days evolutions of your Investments</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="chart-area">
+          <canvas id="evolutionChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+
+  <!-- Content Column -->
+  <div class="col-xl-8 col-lg-7 mb-4">
+    <!-- Project Card Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+      </div>
+      <div class="card-body">
+        <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"
+            aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Pie Chart -->
+  <div class="col-xl-4 col-lg-5">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Investments Sources</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="chart-pie pt-4 pb-2">
+          <canvas id="balanceInvestPie"></canvas>
+          {{#each balanceInvest}}
+          <ul class="invisible">
+            <li class="data-graph" class="data-graph" data-name="{{this._id.name}} ({{this._id.symbol}})"
+              data-amount="{{roundNumber2 this.amount}}"></li>
+          </ul>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.0.7/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="/javascripts/private.js"></script>
+<script src="/javascripts/dashboard.js"></script>

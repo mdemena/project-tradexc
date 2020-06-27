@@ -1,0 +1,13 @@
+{{#each this}}
+<a class="dropdown-item d-flex align-items-center" href="#">
+    <div class="dropdown-list-image mr-3">
+        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+        <div class="status-indicator bg-success"></div>
+    </div>
+    <div class="font-weight-bold">
+        <div class="small text-gray-500">{{this.subject}}</div>
+        <div class="text-truncate">{{this.message}}</div>
+        <div class="small text-gray-500">{{this.updatedAt}}</div>
+    </div>
+</a>
+{{/each}}

@@ -171,7 +171,7 @@ Wallet model
 ```
 
 ```
-Stocks model
+Stock model
 - user: Object ID
 - symbol: String
 - name: String
@@ -179,7 +179,7 @@ Stocks model
 ```
 
 ```
-Transactions model
+Transaction model
 - date: Date
 - user: Object ID
 - stock: Object ID
@@ -202,9 +202,9 @@ Log model
 The url to your repository and to your deployed project
 
 - [Repository Link](https://github.com/mdemena/project-tradexc)
-- [Wireframe Link](https://excalidraw.com/#json=6186794131390464,vWQHeHB7uCgxfIijL4WN8Q)
+- [Wireframe Link](https://excalidraw.com/#json=6259784651112448,g2qMNaIjYwxs_xurY2bU1Q)
 - [Trello Linl](https://trello.com/b/rCNCcPCD/tradexc)
-- [Deploy Link](https://tradexc.herokuapp.com/)
+- [Deploy Link](https://tradexc-dev.herokuapp.com/)
 
 ### Slides
 
