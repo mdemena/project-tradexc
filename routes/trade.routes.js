@@ -208,5 +208,9 @@ router.get("/searchSymbol/:type/:keywords", async (req, res, next) => {
     await tradeController.searchSymbol(req.params.keywords, req.params.type)
   );
 });
-
+router.get('/getEvolutionSymbolsByUser', async (req, res, next) => {
+	res.json(
+		await tradeController.getEvolutionSymbolsByUser(req.session.user._id)
+	);
+});
 module.exports = router;

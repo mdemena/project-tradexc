@@ -3,7 +3,7 @@ const WalletController = require('./wallet.controller');
 const TransactionController = require('./transaction.controller');
 const LogController = require('./log.controller');
 const UtilitiesController = require('./utilities.controllers');
-const dateFormat = require('dateformat');
+const dayjs = require('dayjs');
 const axios = require('axios');
 
 const arrCrypto = [
@@ -195,46 +195,60 @@ class TradeController {
 	static async getEvolutionSymbolsByUser(_id) {
 		const key = process.env.API_KEY;
 		const symbols = await this.listByUser(_id);
-		const returnLabels = UtilitiesController.getLastNDays(30);
-		const returnDatasets = [];
+		const tmpLabels = await UtilitiesController.getLastNDays(30);
+		const returnDatasets = await Promise.all(
+			symbols.map(async function (sym, index) {
+				const itemData = { symbol: sym.symbol, dataset: [] };
+				let dataArrayName =
+					sym.type === 'crypto'
+						? 'Time Series (Digital Currency Daily)'
+						: 'Time Series (Daily)';
+				let dataFieldName =
+					sym.type === 'crypto' ? '4a. close (EUR)' : '4. close';
+				let functionName =
+					sym.type === 'crypto'
+						? 'DIGITAL_CURRENCY_DAILY'
+						: 'TIME_SERIES_DAILY';
 
-		symbols.forEach((symbol) => async () => {
-			const itemData = { symbol: symbol.symbol, dataset: [] };
-			let dataArrayName =
-				symbol.type === 'crypto'
-					? 'Time Series (Digital Currency Daily)'
-					: 'Time Series (Daily)';
-			let dataFieldName =
-				symbol.type === 'crypto' ? '4a. close (EUR)' : '4. close';
-			let functionName =
-				symbol.type === 'crypto'
-					? 'DIGITAL_CURRENCY_DAILY'
-					: 'TIME_SERIES_INTRADAY';
-
-			const apiUrl =
-				`https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol.symbol}&apikey=${key}` +
-				(symbol.type === 'crypto' ? '&market=EUR' : '');
-			try {
-				const responseFromAPI = await axios.get(apiUrl);
-				if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
-					const dataToProcess = responseFromAPI.data[dataArrayName];
-					returnLabels.forEach((date) => {
-						if (dataToProcess.indexOf(dateFormat(date, 'yyyy-mm-dd') >= 0)) {
-							itemData.dataset.push(
-								dataToProcess[dateFormat(date, 'yyyy-mm-dd')][dataFieldName]
-							);
+				const apiUrl =
+					`https://www.alphavantage.co/query?function=${functionName}&symbol=${sym.symbol}&apikey=${key}` +
+					(sym.type === 'crypto' ? '&market=EUR' : '');
+				try {
+					const responseFromAPI = await axios.get(apiUrl);
+					if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
+						const dataToProcess = responseFromAPI.data[dataArrayName];
+						const dataKeys = Object.keys(dataToProcess);
+						tmpLabels.forEach((date) => {
+							if (
+								dataKeys.find((d) => d === dayjs(date).format('YYYY-MM-DD'))
+							) {
+								itemData.dataset.push(
+									parseFloat(
+										dataToProcess[dayjs(date).format('YYYY-MM-DD')][
+											dataFieldName
+										]
+									)
+								);
+							} else {
+								itemData.dataset.push(0.0);
+							}
+						});
+						if (itemData.dataset.length > 0) {
+							itemData.dataset.reverse();
 						}
-					});
+					}
+					return itemData;
+				} catch (err) {
+					console.log('Error while getting the data: ', err);
 				}
-				if (itemData.dataset.length > 0) {
-					returnDatasets.push(itemData);
-				}
-			} catch (err) {
-				console.log('Error while getting the data: ', err);
-			}
-		});
-
-		return { returnLabels, returnDatasets };
+			})
+		);
+		tmpLabels.reverse();
+		const returnLabels = tmpLabels.map((d) => dayjs(d).format('DD/MM/YYYY'));
+		return {
+			labels: returnLabels,
+			datasets: returnDatasets.filter((ds) => ds.dataset.length > 0),
+		};
 	}
 
 	static async groupedByUserBySymbol(_id) {

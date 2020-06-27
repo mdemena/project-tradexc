@@ -24,7 +24,7 @@ class UserController {
 				movements: [],
 			});
 			await this.registerLog(newUser, 'New');
-			return { newUser, newWallet };
+			return newUser;
 		} catch (err) {
 			throw err;
 		}
