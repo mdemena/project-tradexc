@@ -14,6 +14,7 @@ router.get('/', async (req, res, next) => {
 		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
 			req.session.user._id
 		);
+		console.log('Pidiendo datos a la API');
 	}
 	// Begin Dashboard data
 	let supportCount = tickets.length;

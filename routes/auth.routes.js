@@ -47,7 +47,7 @@ router.get('/signup', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
 	const { name, email, password } = req.body;
 	try {
-		validateSignup(name, email, password);
+		await validateSignup(name, email, password);
 		const passwordHash = await bcrypt.hashSync(password, saltRounds);
 		await Auth.signUp(name, email, passwordHash);
 		res.redirect('/auth/login');
@@ -77,19 +77,19 @@ router.post('/signup', async (req, res, next) => {
 	}
 });
 
-function validateLogin(_email, _password) {
+async function validateLogin(_email, _password) {
 	if (!_email || !_password) {
 		throw new Error('Email and password are mandatory');
 	}
 	validatePassword(_password);
 }
-function validateSignup(_name, _email, _password) {
+async function validateSignup(_name, _email, _password) {
 	if (!_name || !_email || !_password) {
 		throw new Error('Name, email and password are mandatory');
 	}
 	validatePassword(_password);
 }
-function validatePassword(_password) {
+async function validatePassword(_password) {
 	const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
 	if (!regex.test(_password)) {
 		throw new Error(

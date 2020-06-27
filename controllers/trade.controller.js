@@ -3,7 +3,7 @@ const WalletController = require('./wallet.controller');
 const TransactionController = require('./transaction.controller');
 const LogController = require('./log.controller');
 const UtilitiesController = require('./utilities.controllers');
-const dateFunctions = require('dayjs');
+const dayjs = require('dayjs');
 const axios = require('axios');
 
 const arrCrypto = [
@@ -195,9 +195,8 @@ class TradeController {
 	static async getEvolutionSymbolsByUser(_id) {
 		const key = process.env.API_KEY;
 		const symbols = await this.listByUser(_id);
-		const returnLabels = await UtilitiesController.getLastNDays(30);
-		const returnDatasets = [];
-		await Promise.all(
+		const tmpLabels = await UtilitiesController.getLastNDays(30);
+		const returnDatasets = await Promise.all(
 			symbols.map(async function (sym, index) {
 				const itemData = { symbol: sym.symbol, dataset: [] };
 				let dataArrayName =
@@ -215,41 +214,41 @@ class TradeController {
 					`https://www.alphavantage.co/query?function=${functionName}&symbol=${sym.symbol}&apikey=${key}` +
 					(sym.type === 'crypto' ? '&market=EUR' : '');
 				try {
-					axios.get(apiUrl).then((responseFromAPI) => {
-						if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
-							const dataToProcess = responseFromAPI.data[dataArrayName];
-							const dataKeys = Object.keys(dataToProcess);
-							returnLabels.forEach((date) => {
-								if (
-									dataKeys.find(
-										(d) => d === dateFunctions(date).format('YYYY-MM-DD')
+					const responseFromAPI = await axios.get(apiUrl);
+					if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
+						const dataToProcess = responseFromAPI.data[dataArrayName];
+						const dataKeys = Object.keys(dataToProcess);
+						tmpLabels.forEach((date) => {
+							if (
+								dataKeys.find((d) => d === dayjs(date).format('YYYY-MM-DD'))
+							) {
+								itemData.dataset.push(
+									parseFloat(
+										dataToProcess[dayjs(date).format('YYYY-MM-DD')][
+											dataFieldName
+										]
 									)
-								) {
-									itemData.dataset.push(
-										parseFloat(
-											dataToProcess[dateFunctions(date).format('YYYY-MM-DD')][
-												dataFieldName
-											]
-										)
-									);
-								} else {
-									itemData.dataset.push(0.0);
-								}
-							});
-						}
-						console.log(itemData);
-						console.log(itemData.dataset.length);
+								);
+							} else {
+								itemData.dataset.push(0.0);
+							}
+						});
 						if (itemData.dataset.length > 0) {
-							returnDatasets.push(itemData);
+							itemData.dataset.reverse();
 						}
-					});
+					}
+					return itemData;
 				} catch (err) {
 					console.log('Error while getting the data: ', err);
 				}
 			})
 		);
-		console.log('Datasets', returnDatasets);
-		return { labels: returnLabels, datasets: returnDatasets };
+		tmpLabels.reverse();
+		const returnLabels = tmpLabels.map((d) => dayjs(d).format('DD/MM/YYYY'));
+		return {
+			labels: returnLabels,
+			datasets: returnDatasets.filter((ds) => ds.dataset.length > 0),
+		};
 	}
 
 	static async groupedByUserBySymbol(_id) {

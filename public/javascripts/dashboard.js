@@ -58,23 +58,26 @@ $(document).ready(async function () {
 		console.log(responseFromAPI.data);
 		const chartLabels = responseFromAPI.data.labels;
 		const chartDatasets = responseFromAPI.data.datasets;
+		console.log(chartDatasets);
 		const helperDatasets = chartDatasets.map((dataChart) => {
 			const colorDataset = getRandomGraphColor().background;
-			return {
-				label: dataChart.symbol,
-				data: dataChart.data,
-				lineTension: 0.3,
-				backgroundColor: colorDataset,
-				borderColor: colorDataset,
-				pointRadius: 3,
-				pointBackgroundColor: colorDataset,
-				pointBorderColor: colorDataset,
-				pointHoverRadius: 3,
-				pointHoverBackgroundColor: colorDataset,
-				pointHoverBorderColor: colorDataset,
-				pointHitRadius: 10,
-				pointBorderWidth: 2,
-			};
+			try {
+				return {
+					label: dataChart.symbol,
+					data: dataChart.dataset,
+					lineTension: 0.3,
+					fill: false,
+					borderColor: colorDataset,
+					pointRadius: 3,
+					pointBackgroundColor: colorDataset,
+					pointBorderColor: colorDataset,
+					pointHoverRadius: 3,
+					pointHoverBackgroundColor: colorDataset,
+					pointHoverBorderColor: colorDataset,
+					pointHitRadius: 10,
+					pointBorderWidth: 2,
+				};
+			} catch (err) {}
 		});
 		const ctxEvo = document.getElementById('evolutionChart');
 		const myEvoChart = new Chart(ctxEvo, {
@@ -129,7 +132,7 @@ $(document).ready(async function () {
 					],
 				},
 				legend: {
-					display: false,
+					display: true,
 				},
 				tooltips: {
 					backgroundColor: 'rgb(255,255,255)',
