@@ -2,13 +2,21 @@ const express = require("express");
 const User = require("../models/user.model");
 const { set } = require("../controllers/wallet.controller");
 const UserController = require("../controllers/user.controller");
+const supportController = require("../controllers/support.controller");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 
 const saltRounds = 10;
 
 router.get("/", async (req, res, next) => {
-  res.render("app/user", { layout: "app/layout", user: req.session.user });
+  const support = await supportController.listByUser(req.session.user._id);
+  let supportCount = support.length;
+  res.render("app/user", {
+    layout: "app/layout",
+    user: req.session.user,
+    supportCount: supportCount,
+    supports: support,
+  });
 });
 
 router.post("/", async (req, res, next) => {
@@ -16,12 +24,17 @@ router.post("/", async (req, res, next) => {
   try {
     validateSignup(name, email, password);
     const passwordHash = await bcrypt.hashSync(password, saltRounds);
-    await UserController.set({ _id: req.session.user._id, name, email, passwordHash });
+    await UserController.set({
+      _id: req.session.user._id,
+      name,
+      email,
+      passwordHash,
+    });
 
     req.session.user.name = name;
     req.session.user.email = email;
-	  req.session.user.password = passwordHash;
-	
+    req.session.user.password = passwordHash;
+
     res.redirect("/app");
   } catch (err) {
     res.render("app/user", {
