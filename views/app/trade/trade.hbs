@@ -14,14 +14,16 @@
                                         <label class="bmd-label-floating">Type</label>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="type" id="typeStock"
-                                                    value="stock" aria-checked="true" checked
+                                                <input class="form-check-input" type="radio" name="typeCheck"
+                                                    id="typeStock" value="stock" aria-checked="true" checked
                                                     {{#if hasSymbol}}disabled{{/if}}>Stock
                                             </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="type" id="typeCrypto"
-                                                    value="crypto" {{#if hasSymbol}}disabled{{/if}}>Cryptocurrency
+                                                <input class="form-check-input" type="radio" name="typeCheck"
+                                                    id="typeCrypto" value="crypto"
+                                                    {{#if hasSymbol}}disabled{{/if}}>Cryptocurrency
                                             </label>
+                                            <input type="hidden" name="type" id="typeId" value="{{type}}">
                                         </div>
                                     </div>
                                 </div>

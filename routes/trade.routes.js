@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
 	const transactions = await transactionController.listByUser(
 		req.session.user._id
 	);
-	const balanceInvest = await tradeController.groupedByUserBySymbol(
+	const balanceInvest = await tradeController.getSymbolsByUser(
 		req.session.user._id
 	);
 
@@ -50,6 +50,7 @@ router.get('/buy', async (req, res, next) => {
 		symbol: '',
 		symbolCode: '',
 		symbolName: '',
+		type: 'stock',
 		units: 0,
 		price: 0,
 	});
@@ -66,8 +67,7 @@ router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
 		symbol: `${req.params.name} (${req.params.symbol})`,
 		symbolCode: req.params.symbol,
 		symbolName: req.params.name,
-		isStock: req.params.type === 'stock',
-		isCrypto: req.params.type === 'crypto',
+		type: req.params.type,
 		units: 0,
 		price: await tradeController.getSymbolPrice(
 			req.params.symbol,
@@ -122,6 +122,9 @@ router.post('/buy', async (req, res, next) => {
 				price
 			);
 			req.session.wallet = newWallet;
+			req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+				req.session.user._id
+			);
 			res.redirect('/app/trade/');
 		} else {
 			throw new Error(
@@ -156,6 +159,9 @@ router.post('/sell', async (req, res, next) => {
 			price
 		);
 		req.session.wallet = newWallet;
+		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+			req.session.user._id
+		);
 		res.redirect('/app/trade/');
 	} catch (err) {
 		res.render('app/trade/trade', {
@@ -188,8 +194,19 @@ router.get('/searchSymbol/:type/:keywords', async (req, res, next) => {
 	);
 });
 router.get('/getEvolutionSymbolsByUser', async (req, res, next) => {
-	res.json(
-		await tradeController.getEvolutionSymbolsByUser(req.session.user._id)
-	);
+	if (!req.session.evolutionSymbols) {
+		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+			req.session.user._id
+		);
+	}
+	res.json(req.session.evolutionSymbols);
+});
+router.get('/getSymbolsByUser', async (req, res, next) => {
+	if (!req.session.userSymbols) {
+		req.session.userSymbols = await tradeController.getSymbolsByUser(
+			req.session.user._id
+		);
+	}
+	res.json(req.session.userSymbols);
 });
 module.exports = router;

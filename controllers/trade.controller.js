@@ -198,7 +198,7 @@ class TradeController {
 		const tmpLabels = await UtilitiesController.getLastNDays(30);
 		const returnDatasets = await Promise.all(
 			symbols.map(async function (sym, index) {
-				const itemData = { symbol: sym.symbol, dataset: [] };
+				const itemData = { symbol: `${sym.name} (${sym.symbol})`, dataset: [] };
 				let dataArrayName =
 					sym.type === 'crypto'
 						? 'Time Series (Digital Currency Daily)'
@@ -251,7 +251,7 @@ class TradeController {
 		};
 	}
 
-	static async groupedByUserBySymbol(_id) {
+	static async getSymbolsByUser(_id) {
 		const trades = await this.listByUser(_id);
 		const transactions = await TransactionController.listByUser(_id);
 		return trades.map((trade) => ({
@@ -263,6 +263,8 @@ class TradeController {
 						(total += trans.total * (trans.type === 'sell' ? -1 : 1)),
 					0
 				),
+			units: trade.units,
+			actualPrice: this.getSymbolPrice(trade.symbol, trade.type),
 		}));
 	}
 }

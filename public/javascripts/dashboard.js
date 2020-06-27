@@ -55,10 +55,8 @@ $(document).ready(async function () {
 
 	try {
 		const responseFromAPI = await axios.get(apiUrl);
-		console.log(responseFromAPI.data);
 		const chartLabels = responseFromAPI.data.labels;
 		const chartDatasets = responseFromAPI.data.datasets;
-		console.log(chartDatasets);
 		const helperDatasets = chartDatasets.map((dataChart) => {
 			const colorDataset = getRandomGraphColor().background;
 			try {

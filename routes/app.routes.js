@@ -10,12 +10,6 @@ router.get('/', async (req, res, next) => {
 	const transactions = await transactionsController.listByUser(
 		req.session.user._id
 	);
-	if (!req.session.evolutionSymbols) {
-		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
-			req.session.user._id
-		);
-		console.log('Pidiendo datos a la API');
-	}
 	// Begin Dashboard data
 	let supportCount = tickets.length;
 	let transAmount = 0;
@@ -24,7 +18,7 @@ router.get('/', async (req, res, next) => {
 	let transSellsCount = 0;
 	let balanceBuySell = 0;
 	let walletAmount = req.session.wallet.amount;
-	const balanceInvest = await tradeController.groupedByUserBySymbol(
+	const balanceInvest = await tradeController.getSymbolsByUser(
 		req.session.user._id
 	);
 
