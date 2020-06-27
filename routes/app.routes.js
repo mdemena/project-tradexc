@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const transactionsController = require('../controllers/transaction.controller');
-const supportController = require('../controllers/support.controller');
-const tradeController = require('../controllers/trade.controller');
+const transactionsController = require("../controllers/transaction.controller");
+const supportController = require("../controllers/support.controller");
+const tradeController = require("../controllers/trade.controller");
 
 /* GET home page */
 router.get('/', async (req, res, next) => {
@@ -59,8 +59,10 @@ router.get('/', async (req, res, next) => {
 		balanceBuySell: balanceBuySell * 100,
 		balanceInvest: balanceInvest,
 		evolutionSymbols: req.session.evolutionSymbols,
-		supports: tickets,
+		supportCount: supportCount,
+    supports: tickets,
 	});
+
 });
 
 module.exports = router;

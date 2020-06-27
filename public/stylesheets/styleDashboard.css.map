@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "styleDashboard.css",
+	"sources": [
+		"styleDashboard.scss"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,OAAO,CAAC,gBAAgB,CAAC,OAAO,CAAC;EAC7B,MAAM,EAAE,KAAK,GAEhB"
+}

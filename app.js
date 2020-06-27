@@ -96,6 +96,11 @@ app.use('/app/user', user);
 const support = require('./routes/support.routes');
 app.use('/app/support', support);
 
+hbs.registerHelper('dateFormatDay', function (_date) {
+	//return _date.toLocaleDateString('es-ES');
+	return dateFormat(_date, 'dd/mm/yyyy');
+});
+
 hbs.registerHelper('dateFormat', function (_date) {
 	//return _date.toLocaleDateString('es-ES');
 	return dayjs(_date).format('DD/MM/YYYY HH:mm');

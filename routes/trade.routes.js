@@ -1,191 +1,212 @@
-const express = require('express');
-const tradeController = require('../controllers/trade.controller');
-const transactionController = require('../controllers/transaction.controller');
+const express = require("express");
+const tradeController = require("../controllers/trade.controller");
+const transactionController = require("../controllers/transaction.controller");
+const supportController = require("../controllers/support.controller");
 const router = express.Router();
 
 /* GET Trade */
-router.get('/', async (req, res, next) => {
-	const trades = await tradeController.listByUser(req.session.user._id);
-	const transactions = await transactionController.listByUser(
-		req.session.user._id
-	);
-	const balanceInvest = await tradeController.groupedByUserBySymbol(
-		req.session.user._id
-	);
+router.get("/", async (req, res, next) => {
+  const trades = await tradeController.listByUser(req.session.user._id);
+  const support = await supportController.listByUser(req.session.user._id);
+  const transactions = await transactionController.listByUser(
+    req.session.user._id
+  );
+  const balanceInvest = await tradeController.groupedByUserBySymbol(
+    req.session.user._id
+  );
 
-	console.log(balanceInvest);
-	let buyAmount = 0;
-	let sellAmount = 0;
-	let walletAmount = req.session.wallet.amount;
-	if (trades) {
-		if (transactions.length > 0) {
-			buyAmount = transactions
-				.filter((trans) => trans.type === 'buy')
-				.reduce((total, trans) => (total += trans.total), 0);
-			sellAmount = transactions
-				.filter((trans) => trans.type === 'sell')
-				.reduce((total, trans) => (total += trans.total), 0);
-		}
-	}
-	res.render('app/trade/index', {
-		layout: 'app/layout',
-		user: req.session.user,
-		walletAmount: walletAmount,
-		buyAmount: buyAmount,
-		sellAmount: sellAmount,
-		trades: trades,
-		transactions: transactions,
-		balanceInvest: balanceInvest,
-	});
+  console.log(balanceInvest);
+  let supportCount = support.length;
+  let buyAmount = 0;
+  let sellAmount = 0;
+  let walletAmount = req.session.wallet.amount;
+  if (trades) {
+    if (transactions.length > 0) {
+      buyAmount = transactions
+        .filter((trans) => trans.type === "buy")
+        .reduce((total, trans) => (total += trans.total), 0);
+      sellAmount = transactions
+        .filter((trans) => trans.type === "sell")
+        .reduce((total, trans) => (total += trans.total), 0);
+    }
+  }
+  res.render("app/trade/index", {
+    layout: "app/layout",
+    user: req.session.user,
+    walletAmount: walletAmount,
+    buyAmount: buyAmount,
+    sellAmount: sellAmount,
+    trades: trades,
+    transactions: transactions,
+    balanceInvest: balanceInvest,
+    supportCount: supportCount,
+    supports: support,
+  });
 });
 
-router.get('/buy', async (req, res, next) => {
-	res.render('app/trade/trade', {
-		layout: 'app/layout',
-		user: req.session.user,
-		title: 'Buy',
-		action: 'buy',
-		hasSymbol: false,
-		walletAmount: req.session.wallet.amount,
-		symbol: '',
-		symbolCode: '',
-		symbolName: '',
-		units: 0,
-		price: 0,
-	});
+router.get("/buy", async (req, res, next) => {
+  const support = await supportController.listByUser(req.session.user._id);
+  let supportCount = support.length;
+  res.render("app/trade/trade", {
+    layout: "app/layout",
+    user: req.session.user,
+    title: "Buy",
+    action: "buy",
+    hasSymbol: false,
+    walletAmount: req.session.wallet.amount,
+    symbol: "",
+    symbolCode: "",
+    symbolName: "",
+    units: 0,
+    price: 0,
+    supportCount: supportCount,
+    supports: support,
+  });
 });
 
-router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
-	res.render('app/trade/trade', {
-		layout: 'app/layout',
-		user: req.session.user,
-		title: 'Buy',
-		action: 'buy',
-		hasSymbol: true,
-		walletAmount: req.session.wallet.amount,
-		symbol: `${req.params.name} (${req.params.symbol})`,
-		symbolCode: req.params.symbol,
-		symbolName: req.params.name,
-		isStock: req.params.type === 'stock',
-		isCrypto: req.params.type === 'crypto',
-		units: 0,
-		price: await tradeController.getSymbolPrice(
-			req.params.symbol,
-			req.params.type
-		),
-	});
+router.get("/buy/:type/:symbol-:name", async (req, res, next) => {
+  const support = await supportController.listByUser(req.session.user._id);
+  let supportCount = support.length;
+  res.render("app/trade/trade", {
+    layout: "app/layout",
+    user: req.session.user,
+    title: "Buy",
+    action: "buy",
+    hasSymbol: true,
+    walletAmount: req.session.wallet.amount,
+    symbol: `${req.params.name} (${req.params.symbol})`,
+    symbolCode: req.params.symbol,
+    symbolName: req.params.name,
+    isStock: req.params.type === "stock",
+    isCrypto: req.params.type === "crypto",
+    units: 0,
+    price: await tradeController.getSymbolPrice(
+      req.params.symbol,
+      req.params.type
+    ),
+    supportCount: supportCount,
+    supports: support,
+  });
 });
 
-router.get('/sell', async (req, res, next) => {
-	res.render('app/trade/trade', {
-		layout: 'app/layout',
-		user: req.session.user,
-		title: 'Sell',
-		action: 'sell',
-		hasSymbol: false,
-		trades: await tradeController.listByUser(req.session.user._id),
-	});
+router.get("/sell", async (req, res, next) => {
+  const support = await supportController.listByUser(req.session.user._id);
+  let supportCount = support.length;
+  res.render("app/trade/trade", {
+    layout: "app/layout",
+    user: req.session.user,
+    title: "Sell",
+    action: "sell",
+    hasSymbol: false,
+    trades: await tradeController.listByUser(req.session.user._id),
+    supportCount: supportCount,
+    supports: support,
+  });
 });
 
-router.get('/sell/:type/:units/:symbol-:name', async (req, res, next) => {
-	let priceSymbol = await tradeController.getSymbolPrice(
-		req.params.symbol,
-		req.params.type
-	);
-	res.render('app/trade/trade', {
-		layout: 'app/layout',
-		user: req.session.user,
-		title: 'Sell',
-		action: 'sell',
-		hasSymbol: true,
-		symbol: `${req.params.name} (${req.params.symbol})`,
-		symbolCode: req.params.symbol,
-		symbolName: req.params.name,
-		units: req.params.units,
-		isStock: req.params.type === 'stock',
-		isCrypto: req.params.type === 'crypto',
-		price: priceSymbol,
-		walletAmount: priceSymbol * req.params.units,
-	});
+router.get("/sell/:type/:units/:symbol-:name", async (req, res, next) => {
+  const support = await supportController.listByUser(req.session.user._id);
+  let supportCount = support.length;
+  let priceSymbol = await tradeController.getSymbolPrice(
+    req.params.symbol,
+    req.params.type
+  );
+  res.render("app/trade/trade", {
+    layout: "app/layout",
+    user: req.session.user,
+    title: "Sell",
+    action: "sell",
+    hasSymbol: true,
+    symbol: `${req.params.name} (${req.params.symbol})`,
+    symbolCode: req.params.symbol,
+    symbolName: req.params.name,
+    units: req.params.units,
+    isStock: req.params.type === "stock",
+    isCrypto: req.params.type === "crypto",
+    price: priceSymbol,
+    walletAmount: priceSymbol * req.params.units,
+    supportCount: supportCount,
+    supports: support,
+  });
 });
 
-router.post('/buy', async (req, res, next) => {
-	const { symbolCode, symbolName, type, units, price } = req.body;
-	try {
-		if (units * price <= req.session.wallet.amount) {
-			const { newStock, newWallet } = await tradeController.buy(
-				req.session.user._id,
-				symbolCode,
-				symbolName,
-				type,
-				units,
-				price
-			);
-			req.session.wallet = newWallet;
-			res.redirect('/app/trade/');
-		} else {
-			throw new Error(
-				`You don't have sufficient amount in your wallet for this buy. Wallet: ${
-					req.session.wallet.amount
-				}, Total Cost: ${units * price}`
-			);
-		}
-	} catch (err) {
-		res.render('app/trade/trade', {
-			layout: 'app/layout',
-			user: req.session.user,
-			title: 'Buy',
-			action: 'buy',
-			symbolCode,
-			symbolName,
-			type,
-			units,
-			price,
-			errorMessage: err.message,
-		});
-	}
+router.post("/buy", async (req, res, next) => {
+  const { symbolCode, symbolName, type, units, price } = req.body;
+  try {
+    if (units * price <= req.session.wallet.amount) {
+      const { newStock, newWallet } = await tradeController.buy(
+        req.session.user._id,
+        symbolCode,
+        symbolName,
+        type,
+        units,
+        price
+      );
+      req.session.wallet = newWallet;
+      res.redirect("/app/trade/");
+    } else {
+      throw new Error(
+        `You don't have sufficient amount in your wallet for this buy. Wallet: ${
+          req.session.wallet.amount
+        }, Total Cost: ${units * price}`
+      );
+    }
+  } catch (err) {
+    res.render("app/trade/trade", {
+      layout: "app/layout",
+      user: req.session.user,
+      title: "Buy",
+      action: "buy",
+      symbolCode,
+      symbolName,
+      type,
+      units,
+      price,
+      errorMessage: err.message,
+    });
+  }
 });
 
-router.post('/sell', async (req, res, next) => {
-	const { symbolCode, symbolName, type, units, price } = req.body;
-	try {
-		const newWallet = await tradeController.sell(
-			req.session.user._id,
-			symbolCode,
-			units,
-			price
-		);
-		req.session.wallet = newWallet;
-		res.redirect('/app/trade/');
-	} catch (err) {
-		res.render('app/trade/trade', {
-			layout: 'app/layout',
-			user: req.session.user,
-			title: 'Sell',
-			action: 'sell',
-			hasSymbol: true,
-			symbol: `${symbolName} (${symbolCode})`,
-			symbolCode: symbolCode,
-			symbolName: symbolName,
-			units: units,
-			isStock: type === 'stock',
-			isCrypto: type === 'crypto',
-			price: price,
-			walletAmount: price * req.params.units,
-			errorMessage: err.message,
-		});
-	}
+router.post("/sell", async (req, res, next) => {
+  const { symbolCode, symbolName, type, units, price } = req.body;
+  try {
+    const newWallet = await tradeController.sell(
+      req.session.user._id,
+      symbolCode,
+      units,
+      price
+    );
+    req.session.wallet = newWallet;
+    res.redirect("/app/trade/");
+  } catch (err) {
+    res.render("app/trade/trade", {
+      layout: "app/layout",
+      user: req.session.user,
+      title: "Sell",
+      action: "sell",
+      hasSymbol: true,
+      symbol: `${symbolName} (${symbolCode})`,
+      symbolCode: symbolCode,
+      symbolName: symbolName,
+      units: units,
+      isStock: type === "stock",
+      isCrypto: type === "crypto",
+      price: price,
+      walletAmount: price * req.params.units,
+      errorMessage: err.message,
+    });
+  }
 });
 
-router.get('/getSymbolPrice/:type/:symbol', async (req, res, next) => {
-	res.json(
-		await tradeController.getSymbolPrice(req.params.symbol, req.params.type)
-	);
+router.get("/getSymbolPrice/:type/:symbol", async (req, res, next) => {
+  res.json(
+    await tradeController.getSymbolPrice(req.params.symbol, req.params.type)
+  );
 });
-router.get('/searchSymbol/:type/:keywords', async (req, res, next) => {
-	res.json(
-		await tradeController.searchSymbol(req.params.keywords, req.params.type)
-	);
+router.get("/searchSymbol/:type/:keywords", async (req, res, next) => {
+  res.json(
+    await tradeController.searchSymbol(req.params.keywords, req.params.type)
+  );
 });
 router.get('/getEvolutionSymbolsByUser', async (req, res, next) => {
 	res.json(
