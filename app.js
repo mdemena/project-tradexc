@@ -98,7 +98,7 @@ app.use('/app/support', support);
 
 hbs.registerHelper('dateFormatDay', function (_date) {
 	//return _date.toLocaleDateString('es-ES');
-	return dateFormat(_date, 'dd/mm/yyyy');
+	return dayjs(_date).format('DD/MM/YYYY');
 });
 
 hbs.registerHelper('dateFormat', function (_date) {

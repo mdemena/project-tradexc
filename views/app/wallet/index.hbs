@@ -121,7 +121,7 @@
                                     <tbody>
                                         {{#each wallet.movements }}
                                         <tr role="row" class="odd">
-                                            <td class="sorting_1 text-center">{{dateFormat this.date}}</td>
+                                            <td class="sorting_1 text-center">{{dateFormatDay this.date}}</td>
                                             <td class="text-center">{{this.type}}</td>
                                             <td class="text-right">{{roundNumber2 this.amount}} EUR</td>
 
