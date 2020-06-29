@@ -3,6 +3,7 @@
     <h1 class="h3 mb-0 text-gray-800">Wallet</h1>
 </div>
 <!-- Content Row -->
+
 <div class="row">
 
     <!-- Money in Wallet -->
@@ -18,8 +19,8 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Deposit</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">EUR</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Buy</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ roundNumber2 buyAmount}} EUR</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -34,8 +35,8 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Withdraw</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{transAmount}} EUR</div>
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Sell</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ roundNumber2 sellAmount}} EUR</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -44,37 +45,30 @@
             </div>
         </div>
     </div>
-    <!-- Total Buyed -->
+    <!-- Benefits -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Balance (Buy/Sell)</div>
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{balanceBuySell}}%</div>
-                            </div>
-                            <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar"
-                                        style="width: {{balanceBuySell}}%" aria-valuenow="{{balanceBuySell}}"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Benefits</div>
+
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{roundNumber2 benefits}}EUR
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{roundNumber2 percentBenefits}}%
                         </div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+
+
 <div class="row">
-    <div class="col-xl-6 col-lg-6">
+    <div class="col-xl-7 col-lg-8">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Wallet</h6>
@@ -94,54 +88,43 @@
             <div class="card-body">
                 <div>
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                        {{!-- <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="dataTables_length" id="dataTable_length">
-                                    <a name="" id="" class="btn btn-primary" href="/app/trade/Deposit" role="button">Deposit</a>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                            class="form-control form-control-sm" placeholder=""
-                                            aria-controls="dataTable"></label></div>
-                            </div>
-                        </div> --}}
+        
                         <div class="row">
                             <div class="table-responsive">
-                                <table class="table table-bordered dataTable" id="tradeTable" width="100%"
+                                <table class="table table-bordered dataTable" id="walletTable" width="100%"
                                     cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
                                         <tr role="row">
                                             <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-sort="descending"
                                                 aria-label="Date: activate to sort column ascending"
-                                                style="width: 100px;">
+                                                style="width: 75px;">
                                                 Date</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Type: activate to sort column ascending"
                                                 style="width: 50px;">
                                                 Type</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                            <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="amount: activate to sort column ascending"
-                                                style="width: 100px;">Amount</th>
-                                            
+                                                style="width: 75px;">Amount</th>
+
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">Date</th>
-                                            <th rowspan="1" colspan="1">Type</th>
-                                            <th rowspan="1" colspan="1">Amount</th>
-                                            
+                                            <th  class="text-center"rowspan="1" colspan="1">Type</th>
+                                            <th class="text-center" rowspan="1" colspan="1">Amount</th>
+
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         {{#each wallet.movements }}
                                         <tr role="row" class="odd">
-                                            <td class="sorting_1">{{dateFormat this.date}}</td>
-                                            <td>{{this.type}}</td>
-                                            <td>{{roundNumber2 this.amount}} EUR</td>
-                                            
+                                            <td class="sorting_1 text-center">{{dateFormatDay this.date}}</td>
+                                            <td class="text-center">{{this.type}}</td>
+                                            <td class="text-right">{{roundNumber2 this.amount}} EUR</td>
+
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -154,9 +137,8 @@
         </div>
     </div>
 
-
-    <!-- Area Chart -->
-    <div class="col-xl-6 col-lg-6">
+    <!-- Line Chart -->
+    <div class="col-xl-5 col-lg-5">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -179,12 +161,44 @@
             <!-- Card Body -->
             <div class="card-body">
                 <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                    <canvas id="lineChart"></canvas>
+                    {{#each wallet.movements}}
+                    <ul class="invisible">
+                        <li id="line" data-name="{{this.type}}" data-date="{{dateFormatDay this.date}}"
+                            data-amount="{{roundNumber2 this.amount}}">
+                        </li>
+                    </ul>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Investments Sources</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="balanceInvestPie"></canvas>
+                    {{#each balanceInvest}}
+                    <ul class="invisible">
+                        <li class="data-graph" class="data-graph" data-name="{{this._id.name}} ({{this._id.symbol}})"
+                            data-amount="{{roundNumber2 this.amount}}"></li>
+                    </ul>
+                    {{/each}}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
 <!-- Bootstrap core JavaScript-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
@@ -195,5 +209,11 @@
 <!-- Custom scripts for all pages-->
 <script src="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.0.7/js/sb-admin-2.min.js"></script>
 
+<!-- Page level plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+{{!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script> --}}
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="/javascripts/private.js"></script>
+
 <script src="/javascripts/wallet.js"></script>

@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const transactionsController = require('../controllers/transaction.controller');
-const supportController = require('../controllers/support.controller');
-const tradeController = require('../controllers/trade.controller');
+const transactionsController = require("../controllers/transaction.controller");
+const supportController = require("../controllers/support.controller");
+const tradeController = require("../controllers/trade.controller");
 
 /* GET home page */
 router.get('/', async (req, res, next) => {
@@ -11,7 +11,6 @@ router.get('/', async (req, res, next) => {
 		req.session.user._id
 	);
 	// Begin Dashboard data
-	let supportCount = tickets.length;
 	let transAmount = 0;
 	let transCount = 0;
 	let transBuysCount = 0;
@@ -49,7 +48,8 @@ router.get('/', async (req, res, next) => {
 		transSells: transSellsCount,
 		balanceBuySell: balanceBuySell * 100,
 		evolutionSymbols: req.session.evolutionSymbols,
-		supports: tickets,
+		supportCount: tickets.length,
+    supports: tickets,
 	});
 });
 

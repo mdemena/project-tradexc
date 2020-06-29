@@ -1,15 +1,55 @@
 const express = require("express");
+const transactionController = require("../controllers/transaction.controller");
+const tradeController = require("../controllers/trade.controller");
+const supportController = require("../controllers/support.controller");
 const walletController = require("../controllers/wallet.controller");
 const router = express.Router();
 
 /* GET Wallet */
 router.get("/", async (req, res, next) => {
+  const support = await supportController.listByUser(req.session.user._id);
+  const wallet = await walletController.getByUserId(req.session.user._id);
+  const trades = await tradeController.listByUser(req.session.user._id);
+  const transactions = await transactionController.listByUser(
+    req.session.user._id
+  );
+  const balanceInvest = await tradeController.groupedByUserBySymbol(
+    req.session.user._id
+  );
+
+  console.log(balanceInvest);
+  let supportCount = support.length;
+  let benefits = 0;
+  let percentBenefits = 0;
+  let buyAmount = 0;
+  let sellAmount = 0;
+  let walletAmount = req.session.wallet.amount;
+  if (trades) {
+    if (transactions.length > 0) {
+      buyAmount = transactions
+        .filter((trans) => trans.type === "buy")
+        .reduce((total, trans) => (total += trans.total), 0);
+      sellAmount = transactions
+        .filter((trans) => trans.type === "sell")
+        .reduce((total, trans) => (total += trans.total), 0);
+    }
+  }
+  benefits = 10000 - buyAmount + sellAmount - 10000;
+  percentBenefits = (benefits / 10000) * 100;
   res.render("app/wallet", {
     layout: "app/layout",
     user: req.session.user,
-    wallet: await walletController.getByUserId(req.session.user._id),
-    
-    
+    walletAmount: walletAmount,
+    buyAmount: buyAmount,
+    sellAmount: sellAmount,
+    trades: trades,
+    transactions: transactions,
+    balanceInvest: balanceInvest,
+    benefits: benefits,
+    percentBenefits: percentBenefits,
+    wallet: wallet,
+    supportCount: supportCount,
+    supports: support,
   });
 });
 
@@ -45,3 +85,5 @@ router.post("/withdraw", async (req, res, next) => {
   }
 });
 module.exports = router;
+
+
