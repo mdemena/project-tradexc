@@ -1,199 +1,203 @@
-<!-- Content Row -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Wallet</h1>
-</div>
-<!-- Content Row -->
-
-<div class="row">
-
-    <!-- Money in Wallet -->
-    {{> primaryUp this }}
-    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Balance</div>
-    <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 wallet.amount}} EUR</div>
-    {{> primaryDown this }}
-
-
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Buy</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ roundNumber2 buyAmount}} EUR</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="content">
+    <!-- Content Row -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Wallet</h1>
     </div>
+    <!-- Content Row -->
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-danger shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Sell</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ roundNumber2 sellAmount}} EUR</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Benefits -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Benefits</div>
+    <div class="row">
 
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{roundNumber2 benefits}}EUR
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{roundNumber2 percentBenefits}}%
+        <!-- Money in Wallet -->
+        {{> primaryUp this }}
+        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Balance</div>
+        <div class="h5 mb-0 font-weight-bold text-gray-800">{{roundNumber2 wallet.amount}} EUR</div>
+        {{> primaryDown this }}
+
+
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Buy</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ roundNumber2 buyAmount}} EUR</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Sell</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ roundNumber2 sellAmount}} EUR</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Benefits -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Benefits</div>
+
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{roundNumber2 benefits}}EUR
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{roundNumber2 percentBenefits}}%
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="row">
-    <div class="col-xl-7 col-lg-8">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Wallet</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                        aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Trading:</div>
-                        <a class="dropdown-item" href="/app/wallet/deposit">Deposit</a>
-                        <a class="dropdown-item" href="/app/wallet/withdraw">Withdraw</a>
+    <div class="row">
+        <div class="col-xl-7 col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Wallet</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                            aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Trading:</div>
+                            <a class="dropdown-item" href="#">Deposit</a>
+                            <a class="dropdown-item" href="#">Withdraw</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div>
-                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-        
-                        <div class="row">
-                            <div class="table-responsive">
-                                <table class="table table-bordered dataTable" id="walletTable" width="100%"
-                                    cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                    <thead>
-                                        <tr role="row">
-                                            <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-sort="descending"
-                                                aria-label="Date: activate to sort column ascending"
-                                                style="width: 75px;">
-                                                Date</th>
-                                            <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Type: activate to sort column ascending"
-                                                style="width: 50px;">
-                                                Type</th>
-                                            <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="amount: activate to sort column ascending"
-                                                style="width: 75px;">Amount</th>
+                <div class="card-body">
+                    <div>
+                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th rowspan="1" colspan="1">Date</th>
-                                            <th  class="text-center"rowspan="1" colspan="1">Type</th>
-                                            <th class="text-center" rowspan="1" colspan="1">Amount</th>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered dataTable" id="walletTable" width="100%"
+                                        cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                        style="width: 100%;">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" tabindex="0" aria-controls="dataTable"
+                                                    rowspan="1" colspan="1" aria-sort="descending"
+                                                    aria-label="Date: activate to sort column ascending"
+                                                    style="width: 75px;">
+                                                    Date</th>
+                                                <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Type: activate to sort column ascending"
+                                                    style="width: 50px;">
+                                                    Type</th>
+                                                <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="amount: activate to sort column ascending"
+                                                    style="width: 75px;">Amount</th>
 
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        {{#each wallet.movements }}
-                                        <tr role="row" class="odd">
-                                            <td class="sorting_1 text-center">{{dateFormatDay this.date}}</td>
-                                            <td class="text-center">{{this.type}}</td>
-                                            <td class="text-right">{{roundNumber2 this.amount}} EUR</td>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th rowspan="1" colspan="1">Date</th>
+                                                <th class="text-center" rowspan="1" colspan="1">Type</th>
+                                                <th class="text-center" rowspan="1" colspan="1">Amount</th>
 
-                                        </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each wallet.movements }}
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1 text-center">{{dateFormatDay this.date}}</td>
+                                                <td class="text-center">{{this.type}}</td>
+                                                <td class="text-right">{{roundNumber2 this.amount}} EUR</td>
+
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Line Chart -->
-    <div class="col-xl-5 col-lg-5">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Wallet Overview</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                        aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+        <!-- Line Chart -->
+        <div class="col-xl-5 col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Wallet Overview</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                            aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="lineChart"></canvas>
+                        {{#each wallet.movements}}
+                        <ul class="invisible">
+                            <li id="line" data-name="{{this.type}}" data-date="{{dateFormatDay this.date}}"
+                                data-amount="{{roundNumber2 this.amount}}">
+                            </li>
+                        </ul>
+                        {{/each}}
                     </div>
                 </div>
             </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-area">
-                    <canvas id="lineChart"></canvas>
-                    {{#each wallet.movements}}
-                    <ul class="invisible">
-                        <li id="line" data-name="{{this.type}}" data-date="{{dateFormatDay this.date}}"
-                            data-amount="{{roundNumber2 this.amount}}">
-                        </li>
-                    </ul>
-                    {{/each}}
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Investments Sources</h6>
                 </div>
-            </div>
-        </div>
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Investments Sources</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="balanceInvestPie"></canvas>
-                    {{#each balanceInvest}}
-                    <ul class="invisible">
-                        <li class="data-graph" class="data-graph" data-name="{{this._id.name}} ({{this._id.symbol}})"
-                            data-amount="{{roundNumber2 this.amount}}"></li>
-                    </ul>
-                    {{/each}}
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="balanceInvestPie"></canvas>
+                        {{#each balanceInvest}}
+                        <ul class="invisible">
+                            <li class="data-graph" class="data-graph"
+                                data-name="{{this._id.name}} ({{this._id.symbol}})"
+                                data-amount="{{roundNumber2 this.amount}}"></li>
+                        </ul>
+                        {{/each}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 

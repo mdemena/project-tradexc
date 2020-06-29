@@ -22,6 +22,15 @@ class authController {
 				name: _name,
 				email: _email,
 				passwordHash: _password,
+				/*occupation:"",
+				adress:"",
+				city:"",
+				country:"",
+				postalCode:"",
+				about:"",*/
+				imgPath:"",
+				imgName:"",
+				
 			});
 			await this.registerLog(newUser, 'Registered new user');
 			return newUser;

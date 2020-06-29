@@ -229,8 +229,13 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.name}}</span>
-                <img class="img-fluid img-profile rounded-circle float-left"
-                  src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                {{#if this.imgPath}}
+                <img class="img-fluid img-profile rounded-circle float-left" style="width: 40px ; height:40px;"
+                  src="{{this.imgPath}}">
+                {{else}}
+                <img class="img-fluid img-profile rounded-circle float-left" style="width: 40px ; height:40px;"
+                  src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png">
+                {{/if}}
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

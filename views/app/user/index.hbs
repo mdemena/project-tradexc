@@ -6,30 +6,42 @@
           <div class="card-header bg-gradient-primary">
             <h4 class="card-title text-center" style="color: white">Profile</h4>
             <p class="card-category text-center" style="color: white">Complete your profile</p>
-
+            <form action="/app/user" method="POST" enctype="multipart/form-data"></form>
             <div class="card-avatar">
               <a href="javascript:;">
-                <img class="img-fluid img-profile rounded-circle float-left"
-                  src="https://source.unsplash.com/QAB-WJcbgJk/150x150" />
+                {{#if this.imgPath}}
+                <img class="img-fluid img-profile rounded-circle float-left" style="width: 120px ; height:120px;"
+                  src="{{this.imgPath}}" />
+                {{else}}
+                <img class="img-fluid img-profile rounded-circle float-left" style="width: 120px ; height:120px;"
+                  src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png" />
+                {{/if}}
               </a>
+
             </div>
             <div class="card-body float-left text-center">
 
               <h4 class="card-title text-white">{{user.name}}</h4>
-              <h6 class="card-category text-white">Product Manager</h6>
+              <h6 class="card-category text-white">{{user.occupation}}</h6>
             </div>
             <div class="card-body float-right text-center">
 
-              <h6 class="card-category text-white">Barcelona</h6>
-              <h6 class="card-category text-white">Spain</h6>
-              <h6 class="card-title text-white">Passionate about Technology, ever since I had my first computer, a
-                Sinclair zx81</h6>
+              <h6 class="card-category text-white">{{user.city}}</h6>
+              <h6 class="card-category text-white">{{user.country}}</h6>
+              <h6 class="card-title text-white">{{user.about}}</h6>
             </div>
           </div>
           <div class="card-body">
 
 
-            <form action="/app/user" method="POST">
+            <form action="/app/user" method="POST" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Photo</label>
+                    <input class="d-flex justify-content-center" type="file" name="photo"></div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">

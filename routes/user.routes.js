@@ -3,6 +3,8 @@ const User = require("../models/user.model");
 const { set } = require("../controllers/wallet.controller");
 const UserController = require("../controllers/user.controller");
 const supportController = require("../controllers/support.controller");
+const uploadCloud = require("../configs/cloudinary.js");
+
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 
@@ -19,28 +21,47 @@ router.get("/", async (req, res, next) => {
   });
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
   const { name, email, password } = req.body;
+  /*if (req.file.path) {
+    imgPath = req.file.path;
+  } else
+    imgPath =
+      "https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png";*/
+  const imgPath = req.file.path;
+  const imgName = req.file.originalname;
+  console.log(name, email, imgPath, imgName);
+
   try {
-    validateSignup(name, email, password);
-    const passwordHash = await bcrypt.hashSync(password, saltRounds);
+    
+    await validateSignup(name, email, password);
+		const passwordHash = await bcrypt.hashSync(password, saltRounds);
+    //await Auth.signUp(name, email, passwordHash);
+    
     await UserController.set({
       _id: req.session.user._id,
       name,
       email,
       passwordHash,
+      imgPath,
+      imgName,
     });
 
     req.session.user.name = name;
     req.session.user.email = email;
     req.session.user.password = passwordHash;
+    req.session.user.imgPath = imgPath;
+    req.session.user.imgName = imgName;
 
     res.redirect("/app");
   } catch (err) {
     res.render("app/user", {
+      layout: "app/layout",
       name,
       email,
-      passwordHash,
+      password,
+      imgPath,
+      imgName,
       errorMessage: err.message,
     });
   }
@@ -52,11 +73,11 @@ function validateLogin(_email, _password) {
   }
   validatePassword(_password);
 }
-function validateSignup(_name, _email, _password) {
-  if (!_name || !_email || !_password) {
+function validateSignup(_name, _email) {
+  if (!_name || !_email) {
     throw new Error("Name, email and password are mandatory");
   }
-  validatePassword(_password);
+  /*validatePassword(_password);*/
 }
 function validatePassword(_password) {
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;

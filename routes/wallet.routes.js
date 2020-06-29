@@ -34,8 +34,8 @@ router.get("/", async (req, res, next) => {
         .reduce((total, trans) => (total += trans.total), 0);
     }
   }
-  benefits = 10000 - buyAmount + sellAmount - 10000;
-  percentBenefits = (benefits / 10000) * 100;
+  percentBenefits = ((walletAmount - 10000) / 10000) * 100;
+  benefits = (10000 * percentBenefits) / 100;
   res.render("app/wallet", {
     layout: "app/layout",
     user: req.session.user,
@@ -85,5 +85,3 @@ router.post("/withdraw", async (req, res, next) => {
   }
 });
 module.exports = router;
-
-
