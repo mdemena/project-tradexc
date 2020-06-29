@@ -169,9 +169,7 @@ class TradeController {
 					);
 					break;
 				default:
-					price = parse.float(
-						responseFromAPI.data['Global Quote']['05. price']
-					);
+					price = parseFloat(responseFromAPI.data['Global Quote']['05. price']);
 					break;
 			}
 			return price;
