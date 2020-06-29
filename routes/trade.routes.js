@@ -1,13 +1,13 @@
-const express = require("express");
-const tradeController = require("../controllers/trade.controller");
-const transactionController = require("../controllers/transaction.controller");
-const supportController = require("../controllers/support.controller");
+const express = require('express');
+const tradeController = require('../controllers/trade.controller');
+const transactionController = require('../controllers/transaction.controller');
+const supportController = require('../controllers/support.controller');
 const router = express.Router();
 
 /* GET Trade */
 router.get('/', async (req, res, next) => {
 	const trades = await tradeController.listByUser(req.session.user._id);
-  const support = await supportController.listByUser(req.session.user._id);
+	const support = await supportController.listByUser(req.session.user._id);
 	const transactions = await transactionController.listByUser(
 		req.session.user._id
 	);
@@ -33,18 +33,18 @@ router.get('/', async (req, res, next) => {
 		sellAmount: sellAmount,
 		trades: trades,
 		transactions: transactions,
-    supportCount: support.length,
-    supports: support,
+		supportCount: support.length,
+		supports: support,
 	});
 });
 
 router.get('/buy', async (req, res, next) => {
-  const support = await supportController.listByUser(req.session.user._id);
+	const support = await supportController.listByUser(req.session.user._id);
 	res.render('app/trade/trade', {
 		layout: 'app/layout',
 		user: req.session.user,
-    supportCount: support.length,
-    supports: support,
+		supportCount: support.length,
+		supports: support,
 		title: 'Buy',
 		action: 'buy',
 		hasSymbol: false,
@@ -59,12 +59,12 @@ router.get('/buy', async (req, res, next) => {
 });
 
 router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
-  const support = await supportController.listByUser(req.session.user._id);
+	const support = await supportController.listByUser(req.session.user._id);
 	res.render('app/trade/trade', {
 		layout: 'app/layout',
 		user: req.session.user,
-    supportCount: support.length,
-    supports: support,
+		supportCount: support.length,
+		supports: support,
 		title: 'Buy',
 		action: 'buy',
 		hasSymbol: true,
@@ -81,43 +81,43 @@ router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
 	});
 });
 
-router.get("/sell", async (req, res, next) => {
-  const support = await supportController.listByUser(req.session.user._id);
-  res.render("app/trade/trade", {
-    layout: "app/layout",
-    user: req.session.user,
-    title: "Sell",
-    action: "sell",
-    hasSymbol: false,
-    trades: await tradeController.listByUser(req.session.user._id),
-    supportCount: support.length,
-    supports: support,
-  });
+router.get('/sell', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
+	res.render('app/trade/trade', {
+		layout: 'app/layout',
+		user: req.session.user,
+		title: 'Sell',
+		action: 'sell',
+		hasSymbol: false,
+		trades: await tradeController.listByUser(req.session.user._id),
+		supportCount: support.length,
+		supports: support,
+	});
 });
 
-router.get("/sell/:type/:units/:symbol-:name", async (req, res, next) => {
-  const support = await supportController.listByUser(req.session.user._id);
-  let priceSymbol = await tradeController.getSymbolPrice(
-    req.params.symbol,
-    req.params.type
-  );
-  res.render("app/trade/trade", {
-    layout: "app/layout",
-    user: req.session.user,
-    title: "Sell",
-    action: "sell",
-    hasSymbol: true,
-    symbol: `${req.params.name} (${req.params.symbol})`,
-    symbolCode: req.params.symbol,
-    symbolName: req.params.name,
-    units: req.params.units,
-    isStock: req.params.type === "stock",
-    isCrypto: req.params.type === "crypto",
-    price: priceSymbol,
-    walletAmount: priceSymbol * req.params.units,
-    supportCount: support.length,
-    supports: support,
-  });
+router.get('/sell/:type/:units/:symbol-:name', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
+	let priceSymbol = await tradeController.getSymbolPrice(
+		req.params.symbol,
+		req.params.type
+	);
+	res.render('app/trade/trade', {
+		layout: 'app/layout',
+		user: req.session.user,
+		title: 'Sell',
+		action: 'sell',
+		hasSymbol: true,
+		symbol: `${req.params.name} (${req.params.symbol})`,
+		symbolCode: req.params.symbol,
+		symbolName: req.params.name,
+		units: req.params.units,
+		isStock: req.params.type === 'stock',
+		isCrypto: req.params.type === 'crypto',
+		price: priceSymbol,
+		walletAmount: priceSymbol * req.params.units,
+		supportCount: support.length,
+		supports: support,
+	});
 });
 
 router.post('/buy', async (req, res, next) => {
@@ -134,6 +134,9 @@ router.post('/buy', async (req, res, next) => {
 			);
 			req.session.wallet = newWallet;
 			req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+				req.session.user._id
+			);
+			req.session.userSymbols = await tradeController.getSymbolsByUser(
 				req.session.user._id
 			);
 			res.redirect('/app/trade/');
@@ -173,6 +176,9 @@ router.post('/sell', async (req, res, next) => {
 		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
 			req.session.user._id
 		);
+		req.session.userSymbols = await tradeController.getSymbolsByUser(
+			req.session.user._id
+		);
 		res.redirect('/app/trade/');
 	} catch (err) {
 		res.render('app/trade/trade', {
@@ -194,15 +200,15 @@ router.post('/sell', async (req, res, next) => {
 	}
 });
 
-router.get("/getSymbolPrice/:type/:symbol", async (req, res, next) => {
-  res.json(
-    await tradeController.getSymbolPrice(req.params.symbol, req.params.type)
-  );
+router.get('/getSymbolPrice/:type/:symbol', async (req, res, next) => {
+	res.json(
+		await tradeController.getSymbolPrice(req.params.symbol, req.params.type)
+	);
 });
-router.get("/searchSymbol/:type/:keywords", async (req, res, next) => {
-  res.json(
-    await tradeController.searchSymbol(req.params.keywords, req.params.type)
-  );
+router.get('/searchSymbol/:type/:keywords', async (req, res, next) => {
+	res.json(
+		await tradeController.searchSymbol(req.params.keywords, req.params.type)
+	);
 });
 router.get('/getEvolutionSymbolsByUser', async (req, res, next) => {
 	if (!req.session.evolutionSymbols) {
