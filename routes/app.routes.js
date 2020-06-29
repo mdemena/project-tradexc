@@ -18,9 +18,6 @@ router.get('/', async (req, res, next) => {
 	let transSellsCount = 0;
 	let balanceBuySell = 0;
 	let walletAmount = req.session.wallet.amount;
-	const balanceInvest = await tradeController.getSymbolsByUser(
-		req.session.user._id
-	);
 
 	if (transactions.length > 0) {
 		const transBuys = transactions.filter((trans) => trans.type === 'buy');
@@ -51,7 +48,6 @@ router.get('/', async (req, res, next) => {
 		transBuys: transBuysCount,
 		transSells: transSellsCount,
 		balanceBuySell: balanceBuySell * 100,
-		balanceInvest: balanceInvest,
 		evolutionSymbols: req.session.evolutionSymbols,
 		supports: tickets,
 	});

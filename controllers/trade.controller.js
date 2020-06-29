@@ -51,18 +51,18 @@ class TradeController {
 			const userWallet = await WalletController.getByUserId(_user);
 			const buyStock = await this.getByUserSymbol(_user, _symbol);
 			//let buyPrice = await this.getSymbolPrice(_symbol, _type);
-			const buyAmount = _units * _price;
+			const buyAmount = parseFloat(_units) * parseFloat(_price);
 			if (buyAmount <= userWallet.amount) {
 				const newWallet = await WalletController.buy(userWallet._id, buyAmount);
 				if (buyStock) {
-					buyStock.units += _units;
+					buyStock.units += parseInt(_units);
 					await TransactionController.add({
 						date: new Date(),
 						user: userWallet.user,
 						stock: buyStock._id,
 						type: 'buy',
-						units: _units,
-						price: _price,
+						units: parseInt(_units),
+						price: parseFloat(_price),
 					});
 					await this.set(buyStock);
 					await this.registerLog(buyStock, 'Buy');
@@ -73,15 +73,15 @@ class TradeController {
 						symbol: _symbol,
 						name: _name,
 						type: _type,
-						units: _units,
+						units: parseInt(_units),
 					});
 					await TransactionController.add({
 						date: new Date(),
 						user: userWallet.user,
 						stock: newStock._id,
 						type: 'buy',
-						units: _units,
-						price: _price,
+						units: parseInt(_units),
+						price: parseFloat(_price),
 					});
 					await this.registerLog(newStock, 'Buy');
 					return { newStock, newWallet };
@@ -99,23 +99,23 @@ class TradeController {
 		try {
 			const sellStock = await this.getByUserSymbol(_user, _symbol);
 			console.log(sellStock);
-			if (sellStock && sellStock.units >= _units) {
+			if (sellStock && sellStock.units >= parseInt(_units)) {
 				const userWallet = await WalletController.findOne({ user: _user });
 				// const sellPrice = await this.getSymbolPrice(
 				// 	sellStock.symbol,
 				// 	sellStock.type
 				// );
 				console.log(userWallet);
-				const sellPrice = _price;
-				const sellAmount = _units * sellPrice;
-				sellStock.units -= _units;
+				const sellPrice = parseFloat(_price);
+				const sellAmount = parseFloat(_units) * sellPrice;
+				sellStock.units -= parseInt(_units);
 				const editStock = await this.set(sellStock);
 				await TransactionController.add({
 					date: new Date(),
 					user: _user,
 					stock: sellStock._id,
 					type: 'sell',
-					units: _units,
+					units: parseInt(_units),
 					price: sellPrice,
 				});
 				const newWallet = await WalletController.sell(
@@ -156,19 +156,22 @@ class TradeController {
 				apiUrl += `&symbol=${_symbol}`;
 				break;
 		}
-		let price = 1;
+		let price = Math.floor(Math.random() * 10000);
 		try {
 			const responseFromAPI = await axios.get(apiUrl);
 			//console.log(responseFromAPI);
 			switch (_type) {
 				case 'crypto':
-					price =
+					price = parseFloat(
 						responseFromAPI.data['Realtime Currency Exchange Rate'][
 							'5. Exchange Rate'
-						];
+						]
+					);
 					break;
 				default:
-					price = responseFromAPI.data['Global Quote']['05. price'];
+					price = parse.float(
+						responseFromAPI.data['Global Quote']['05. price']
+					);
 					break;
 			}
 			return price;
@@ -254,18 +257,27 @@ class TradeController {
 	static async getSymbolsByUser(_id) {
 		const trades = await this.listByUser(_id);
 		const transactions = await TransactionController.listByUser(_id);
-		return trades.map((trade) => ({
-			_id: { symbol: trade.symbol, name: trade.name },
-			amount: transactions
-				.filter((t) => t.stock.symbol === trade.symbol)
-				.reduce(
-					(total, trans) =>
-						(total += trans.total * (trans.type === 'sell' ? -1 : 1)),
-					0
-				),
-			units: trade.units,
-			actualPrice: this.getSymbolPrice(trade.symbol, trade.type),
-		}));
+		const returnValues = await Promise.all(
+			trades.map(async function (trade, index) {
+				return {
+					_id: { symbol: trade.symbol, name: trade.name },
+					amount: transactions
+						.filter((t) => t.stock.symbol === trade.symbol)
+						.reduce(
+							(total, trans) =>
+								(total += trans.total * (trans.type === 'sell' ? -1 : 1)),
+							0
+						),
+					units: trade.units,
+					actualPrice: await TradeController.getSymbolPrice(
+						trade.symbol,
+						trade.type
+					),
+				};
+			})
+		);
+
+		return returnValues;
 	}
 }
 module.exports = TradeController;

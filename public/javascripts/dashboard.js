@@ -5,51 +5,115 @@ $(document).ready(async function () {
 	Chart.defaults.global.defaultFontColor = '#858796';
 
 	// Pie Chart Example
-	const graphData = document.querySelectorAll('.data-graph');
-	const graphLabels = [...graphData].map((data) => data['dataset'].name);
-	const graphValues = [...graphData].map((data) =>
-		parseFloat(data['dataset'].amount)
-	);
-	const graphBColor = [];
-	const graphHColor = [];
-	[...graphData].forEach((data) => {
-		let graphColors = getRandomGraphColor();
-		graphBColor.push(graphColors.background);
-		graphHColor.push(graphColors.hover);
-	});
-	const ctxTrade = document.getElementById('balanceInvestPie');
-	const myPieChart = new Chart(ctxTrade, {
-		type: 'doughnut',
-		data: {
-			labels: graphLabels,
-			datasets: [
-				{
-					data: graphValues,
-					backgroundColor: graphBColor,
-					hoverBackgroundColor: graphHColor,
-					hoverBorderColor: 'rgba(234, 236, 244, 1)',
+	const apiUrlPie = `/app/trade/getSymbolsByUser`;
+
+	try {
+		const resFromAPI = await axios.get(apiUrlPie);
+		console.log(resFromAPI);
+		const graphLabels = resFromAPI.data.map(
+			(item) => item._id.name + '(' + item._id.symbol + ')'
+		);
+		const pieValues = resFromAPI.data.map((item) => parseFloat(item.amount));
+		const profitValues = resFromAPI.data.map((item) =>
+			(
+				(parseFloat(item.units) * parseFloat(item.actualPrice) -
+					parseFloat(item.amount)) /
+				parseFloat(item.amount)
+			).toFixed(2)
+		);
+		const profitAvg =
+			profitValues.reduce((t, a) => (t += parseFloat(a)), 0) /
+			profitValues.length;
+		document.getElementById('profitAvg').innerHTML =
+			profitAvg.toFixed(2) + ' %';
+		document.querySelector('.progress-bar.bg-info').style.width =
+			profitAvg.toFixed(2) + '%';
+		document
+			.querySelector('.progress-bar.bg-info')
+			.setAttribute('aria-valuenow', profitAvg);
+		// const graphData = document.querySelectorAll('.data-graph');
+		// const graphLabels = [...graphData].map((data) => data['dataset'].name);
+		// const graphValues = [...graphData].map((data) =>
+		// 	parseFloat(data['dataset'].amount)
+		// );
+		const graphBColor = [];
+		const graphHColor = [];
+		pieValues.forEach((data) => {
+			let graphColors = getRandomGraphColor();
+			graphBColor.push(graphColors.background);
+			graphHColor.push(graphColors.hover);
+		});
+		const ctxTrade = document.getElementById('balanceInvestPie');
+		const myPieChart = new Chart(ctxTrade, {
+			type: 'doughnut',
+			data: {
+				labels: graphLabels,
+				datasets: [
+					{
+						label: '%',
+						data: pieValues,
+						backgroundColor: graphBColor,
+						hoverBackgroundColor: graphHColor,
+						hoverBorderColor: 'rgba(234, 236, 244, 1)',
+					},
+				],
+			},
+			options: {
+				maintainAspectRatio: false,
+				tooltips: {
+					backgroundColor: 'rgb(255,255,255)',
+					bodyFontColor: '#858796',
+					borderColor: '#dddfeb',
+					borderWidth: 1,
+					xPadding: 15,
+					yPadding: 15,
+					displayColors: false,
+					caretPadding: 10,
 				},
-			],
-		},
-		options: {
-			maintainAspectRatio: false,
-			tooltips: {
-				backgroundColor: 'rgb(255,255,255)',
-				bodyFontColor: '#858796',
-				borderColor: '#dddfeb',
-				borderWidth: 1,
-				xPadding: 15,
-				yPadding: 15,
-				displayColors: false,
-				caretPadding: 10,
+				legend: {
+					display: true,
+					position: 'right',
+				},
+				cutoutPercentage: 80,
 			},
-			legend: {
-				display: true,
-				position: 'right',
+		});
+
+		const ctxProfit = document.getElementById('profitChart');
+		const myProfitChart = new Chart(ctxProfit, {
+			type: 'horizontalBar',
+			data: {
+				labels: graphLabels,
+				datasets: [
+					{
+						data: profitValues,
+						backgroundColor: graphBColor,
+						hoverBackgroundColor: graphHColor,
+						hoverBorderColor: 'rgba(234, 236, 244, 1)',
+					},
+				],
 			},
-			cutoutPercentage: 80,
-		},
-	});
+			options: {
+				maintainAspectRatio: false,
+				tooltips: {
+					backgroundColor: 'rgb(255,255,255)',
+					bodyFontColor: '#858796',
+					borderColor: '#dddfeb',
+					borderWidth: 1,
+					xPadding: 15,
+					yPadding: 15,
+					displayColors: false,
+					caretPadding: 10,
+				},
+				legend: {
+					display: false,
+					position: 'right',
+				},
+				cutoutPercentage: 80,
+			},
+		});
+	} catch (err) {
+		console.log('Error while getting the data: ', err);
+	}
 
 	const apiUrl = `/app/trade/getEvolutionSymbolsByUser`;
 
