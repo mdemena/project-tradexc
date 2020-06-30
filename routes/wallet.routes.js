@@ -35,10 +35,11 @@ router.get('/', async (req, res, next) => {
         .reduce((total, trans) => (total += trans.total), 0);
     }
   }
-
+  //percentBenefits = ((walletAmount - buyAmount + sellAmount) / 10000) ;
   //percentBenefits = ((walletAmount + buyAmount - sellAmount) / 10000) ;
-  percentBenefits = ((walletAmount) / 10000) * 100;
-  benefits = (10000 * percentBenefits) / 100;
+  
+  benefits = ((10000-walletAmount) * percentBenefits);
+  percentBenefits = benefits;
   
   res.render("app/wallet", {
     layout: "app/layout",

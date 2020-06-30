@@ -54,10 +54,11 @@ const myPieChart = new Chart(ctxTrade, {
   },
 });
 
-
 // Line Chart Example
 const graphDataChart = document.querySelectorAll("#line");
-const graphLabelsChart = [...graphDataChart].map((dataLine) => dataLine["dataset"].date);
+const graphLabelsChart = [...graphDataChart].map(
+  (dataLine) => dataLine["dataset"].date
+);
 const graphValuesChart = [...graphDataChart].map((dataLine) =>
   parseFloat(dataLine["dataset"].amount)
 );
@@ -74,10 +75,10 @@ const myLineChart = new Chart(ctxWallet, {
         borderColor: graphHColor,
         borderWidth: 1,
       },
-      
     ],
   },
   options: {
     responsive: true,
   },
 });
+

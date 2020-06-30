@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema(
     passwordHash: { type: String, required: true },
     imgPath: { type: String },
     imgName: { type: String },
+    occupation: { type: String },
+    adress: { type: String },
+    city: { type: String },
+    country: { type: String },
+    postalCode: { type: String },
+    about: { type: String },
   },
   { timestamps: true }
 );

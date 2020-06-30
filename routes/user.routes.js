@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 const { set } = require("../controllers/wallet.controller");
 const UserController = require("../controllers/user.controller");
 const supportController = require("../controllers/support.controller");
-const uploadCloud = require("../configs/cloudinary.js");
+const uploadCloud = require("../configs/cloudinary.config.js");
 
 const bcrypt = require("bcryptjs");
 const router = express.Router();
@@ -22,34 +22,26 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
-  const { name, email, password } = req.body;
-  /*if (req.file.path) {
-    imgPath = req.file.path;
-  } else
-    imgPath =
-      "https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png";*/
+  
   const imgPath = req.file.path;
   const imgName = req.file.originalname;
-  console.log(name, password, email, imgPath, imgName);
-
   try {
-    await validateSignup(name, email, password);
-    const passwordHash = await bcrypt.hashSync(password, saltRounds);
+    //await validateSignup(name, email, password);
+    //const passwordHash = await bcrypt.hashSync(password, saltRounds);
     //await Auth.signUp(name, email, passwordHash);
-    if (req.session.user.passwordHash === passwordHash) {
-      req.session.user = await UserController.set({
-        _id: req.session.user._id,
-        name,
-        email,
-        passwordHash,
-        imgPath,
-        imgName,
-      });
+    //if (req.session.user.passwordHash === passwordHash) {
+    req.session.user = await UserController.set({
+      _id: req.session.user._id,
+     
+      imgPath,
+      imgName,
+    
+    });
 
-      res.redirect("/app");
-    } else {
-      throw new Error("Password incorrect. Try again.");
-    }
+    res.redirect("/app/user");
+    //} else {
+    // throw new Error("Password incorrect. Try again.");
+    // }
   } catch (err) {
     res.render("app/user", {
       layout: "app/layout",
@@ -58,6 +50,62 @@ router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
       password,
       imgPath,
       imgName,
+    
+      errorMessage: err.message,
+    });
+  }
+});
+
+router.post("/", async (req, res, next) => {
+  const {
+    name,
+    email,
+    password,
+    occupation,
+    adress,
+    city,
+    country,
+    postalCode,
+    about,
+  } = req.body;
+
+
+  try {
+    await validateSignup(name, email, password);
+    const passwordHash = await bcrypt.hashSync(password, saltRounds);
+    //await Auth.signUp(name, email, passwordHash);
+    //if (req.session.user.passwordHash === passwordHash) {
+    req.session.user = await UserController.set({
+      _id: req.session.user._id,
+      name,
+      email,
+      passwordHash,
+      
+      occupation,
+      adress,
+      city,
+      country,
+      postalCode,
+      about,
+    });
+
+    res.redirect("/app");
+    //} else {
+    // throw new Error("Password incorrect. Try again.");
+    // }
+  } catch (err) {
+    res.render("app/user", {
+      layout: "app/layout",
+      name,
+      email,
+      password,
+     
+      occupation,
+      adress,
+      city,
+      country,
+      postalCode,
+      about,
       errorMessage: err.message,
     });
   }
