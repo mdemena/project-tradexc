@@ -50,6 +50,32 @@
             </div>
         </div>
     </div>
+    <!-- Total Buyed -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Profit</div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id='profitAvg'></div>
+                            </div>
+                            <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 10%"
+                                        aria-valuenow="10" aria-valuemin="-100" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Content Row -->
 <div class="row">
@@ -141,12 +167,6 @@
             <div class="card-body">
                 <div class="chart-pie pt-4 pb-2">
                     <canvas id="balanceInvestPie"></canvas>
-                    {{#each balanceInvest}}
-                    <ul class="invisible">
-                        <li class="data-graph" class="data-graph" data-name="{{this._id.name}} ({{this._id.symbol}})"
-                            data-amount="{{roundNumber2 this.amount}}"></li>
-                    </ul>
-                    {{/each}}
                 </div>
             </div>
         </div>
@@ -247,5 +267,6 @@
 {{!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script> --}}
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="/javascripts/private.js"></script>
 <script src="/javascripts/trade.js"></script>

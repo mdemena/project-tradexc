@@ -1,20 +1,21 @@
-const express = require("express");
-const transactionController = require("../controllers/transaction.controller");
-const tradeController = require("../controllers/trade.controller");
-const supportController = require("../controllers/support.controller");
-const walletController = require("../controllers/wallet.controller");
+const express = require('express');
+const transactionController = require('../controllers/transaction.controller');
+const tradeController = require('../controllers/trade.controller');
+const supportController = require('../controllers/support.controller');
+const walletController = require('../controllers/wallet.controller');
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
-  const support = await supportController.listByUser(req.session.user._id);
-  const wallet = await walletController.getByUserId(req.session.user._id);
-  const trades = await tradeController.listByUser(req.session.user._id);
-  const transactions = await transactionController.listByUser(
-    req.session.user._id
-  );
-  const balanceInvest = await tradeController.groupedByUserBySymbol(
-    req.session.user._id
-  );
+router.get('/', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
+	const wallet = await walletController.getByUserId(req.session.user._id);
+	const trades = await tradeController.listByUser(req.session.user._id);
+	const transactions = await transactionController.listByUser(
+		req.session.user._id
+	);
+	const balanceInvest = await tradeController.getSymbolsByUser(
+		req.session.user._id
+	);
+
 
   console.log(balanceInvest);
   let supportCount = support.length;
