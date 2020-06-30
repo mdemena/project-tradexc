@@ -22,14 +22,14 @@ class authController {
 				name: _name,
 				email: _email,
 				passwordHash: _password,
-				/*occupation:"",
+				imgPath:"https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png",
+				imgName:"avatar",
+				occupation:"",
 				adress:"",
 				city:"",
 				country:"",
 				postalCode:"",
-				about:"",*/
-				imgPath:"",
-				imgName:"",
+				about:"",
 				
 			});
 			await this.registerLog(newUser, 'Registered new user');
