@@ -1,4 +1,18 @@
 $(document).ready(async function () {
+	await drawAllCharts();
+});
+$(window).resize(async function () {
+	await resizeAllCharts();
+});
+
+const allGraphs = [];
+async function resizeAllCharts() {
+	allGraphs.forEach((chart) => {
+		chart.options.legend.display = screen.width < 768 ? false : true;
+		chart.update();
+	});
+}
+async function drawAllCharts() {
 	// Set new default font family and font color to mimic Bootstrap's default styling
 	Chart.defaults.global.defaultFontFamily =
 		'Nunito,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -9,7 +23,6 @@ $(document).ready(async function () {
 
 	try {
 		const resFromAPI = await axios.get(apiUrlPie);
-		console.log(resFromAPI);
 		const graphLabels = resFromAPI.data.map(
 			(item) => item._id.name + '(' + item._id.symbol + ')'
 		);
@@ -59,6 +72,7 @@ $(document).ready(async function () {
 			},
 			options: {
 				maintainAspectRatio: false,
+				responsive: true,
 				tooltips: {
 					backgroundColor: 'rgb(255,255,255)',
 					bodyFontColor: '#858796',
@@ -70,12 +84,13 @@ $(document).ready(async function () {
 					caretPadding: 10,
 				},
 				legend: {
-					display: true,
+					display: screen.width < 768 ? false : true,
 					position: 'bottom',
 				},
 				cutoutPercentage: 80,
 			},
 		});
+		allGraphs.push(myPieChart);
 
 		const ctxProfit = document.getElementById('profitChart');
 		const myProfitChart = new Chart(ctxProfit, {
@@ -93,6 +108,7 @@ $(document).ready(async function () {
 			},
 			options: {
 				maintainAspectRatio: false,
+				responsive: true,
 				tooltips: {
 					backgroundColor: 'rgb(255,255,255)',
 					bodyFontColor: '#858796',
@@ -110,6 +126,7 @@ $(document).ready(async function () {
 				cutoutPercentage: 80,
 			},
 		});
+		allGraphs.push(myProfitChart);
 	} catch (err) {
 		console.log('Error while getting the data: ', err);
 	}
@@ -149,6 +166,7 @@ $(document).ready(async function () {
 			},
 			options: {
 				maintainAspectRatio: false,
+				responsive: true,
 				layout: {
 					padding: {
 						left: 10,
@@ -224,4 +242,4 @@ $(document).ready(async function () {
 	} catch (err) {
 		console.log('Error while getting the data: ', err);
 	}
-});
+}
