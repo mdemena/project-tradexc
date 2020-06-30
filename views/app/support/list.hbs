@@ -8,6 +8,9 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Messages</h6>
+                    <a name="" id="" class="btn btn-primary float-right" href="/app/support/ticket" role="button">New
+                        Ticket</a>
+                    <!--
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -19,7 +22,7 @@
                             <a class="dropdown-item" href="/app/support/ticket">New Ticket</a>
                             <a class="dropdown-item" href="/app/support/list">List Messages</a>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="card-body">
                     <div>
@@ -77,18 +80,6 @@
                 </div>
             </div>
         </div>
-
-        <br>
-        <hr>
-        <div class="col-md-6">
-            <a href="/app/support/ticket" class="btn btn-warning pull-right">New Ticket</a>
-            <div class="clearfix"></div>
-            {{#if errorMessage}}
-            <hr>
-            <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
-            {{/if}}
-        </div>
-        <br>
     </div>
 </div>
 

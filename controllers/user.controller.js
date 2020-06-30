@@ -7,13 +7,20 @@ class UserController {
 		return await User.findById(_id);
 	}
 	static async set(_user) {
-		const editUser = await User.findByIdAndUpdate(_user._id, _user, {
-			new: true,
-		});
-		if (editUser) {
-			await this.registerLog(editUser, 'Editing');
+		try{
+			const editUser = await User.findByIdAndUpdate(_user._id, _user, {
+				new: true,
+			});
+			if (editUser) {
+				await this.registerLog(editUser, 'Editing');
+			}
+			return editUser;
+		}catch(err){
+			console.log(err);
+			
 		}
-		return editUser;
+		
+		
 	}
 	static async add(_user) {
 		try {
