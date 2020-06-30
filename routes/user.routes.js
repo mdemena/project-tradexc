@@ -30,30 +30,26 @@ router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
       "https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png";*/
   const imgPath = req.file.path;
   const imgName = req.file.originalname;
-  console.log(name, email, imgPath, imgName);
+  console.log(name, password, email, imgPath, imgName);
 
   try {
-    
     await validateSignup(name, email, password);
-		const passwordHash = await bcrypt.hashSync(password, saltRounds);
+    const passwordHash = await bcrypt.hashSync(password, saltRounds);
     //await Auth.signUp(name, email, passwordHash);
-    
-    await UserController.set({
-      _id: req.session.user._id,
-      name,
-      email,
-      passwordHash,
-      imgPath,
-      imgName,
-    });
+    if (req.session.user.passwordHash === passwordHash) {
+      req.session.user = await UserController.set({
+        _id: req.session.user._id,
+        name,
+        email,
+        passwordHash,
+        imgPath,
+        imgName,
+      });
 
-    req.session.user.name = name;
-    req.session.user.email = email;
-    req.session.user.password = passwordHash;
-    req.session.user.imgPath = imgPath;
-    req.session.user.imgName = imgName;
-
-    res.redirect("/app");
+      res.redirect("/app");
+    } else {
+      throw new Error("Password incorrect. Try again.");
+    }
   } catch (err) {
     res.render("app/user", {
       layout: "app/layout",
@@ -73,11 +69,11 @@ function validateLogin(_email, _password) {
   }
   validatePassword(_password);
 }
-function validateSignup(_name, _email) {
+function validateSignup(_name, _email, _password) {
   if (!_name || !_email) {
     throw new Error("Name, email and password are mandatory");
   }
-  /*validatePassword(_password);*/
+  validatePassword(_password);
 }
 function validatePassword(_password) {
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;

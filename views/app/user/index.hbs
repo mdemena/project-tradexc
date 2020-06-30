@@ -6,12 +6,12 @@
           <div class="card-header bg-gradient-primary">
             <h4 class="card-title text-center" style="color: white">Profile</h4>
             <p class="card-category text-center" style="color: white">Complete your profile</p>
-            <form action="/app/user" method="POST" enctype="multipart/form-data"></form>
+            <form action="/app/user" method="POST" enctype="multipart/form-data" autocomplete="off">
             <div class="card-avatar">
               <a href="javascript:;">
-                {{#if this.imgPath}}
+                {{#if user.imgPath}}
                 <img class="img-fluid img-profile rounded-circle float-left" style="width: 120px ; height:120px;"
-                  src="{{this.imgPath}}" />
+                  src="{{user.imgPath}}" />
                 {{else}}
                 <img class="img-fluid img-profile rounded-circle float-left" style="width: 120px ; height:120px;"
                   src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png" />
@@ -66,7 +66,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="bmd-label-floating">Password</label>
-                    <input type="password" class="form-control" value="{{user.password}}" placeholder="password">
+                    <input type="password" name="password" class="form-control" value="" placeholder="password" required>
                   </div>
                 </div>
               </div>
