@@ -25,55 +25,52 @@
                     </div>-->
                 </div>
                 <div class="card-body">
-                    <div>
-                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                            <div class="row">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered dataTable" id="supportTable" width="100%"
-                                        cellspacing="0" role="grid" aria-describedby="dataTable_info"
-                                        style="width: 100%;">
-                                        <thead>
-                                            <tr role="row">
-                                                <th class="sorting_desc" tabindex="0" aria-controls="dataTable"
-                                                    rowspan="1" colspan="1" aria-sort="descending"
-                                                    aria-label="Date: activate to sort column ascending"
-                                                    style="width: 15%;">
-                                                    Date</th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="dataTable"
-                                                    rowspan="1" colspan="1" aria-sort="descending"
-                                                    aria-label="Subject: activate to sort column ascending"
-                                                    style="width: 20%;">
-                                                    Subject</th>
-                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                    colspan="1" aria-label="Message: activate to sort column ascending"
-                                                    style="width: 100px;">
-                                                    Message</th>
-                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                    colspan="1" aria-label="Status: activate to sort column ascending"
-                                                    style="width: 20%;">Status</th>
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-bordered dataTable" id="supportTable" width="100%"
+                                    cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-sort="descending"
+                                                aria-label="Date: activate to sort column ascending"
+                                                style="width: 15%;">
+                                                Date</th>
+                                            <th class="sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-sort="descending"
+                                                aria-label="Subject: activate to sort column ascending"
+                                                style="width: 20%;">
+                                                Subject</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Message: activate to sort column ascending"
+                                                style="width: 100px;">
+                                                Message</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                colspan="1" aria-label="Status: activate to sort column ascending"
+                                                style="width: 20%;">Status</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <th rowspan="1" colspan="1">Date</th>
-                                            <th rowspan="1" colspan="1">Subject</th>
-                                            <th rowspan="1" colspan="1">Message</th>
-                                            <th rowspan="1" colspan="1">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <th rowspan="1" colspan="1">Date</th>
+                                        <th rowspan="1" colspan="1">Subject</th>
+                                        <th rowspan="1" colspan="1">Message</th>
+                                        <th rowspan="1" colspan="1">Status</th>
 
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            {{#each supports}}
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1">{{dateFormat this.date}}</td>
-                                                <td>{{this.subject}}</td>
-                                                <td>{{this.message}}</td>
-                                                <td>{{this.status}}</td>
-                                            </tr>
-                                            {{/each}}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {{#each supports}}
+                                        <tr role="row" class="odd">
+                                            <td class="sorting_1">{{dateFormat this.date}}</td>
+                                            <td>{{this.subject}}</td>
+                                            <td>{{this.message}}</td>
+                                            <td>{{this.status}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
