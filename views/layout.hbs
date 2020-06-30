@@ -23,10 +23,10 @@
   <!-- Vendor CSS Files -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css"
-    integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPmnKDjySVa323U+W7Fv" crossorigin="anonymous">
+  {{!-- <link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css"
+    integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPmnKDjySVa323U+W7Fv" crossorigin="anonymous"> --}}
 
-  <link href="../stylesheets/startbootstrap/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/@icon/icofont/icofont.css" rel="stylesheet">
 
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/venobox/1.9.0/venobox.min.css" rel="stylesheet">
@@ -47,7 +47,7 @@
 
       <a href="/" class="logo mr-auto"><img src="images/favicon.png" alt="" class="img-fluid"> TradExc </a>
 
-      <nav class="nav-menu d-none d-lg-block">
+      <nav id="nav-bar-menu" class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="/">Home</a></li>
           <li><a href="/about#about">About</a></li>
@@ -152,7 +152,7 @@
   <!-- Template Main JS File -->
   <script src="../stylesheets/bootstrap/js/main.js"></script>
 
-  <script src="../javascripts/script.js"></script>
+  <script src="javascripts/script.js"></script>
 </body>
 
 </html>

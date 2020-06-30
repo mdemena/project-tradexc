@@ -32,9 +32,12 @@ $(document).ready(async function () {
 				parseFloat(item.amount)
 			).toFixed(2)
 		);
-		const profitAvg =
+		let profitAvg =
 			profitValues.reduce((t, a) => (t += parseFloat(a)), 0) /
 			profitValues.length;
+		if (isNaN(profitAvg)) {
+			profitAvg = 0.0;
+		}
 		document.getElementById('profitAvg').innerHTML =
 			profitAvg.toFixed(2) + ' %';
 		document.querySelector('.progress-bar.bg-info').style.width =
@@ -43,11 +46,6 @@ $(document).ready(async function () {
 			.querySelector('.progress-bar.bg-info')
 			.setAttribute('aria-valuenow', profitAvg);
 
-		// const graphData = document.querySelectorAll('.data-graph');
-		// const graphLabels = [...graphData].map((data) => data['dataset'].name);
-		// const graphValues = [...graphData].map((data) =>
-		// 	parseFloat(data['dataset'].amount)
-		// );
 		const graphBColor = [];
 		const graphHColor = [];
 		pieValues.forEach((data) => {
@@ -83,7 +81,7 @@ $(document).ready(async function () {
 				},
 				legend: {
 					display: true,
-					position: 'right',
+					position: 'bottom',
 				},
 				cutoutPercentage: 80,
 			},
