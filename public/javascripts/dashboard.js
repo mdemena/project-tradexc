@@ -1,16 +1,14 @@
 $(document).ready(async function () {
 	await drawAllCharts();
 });
-$(window).resize(async function () {
-	await resizeAllCharts();
-});
+// $(window).resize(async function () {
+// 	await resizeAllCharts();
+// });
 
 const allGraphs = [];
-async function resizeAllCharts() {
-	allGraphs.forEach((chart) => {
-		chart.options.legend.display = screen.width < 768 ? false : true;
-		chart.update();
-	});
+async function resizedChart(_chart, _newSize) {
+	_chart.options.legend.display = _newSize < 768 ? false : true;
+	_chart.update();
 }
 async function drawAllCharts() {
 	// Set new default font family and font color to mimic Bootstrap's default styling
@@ -73,6 +71,11 @@ async function drawAllCharts() {
 			options: {
 				maintainAspectRatio: false,
 				responsive: true,
+				onResize: function (_chart, _newSize) {
+					console.log(_newSize);
+					_chart.options.legend.display = _newSize.width < 350 ? false : true;
+					_chart.update();
+				},
 				tooltips: {
 					backgroundColor: 'rgb(255,255,255)',
 					bodyFontColor: '#858796',
@@ -84,13 +87,12 @@ async function drawAllCharts() {
 					caretPadding: 10,
 				},
 				legend: {
-					display: screen.width < 768 ? false : true,
+					display: true,
 					position: 'bottom',
 				},
 				cutoutPercentage: 80,
 			},
 		});
-		allGraphs.push(myPieChart);
 
 		const ctxProfit = document.getElementById('profitChart');
 		const myProfitChart = new Chart(ctxProfit, {
@@ -99,6 +101,7 @@ async function drawAllCharts() {
 				labels: graphLabels,
 				datasets: [
 					{
+						labels: graphLabels,
 						data: profitValues,
 						backgroundColor: graphBColor,
 						hoverBackgroundColor: graphHColor,
@@ -118,15 +121,36 @@ async function drawAllCharts() {
 					yPadding: 15,
 					displayColors: false,
 					caretPadding: 10,
+					callbacks: {
+						label: function (tooltipItem, data) {
+							var label = tooltipItem.yLabel;
+
+							if (label) {
+								label += ': ';
+							}
+							label += tooltipItem.xLabel + ' %';
+							return label;
+						},
+					},
+				},
+				scales: {
+					xAxes: [
+						{
+							ticks: {
+								// Include a % sign in the ticks
+								callback: function (value, index, values) {
+									return value.toFixed(2) + ' %';
+								},
+							},
+						},
+					],
 				},
 				legend: {
 					display: false,
-					position: 'right',
 				},
 				cutoutPercentage: 80,
 			},
 		});
-		allGraphs.push(myProfitChart);
 	} catch (err) {
 		console.log('Error while getting the data: ', err);
 	}
@@ -167,6 +191,11 @@ async function drawAllCharts() {
 			options: {
 				maintainAspectRatio: false,
 				responsive: true,
+				onResize: function (_chart, _newSize) {
+					console.log(_newSize);
+					_chart.options.legend.display = _newSize.width < 350 ? false : true;
+					_chart.update();
+				},
 				layout: {
 					padding: {
 						left: 10,
@@ -212,6 +241,7 @@ async function drawAllCharts() {
 				},
 				legend: {
 					display: true,
+					position: 'top',
 				},
 				tooltips: {
 					backgroundColor: 'rgb(255,255,255)',
