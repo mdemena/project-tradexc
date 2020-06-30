@@ -20,7 +20,7 @@ router.get("/", async (req, res, next) => {
     supports: support,
   });
 });
-
+/*
 router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
   
   const imgPath = req.file.path;
@@ -54,13 +54,15 @@ router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
       errorMessage: err.message,
     });
   }
-});
+});*/
 
-router.post("/", async (req, res, next) => {
-  const {
+router.post("/", uploadCloud.single("photo"),async (req, res, next) => {
+  let {
     name,
     email,
     password,
+    imgPath,
+    imgName,
     occupation,
     adress,
     city,
@@ -68,9 +70,17 @@ router.post("/", async (req, res, next) => {
     postalCode,
     about,
   } = req.body;
+  
 
 
   try {
+    if (req.file){
+      imgPath = req.file.path;
+      imgName = req.file.originalname;
+    }else{
+      imgPath = req.session.user.imgPath;
+      imgName = req.session.user.imgName;
+    }
     await validateSignup(name, email, password);
     const passwordHash = await bcrypt.hashSync(password, saltRounds);
     //await Auth.signUp(name, email, passwordHash);
@@ -80,7 +90,8 @@ router.post("/", async (req, res, next) => {
       name,
       email,
       passwordHash,
-      
+      imgPath,
+      imgName,
       occupation,
       adress,
       city,
@@ -99,7 +110,8 @@ router.post("/", async (req, res, next) => {
       name,
       email,
       password,
-     
+      imgPath,
+      imgName,
       occupation,
       adress,
       city,
@@ -131,5 +143,12 @@ function validatePassword(_password) {
     );
   }
 }
-
+function validateText(_text) {
+  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
+  if (!regex.test(_password)) {
+    throw new Error(
+      "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter."
+    );
+  }
+}
 module.exports = router;

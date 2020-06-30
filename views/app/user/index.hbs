@@ -9,13 +9,10 @@
 
             <div class="card-avatar">
               <a href="javascript:;">
-                {{#if user.imgPath}}
+                
                 <img class="img-fluid img-profile rounded-circle float-left" style="width: 120px ; height:120px;"
                   src="{{user.imgPath}}" />
-                {{else}}
-                <img class="img-fluid img-profile rounded-circle float-left" style="width: 120px ; height:120px;"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png" />
-                {{/if}}
+               
               </a>
 
             </div>
@@ -40,6 +37,7 @@
                     <label class="bmd-label-floating">Photo</label>
                     <input class="btn btn-primary float-right" type="file" name="photo">
                   </div>
+                  
                 </div>
                 <!--<div class="col-md-6">
                   <div class="form-group">
