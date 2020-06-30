@@ -17,40 +17,45 @@ router.get('/', async (req, res, next) => {
 		req.session.user._id
 	);
 
-	console.log(balanceInvest);
-	let supportCount = support.length;
-	let benefits = 0;
-	let percentBenefits = 0;
-	let buyAmount = 0;
-	let sellAmount = 0;
-	let walletAmount = req.session.wallet.amount;
-	if (trades) {
-		if (transactions.length > 0) {
-			buyAmount = transactions
-				.filter((trans) => trans.type === 'buy')
-				.reduce((total, trans) => (total += trans.total), 0);
-			sellAmount = transactions
-				.filter((trans) => trans.type === 'sell')
-				.reduce((total, trans) => (total += trans.total), 0);
-		}
-	}
-	benefits = 10000 - buyAmount + sellAmount - 10000;
-	percentBenefits = (benefits / 10000) * 100;
-	res.render('app/wallet', {
-		layout: 'app/layout',
-		user: req.session.user,
-		walletAmount: walletAmount,
-		buyAmount: buyAmount,
-		sellAmount: sellAmount,
-		trades: trades,
-		transactions: transactions,
-		balanceInvest: balanceInvest,
-		benefits: benefits,
-		percentBenefits: percentBenefits,
-		wallet: wallet,
-		supportCount: supportCount,
-		supports: support,
-	});
+
+  console.log(balanceInvest);
+  let supportCount = support.length;
+  let benefits = 0;
+  let percentBenefits = 0;
+  let buyAmount = 0;
+  let sellAmount = 0;
+  let walletAmount = req.session.wallet.amount;
+  if (trades) {
+    if (transactions.length > 0) {
+      buyAmount = transactions
+        .filter((trans) => trans.type === "buy")
+        .reduce((total, trans) => (total += trans.total), 0);
+      sellAmount = transactions
+        .filter((trans) => trans.type === "sell")
+        .reduce((total, trans) => (total += trans.total), 0);
+    }
+  }
+
+  //percentBenefits = ((walletAmount + buyAmount - sellAmount) / 10000) ;
+  percentBenefits = ((walletAmount) / 10000) * 100;
+  benefits = (10000 * percentBenefits) / 100;
+  
+  res.render("app/wallet", {
+    layout: "app/layout",
+    user: req.session.user,
+    walletAmount: walletAmount,
+    buyAmount: buyAmount,
+    sellAmount: sellAmount,
+    trades: trades,
+    transactions: transactions,
+    balanceInvest: balanceInvest,
+    benefits: benefits,
+    percentBenefits: percentBenefits,
+    wallet: wallet,
+    supportCount: supportCount,
+    supports: support,
+  });
+
 });
 
 router.get('/deposit', async (req, res, next) => {

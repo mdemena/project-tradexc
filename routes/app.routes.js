@@ -5,6 +5,7 @@ const supportController = require('../controllers/support.controller');
 const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
+
 router.get('/', async (req, res, next) => {
 	const tickets = await supportController.listByUser(req.session.user._id);
 	const transactions = await transactionsController.listByUser(
@@ -40,6 +41,7 @@ router.get('/', async (req, res, next) => {
 	// End Dashboard data
 	res.render('app/index', {
 		layout: 'app/layout',
+
 		user: req.session.user,
 		walletAmount: walletAmount,
 		transAmount: transAmount,
