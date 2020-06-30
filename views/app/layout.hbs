@@ -27,6 +27,7 @@
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
+  <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="/stylesheets/styleDashboard.css" rel="stylesheet">
 
 </head>
@@ -246,7 +247,7 @@
                 aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.name}}</span>
                 
-                <img class="img-fluid img-profile rounded-circle float-left" style="width: 40px ; height:40px;"
+                <img id="avatarLayout" class="img-fluid img-profile rounded-circle float-left"
                   src="{{user.imgPath}}">
               
               </a>
@@ -260,7 +261,7 @@
                   <i class="fas fa-life-ring fa-sm fa-fw mr-2 text-gray-400"></i>
                   Support
                 </a>
-                <a class="dropdown-item" href="/app/log">
+                <a class="dropdown-item" href="/app/logs">
                   <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                   Activity Log
                 </a>
