@@ -5,28 +5,19 @@ const supportController = require('../controllers/support.controller');
 const tradeController = require('../controllers/trade.controller');
 
 /* GET home page */
+
 router.get('/', async (req, res, next) => {
 	const tickets = await supportController.listByUser(req.session.user._id);
 	const transactions = await transactionsController.listByUser(
 		req.session.user._id
 	);
-	if (!req.session.evolutionSymbols) {
-		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
-			req.session.user._id
-		);
-		console.log('Pidiendo datos a la API');
-	}
 	// Begin Dashboard data
-	let supportCount = tickets.length;
 	let transAmount = 0;
 	let transCount = 0;
 	let transBuysCount = 0;
 	let transSellsCount = 0;
 	let balanceBuySell = 0;
 	let walletAmount = req.session.wallet.amount;
-	const balanceInvest = await tradeController.groupedByUserBySymbol(
-		req.session.user._id
-	);
 
 	if (transactions.length > 0) {
 		const transBuys = transactions.filter((trans) => trans.type === 'buy');
@@ -50,6 +41,7 @@ router.get('/', async (req, res, next) => {
 	// End Dashboard data
 	res.render('app/index', {
 		layout: 'app/layout',
+
 		user: req.session.user,
 		walletAmount: walletAmount,
 		transAmount: transAmount,
@@ -57,8 +49,7 @@ router.get('/', async (req, res, next) => {
 		transBuys: transBuysCount,
 		transSells: transSellsCount,
 		balanceBuySell: balanceBuySell * 100,
-		balanceInvest: balanceInvest,
-		evolutionSymbols: req.session.evolutionSymbols,
+		supportCount: tickets.length,
 		supports: tickets,
 	});
 });

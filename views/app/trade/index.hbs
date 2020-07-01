@@ -31,6 +31,9 @@
                     <div class="col-auto">
                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
                     </div>
+                    <div class="col-auto ml-3">
+                        <a name="" id="" class="btn btn-primary" href="/app/trade/buy" role="button">Buy</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,6 +53,29 @@
             </div>
         </div>
     </div>
+    <!-- Total Buyed -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Profit</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span id='profitAmount'></span> EUR
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Percentage</div>
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><span id='profitAvg'></span> %</div>
+                    </div>
+                    <div class="col-auto">
+                        <i id='arrowIcon' class="fas fa-arrow-circle-up fa-2x text-green-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Content Row -->
 <div class="row">
@@ -62,10 +88,10 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                        <div class="row">
-                            <div class="col-sm-12">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
                                 <table class="table table-bordered dataTable" id="tradeTable" width="100%"
                                     cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
@@ -141,12 +167,6 @@
             <div class="card-body">
                 <div class="chart-pie pt-4 pb-2">
                     <canvas id="balanceInvestPie"></canvas>
-                    {{#each balanceInvest}}
-                    <ul class="invisible">
-                        <li class="data-graph" class="data-graph" data-name="{{this._id.name}} ({{this._id.symbol}})"
-                            data-amount="{{roundNumber2 this.amount}}"></li>
-                    </ul>
-                    {{/each}}
                 </div>
             </div>
         </div>
@@ -160,10 +180,10 @@
                 <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                        <div class="row">
-                            <div class="col-sm-12">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
                                 <table class="table table-bordered dataTable" id="transactionsTable" width="100%"
                                     cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
@@ -247,5 +267,6 @@
 {{!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script> --}}
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="/javascripts/private.js"></script>
 <script src="/javascripts/trade.js"></script>

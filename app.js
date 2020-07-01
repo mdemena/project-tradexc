@@ -96,6 +96,14 @@ app.use('/app/user', user);
 const support = require('./routes/support.routes');
 app.use('/app/support', support);
 
+const log = require('./routes/log.routes');
+app.use('/app/logs', log);
+
+hbs.registerHelper('dateFormatDay', function (_date) {
+	//return _date.toLocaleDateString('es-ES');
+	return dayjs(_date).format('DD/MM/YYYY');
+});
+
 hbs.registerHelper('dateFormat', function (_date) {
 	//return _date.toLocaleDateString('es-ES');
 	return dayjs(_date).format('DD/MM/YYYY HH:mm');
@@ -103,16 +111,5 @@ hbs.registerHelper('dateFormat', function (_date) {
 hbs.registerHelper('roundNumber2', function (_number) {
 	return _number.toFixed(2);
 });
-// hbs.registerHelper('isStock', function (_type) {
-// 	return _type === 'stock';
-// });
-// hbs.registerHelper('isCrypto', function (_type) {
-// 	return _type === 'crypto';
-// });
-// hbs.registerHelper('isBuy', function (_action) {
-// 	return _action === 'buy';
-// });
-// hbs.registerHelper('isSell', function (_action) {
-// 	return _action === 'sell';
-// });
+
 module.exports = app;

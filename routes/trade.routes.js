@@ -1,19 +1,17 @@
 const express = require('express');
 const tradeController = require('../controllers/trade.controller');
 const transactionController = require('../controllers/transaction.controller');
+const supportController = require('../controllers/support.controller');
 const router = express.Router();
 
 /* GET Trade */
 router.get('/', async (req, res, next) => {
 	const trades = await tradeController.listByUser(req.session.user._id);
+	const support = await supportController.listByUser(req.session.user._id);
 	const transactions = await transactionController.listByUser(
 		req.session.user._id
 	);
-	const balanceInvest = await tradeController.groupedByUserBySymbol(
-		req.session.user._id
-	);
 
-	console.log(balanceInvest);
 	let buyAmount = 0;
 	let sellAmount = 0;
 	let walletAmount = req.session.wallet.amount;
@@ -35,14 +33,18 @@ router.get('/', async (req, res, next) => {
 		sellAmount: sellAmount,
 		trades: trades,
 		transactions: transactions,
-		balanceInvest: balanceInvest,
+		supportCount: support.length,
+		supports: support,
 	});
 });
 
 router.get('/buy', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
 	res.render('app/trade/trade', {
 		layout: 'app/layout',
 		user: req.session.user,
+		supportCount: support.length,
+		supports: support,
 		title: 'Buy',
 		action: 'buy',
 		hasSymbol: false,
@@ -50,15 +52,19 @@ router.get('/buy', async (req, res, next) => {
 		symbol: '',
 		symbolCode: '',
 		symbolName: '',
+		type: 'stock',
 		units: 0,
 		price: 0,
 	});
 });
 
 router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
 	res.render('app/trade/trade', {
 		layout: 'app/layout',
 		user: req.session.user,
+		supportCount: support.length,
+		supports: support,
 		title: 'Buy',
 		action: 'buy',
 		hasSymbol: true,
@@ -66,8 +72,7 @@ router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
 		symbol: `${req.params.name} (${req.params.symbol})`,
 		symbolCode: req.params.symbol,
 		symbolName: req.params.name,
-		isStock: req.params.type === 'stock',
-		isCrypto: req.params.type === 'crypto',
+		type: req.params.type,
 		units: 0,
 		price: await tradeController.getSymbolPrice(
 			req.params.symbol,
@@ -77,6 +82,7 @@ router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
 });
 
 router.get('/sell', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
 	res.render('app/trade/trade', {
 		layout: 'app/layout',
 		user: req.session.user,
@@ -84,10 +90,13 @@ router.get('/sell', async (req, res, next) => {
 		action: 'sell',
 		hasSymbol: false,
 		trades: await tradeController.listByUser(req.session.user._id),
+		supportCount: support.length,
+		supports: support,
 	});
 });
 
 router.get('/sell/:type/:units/:symbol-:name', async (req, res, next) => {
+	const support = await supportController.listByUser(req.session.user._id);
 	let priceSymbol = await tradeController.getSymbolPrice(
 		req.params.symbol,
 		req.params.type
@@ -106,6 +115,8 @@ router.get('/sell/:type/:units/:symbol-:name', async (req, res, next) => {
 		isCrypto: req.params.type === 'crypto',
 		price: priceSymbol,
 		walletAmount: priceSymbol * req.params.units,
+		supportCount: support.length,
+		supports: support,
 	});
 });
 
@@ -122,6 +133,12 @@ router.post('/buy', async (req, res, next) => {
 				price
 			);
 			req.session.wallet = newWallet;
+			req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+				req.session.user._id
+			);
+			req.session.userSymbols = await tradeController.getSymbolsByUser(
+				req.session.user._id
+			);
 			res.redirect('/app/trade/');
 		} else {
 			throw new Error(
@@ -156,6 +173,12 @@ router.post('/sell', async (req, res, next) => {
 			price
 		);
 		req.session.wallet = newWallet;
+		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+			req.session.user._id
+		);
+		req.session.userSymbols = await tradeController.getSymbolsByUser(
+			req.session.user._id
+		);
 		res.redirect('/app/trade/');
 	} catch (err) {
 		res.render('app/trade/trade', {
@@ -188,8 +211,19 @@ router.get('/searchSymbol/:type/:keywords', async (req, res, next) => {
 	);
 });
 router.get('/getEvolutionSymbolsByUser', async (req, res, next) => {
-	res.json(
-		await tradeController.getEvolutionSymbolsByUser(req.session.user._id)
-	);
+	if (!req.session.evolutionSymbols) {
+		req.session.evolutionSymbols = await tradeController.getEvolutionSymbolsByUser(
+			req.session.user._id
+		);
+	}
+	res.json(req.session.evolutionSymbols);
+});
+router.get('/getSymbolsByUser', async (req, res, next) => {
+	if (!req.session.userSymbols) {
+		req.session.userSymbols = await tradeController.getSymbolsByUser(
+			req.session.user._id
+		);
+	}
+	res.json(req.session.userSymbols);
 });
 module.exports = router;

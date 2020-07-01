@@ -1,8 +1,22 @@
+document.addEventListener('DOMContentLoaded', function (event) {
+	document.getElementById('typeStock').checked =
+		document.getElementById('typeId').value === 'stock';
+	document.getElementById('typeCrypto').checked = !document.getElementById(
+		'typeStock'
+	).checked;
+});
+
+document.getElementById('typeStock').addEventListener('click', (event) => {
+	document.getElementById('typeId').value = 'stock';
+});
+document.getElementById('typeCrypto').addEventListener('click', (event) => {
+	document.getElementById('typeId').value = 'crypto';
+});
+
 async function searchSymbol(_keywords) {
-	const _type = Array.from(document.getElementsByName('type')).filter(
-		(r) => r.checked
-	).value;
+	const _type = document.getElementById('typeId').value;
 	const apiUrl = `/app/trade/searchSymbol/${_type}/${_keywords}`;
+	console.log(apiUrl);
 	try {
 		const responseFromAPI = await axios.get(apiUrl);
 		return responseFromAPI.data;
@@ -12,9 +26,7 @@ async function searchSymbol(_keywords) {
 }
 
 async function getSymbolPrice(_symbol) {
-	const _type = Array.from(document.getElementsByName('type')).find(
-		(r) => r.checked
-	).value;
+	const _type = document.getElementById('typeId').value;
 	const apiUrl = `/app/trade/getSymbolPrice/${_type}/${_symbol}`;
 	let price = 1;
 	try {

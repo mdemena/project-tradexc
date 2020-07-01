@@ -23,15 +23,13 @@
   <!-- Vendor CSS Files -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css"
-    integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPmnKDjySVa323U+W7Fv" crossorigin="anonymous">
 
-  <link href="../stylesheets/startbootstrap/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="/stylesheets/icofont.min.css" rel="stylesheet">
 
   <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
-  <link href="/stylesheets/bootstrap/vendor/venobox/venobox.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css" rel="stylesheet">
-  <!--<link href="../stylesheets/bootstrap/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/venobox/1.9.0/venobox.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css"
+    rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="/stylesheets/style.css" rel="stylesheet">
@@ -46,7 +44,7 @@
 
       <a href="/" class="logo mr-auto"><img src="images/favicon.png" alt="" class="img-fluid"> TradExc </a>
 
-      <nav class="nav-menu d-none d-lg-block">
+      <nav id="nav-bar-menu" class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="/">Home</a></li>
           <li><a href="/about#about">About</a></li>
@@ -67,20 +65,6 @@
   </main><!-- End #main -->
   <!-- ======= Footer ======= -->
   <footer id="footer">
-
-    <!--<div class="footer-newsletter">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-6">
-            <h4>Join Our Newsletter</h4>
-            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>-->
 
     <div class="footer-top">
       <div class="container">
@@ -115,13 +99,14 @@
               <li><i class="bx bx-chevron-right"></i> <a href="/about#services">Exchange</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/about#services">Product Management</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/about#services">Secure & Stable</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/about#contact">Contact</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/auth/signup">SignUp</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Our Social Networks</h4>
-            <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+            <p>
+              Follow us on our social networks if you want to get more updated information</p>
             <div class="social-links mt-3">
               <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
               <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -137,9 +122,10 @@
 
     <div class="container py-4">
       <div class="copyright">
-        &copy; Copyright <strong><span><a href="/"> TradExc </a></span></strong><script>
-              document.write(new Date().getFullYear())
-            </script>. All Rights Reserved
+        &copy; Copyright <strong><span><a href="/"> TradExc </a></span></strong>
+        <script>
+          document.write(new Date().getFullYear())
+        </script>. All Rights Reserved
       </div>
       <div class="credits">
         Designed by <a href="https://github.com/mdemena">MdM</a> & <a href="https://github.com/jesussantana">JsS</a>
@@ -161,9 +147,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="../stylesheets/bootstrap/js/main.js"></script>
+  <script src="javascripts/main.js"></script>
 
-  <script src="../javascripts/script.js"></script>
+  <script src="javascripts/script.js"></script>
 </body>
 
 </html>
