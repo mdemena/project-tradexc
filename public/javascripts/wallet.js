@@ -2,7 +2,6 @@ $(document).ready(function () {
 	$('#walletTable').DataTable({ paging: true, ordering: true, info: false });
 });
 
-
 $(document).ready(async function () {
   await drawAllCharts();
 });
@@ -17,6 +16,15 @@ async function resizeAllCharts() {
     chart.update();
   });
 }
+
+let balances =[];
+let balanceTotal
+wallet.movements.forEach(mov => {
+  balanceTotal +=mov
+  balances.push(balanceTotal);
+  return balances;
+  
+});
 
 async function drawAllCharts() {
   // Set new default font family and font color to mimic Bootstrap's default styling
@@ -54,6 +62,11 @@ async function drawAllCharts() {
     },
     options: {
       maintainAspectRatio: false,
+      responsive: true,
+				onResize: function (_chart, _newSize) {
+					_chart.options.legend.display = _newSize.width < 350 ? false : true;
+					_chart.update();
+				},
       tooltips: {
         backgroundColor: "rgb(255,255,255)",
         bodyFontColor: "#858796",
@@ -88,7 +101,7 @@ async function drawAllCharts() {
       labels: graphLabelsChart,
       datasets: [
         {
-          label: "BALANCE",
+          label: "WALLET MOVEMENT",
           data: graphValuesChart,
           backgroundColor: graphBColor,
           borderColor: graphHColor,

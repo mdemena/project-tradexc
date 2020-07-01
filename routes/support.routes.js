@@ -7,7 +7,7 @@ const supportController = require("../controllers/support.controller");
 router.get("/", async (req, res, next) => {
 
   const support = await supportController.listByUser(req.session.user._id);
-  let supportCount = support.length;
+  let supportCount = support.length +1;
   res.render("app/support/list", {
     layout: "app/layout",
     user: req.session.user,
@@ -18,7 +18,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/ticket", async (req, res, next) => {
   const support = await supportController.listByUser(req.session.user._id);
-  let supportCount = support.length;
+  let supportCount = support.length+1;
   res.render("app/support/ticket", {
     layout: "app/layout",
     user: req.session.user,

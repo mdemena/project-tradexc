@@ -9,50 +9,33 @@
 
             <div  class="card-avatar">
               <a href="javascript:;">
-
                 <img id="avatarProfile" class="img-fluid img-profile rounded-circle float-left" 
                   src="{{user.imgPath}}" />
-
               </a>
-
             </div>
             <div class="card-body float-right text-center">
 
               <h4 class="card-title text-white">{{user.name}}</h4>
               <h6 class="card-category text-white">{{user.occupation}}</h6>
-
-
               <h6 class="card-category text-white">{{user.city}}</h6>
               <h6 class="card-category text-white">{{user.country}}</h6>
               <h6 class="card-title text-white">{{user.about}}</h6>
             </div>
           </div>
           <div class="card-body">
-
-
+            <!-- Begin Form User -->
             <form action="/app/user" method="POST" enctype="multipart/form-data">
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-
+                    <!-- Photo Upload -->
                     <label for="photo" class="custom-file-upload">
                       <i class="fa fa-cloud-upload"></i> Photo
                     </label>
                     <input class="btn btn-primary" id="photo" type="file" name="photo">
                   </div>
-
                 </div>
-                <!--<div class="col-md-6">
-                  <div class="form-group">
-                    <label class="bmd-label-floating"></label>
-                    <button type="submit" class="btn btn-primary float-right">Update Photo</button>
-                  </div>
-
-                </div>-->
-
               </div>
-
-
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -131,10 +114,9 @@
                   {{/if}}
                 </div>
               </div>
-            </form>
+            </form> <!-- End Form User -->
           </div>
         </div>
-
       </div>
     </div>
   </div>
