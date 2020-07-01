@@ -20,7 +20,6 @@ $(document).ready(async function () {
 
 	try {
 		const resFromAPI = await axios.get(apiUrlPie);
-		console.log(resFromAPI);
 		const graphLabels = resFromAPI.data.map(
 			(item) => item._id.name + '(' + item._id.symbol + ')'
 		);
@@ -46,11 +45,6 @@ $(document).ready(async function () {
 			document.getElementById('arrowIcon').class =
 				'fas fa-arrow-circle-down fa-2x text-red-300';
 		}
-		// document.querySelector('.progress-bar.bg-info').style.width =
-		// 	profitAvg.toFixed(2) + '%';
-		// document
-		// 	.querySelector('.progress-bar.bg-info')
-		// 	.setAttribute('aria-valuenow', profitAvg);
 
 		const graphBColor = [];
 		const graphHColor = [];

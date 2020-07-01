@@ -1,26 +1,15 @@
 $(document).ready(async function () {
-  await drawAllCharts();
+	await drawAllCharts();
 });
 
-// $(window).resize(async function () {
-// 	await resizeAllCharts();
-// });
-
-const allGraphs = [];
-async function resizedChart(_chart, _newSize) {
-	_chart.options.legend.display = _newSize < 768 ? false : true;
-	_chart.update();
-
-}
 async function drawAllCharts() {
-  // Set new default font family and font color to mimic Bootstrap's default styling
-  Chart.defaults.global.defaultFontFamily =
-    'Nunito,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-  Chart.defaults.global.defaultFontColor = "#858796";
+	// Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily =
+		'Nunito,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#858796';
 
-  // Pie Chart Example
-  const apiUrlPie = `/app/trade/getSymbolsByUser`;
-
+	// Pie Chart Example
+	const apiUrlPie = `/app/trade/getSymbolsByUser`;
 
 	try {
 		const resFromAPI = await axios.get(apiUrlPie);
@@ -166,9 +155,7 @@ async function drawAllCharts() {
 		console.log('Error while getting the data: ', err);
 	}
 
-
-  const apiUrl = `/app/trade/getEvolutionSymbolsByUser`;
-
+	const apiUrl = `/app/trade/getEvolutionSymbolsByUser`;
 
 	try {
 		const responseFromAPI = await axios.get(apiUrl);
