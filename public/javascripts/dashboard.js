@@ -72,7 +72,6 @@ async function drawAllCharts() {
 				maintainAspectRatio: false,
 				responsive: true,
 				onResize: function (_chart, _newSize) {
-					console.log(_newSize);
 					_chart.options.legend.display = _newSize.width < 350 ? false : true;
 					_chart.update();
 				},
@@ -192,7 +191,6 @@ async function drawAllCharts() {
 				maintainAspectRatio: false,
 				responsive: true,
 				onResize: function (_chart, _newSize) {
-					console.log(_newSize);
 					_chart.options.legend.display = _newSize.width < 350 ? false : true;
 					_chart.update();
 				},
