@@ -32,19 +32,27 @@ async function drawAllCharts() {
 				parseFloat(item.amount)
 			).toFixed(2)
 		);
-		let profitAvg =
-			profitValues.reduce((t, a) => (t += parseFloat(a)), 0) /
-			profitValues.length;
+		const profitAmount = resFromAPI.data.reduce(
+			(total, item) =>
+				(total +=
+					parseFloat(item.units) * parseFloat(item.actualPrice) -
+					parseFloat(item.amount)),
+			0
+		);
+		const investAmount = resFromAPI.data.reduce(
+			(total, item) => (total += parseFloat(item.amount)),
+			0
+		);
+		let profitAvg = profitAmount / investAmount;
 		if (isNaN(profitAvg)) {
 			profitAvg = 0.0;
 		}
-		document.getElementById('profitAvg').innerHTML =
-			profitAvg.toFixed(2) + ' %';
-		document.querySelector('.progress-bar.bg-info').style.width =
-			profitAvg.toFixed(2) + '%';
-		document
-			.querySelector('.progress-bar.bg-info')
-			.setAttribute('aria-valuenow', profitAvg);
+		document.getElementById('profitAmount').innerHTML = profitAmount.toFixed(2); //+ ' %';
+		document.getElementById('profitAvg').innerHTML = profitAvg.toFixed(2); //+ ' %';
+		if (profitAmount < 0) {
+			document.getElementById('arrowIcon').class =
+				'fas fa-arrow-circle-down fa-2x text-red-300';
+		}
 
 		const graphBColor = [];
 		const graphHColor = [];
