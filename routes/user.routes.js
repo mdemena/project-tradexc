@@ -100,7 +100,7 @@ router.post("/", uploadCloud.single("photo"),async (req, res, next) => {
       about,
     });
 
-    res.redirect("/app");
+    res.redirect("/app/user");
     //} else {
     // throw new Error("Password incorrect. Try again.");
     // }
