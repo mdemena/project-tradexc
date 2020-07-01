@@ -1,6 +1,7 @@
 $(document).ready(function () {
-  $("#walletTable").DataTable({ paging: true, ordering: true, info: false });
+	$('#walletTable').DataTable({ paging: true, ordering: true, info: false });
 });
+
 
 $(document).ready(async function () {
   await drawAllCharts();
@@ -101,3 +102,4 @@ async function drawAllCharts() {
   });
   allGraphs.push(myLineChart);
 }
+

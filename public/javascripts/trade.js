@@ -25,26 +25,32 @@ $(document).ready(async function () {
 			(item) => item._id.name + '(' + item._id.symbol + ')'
 		);
 		const pieValues = resFromAPI.data.map((item) => parseFloat(item.amount));
-		const profitValues = resFromAPI.data.map((item) =>
-			(
-				(parseFloat(item.units) * parseFloat(item.actualPrice) -
-					parseFloat(item.amount)) /
-				parseFloat(item.amount)
-			).toFixed(2)
+		const profitAmount = resFromAPI.data.reduce(
+			(total, item) =>
+				(total +=
+					parseFloat(item.units) * parseFloat(item.actualPrice) -
+					parseFloat(item.amount)),
+			0
 		);
-		let profitAvg =
-			profitValues.reduce((t, a) => (t += parseFloat(a)), 0) /
-			profitValues.length;
+		const investAmount = resFromAPI.data.reduce(
+			(total, item) => (total += parseFloat(item.amount)),
+			0
+		);
+		let profitAvg = profitAmount / investAmount;
 		if (isNaN(profitAvg)) {
 			profitAvg = 0.0;
 		}
-		document.getElementById('profitAvg').innerHTML =
-			profitAvg.toFixed(2) + ' %';
-		document.querySelector('.progress-bar.bg-info').style.width =
-			profitAvg.toFixed(2) + '%';
-		document
-			.querySelector('.progress-bar.bg-info')
-			.setAttribute('aria-valuenow', profitAvg);
+		document.getElementById('profitAmount').innerHTML = profitAmount.toFixed(2); //+ ' %';
+		document.getElementById('profitAvg').innerHTML = profitAvg.toFixed(2); //+ ' %';
+		if (profitAmount < 0) {
+			document.getElementById('arrowIcon').class =
+				'fas fa-arrow-circle-down fa-2x text-red-300';
+		}
+		// document.querySelector('.progress-bar.bg-info').style.width =
+		// 	profitAvg.toFixed(2) + '%';
+		// document
+		// 	.querySelector('.progress-bar.bg-info')
+		// 	.setAttribute('aria-valuenow', profitAvg);
 
 		const graphBColor = [];
 		const graphHColor = [];

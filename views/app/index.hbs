@@ -67,21 +67,18 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Profit</div>
-            <div class="row no-gutters align-items-center">
-              <div class="col-auto">
-                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id='profitAvg'></div>
-              </div>
-              <div class="col">
-                <div class="progress progress-sm mr-2">
-                  <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10"
-                    aria-valuemin="-100" aria-valuemax="100"></div>
-                </div>
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Profit</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><span id='profitAmount'></span> EUR
               </div>
             </div>
           </div>
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Percentage</div>
+            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><span id='profitAvg'></span> %</div>
+          </div>
           <div class="col-auto">
-            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+            <i id='arrowIcon' class="fas fa-arrow-circle-up fa-2x text-green-300"></i>
           </div>
         </div>
       </div>
