@@ -32,6 +32,7 @@ class authController {
 				about:"",
 				
 			});
+			
 			await this.registerLog(newUser, 'Registered new user');
 			return newUser;
 		} catch (err) {

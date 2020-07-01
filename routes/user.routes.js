@@ -12,7 +12,7 @@ const saltRounds = 10;
 
 router.get("/", async (req, res, next) => {
   const support = await supportController.listByUser(req.session.user._id);
-  let supportCount = support.length;
+  let supportCount = support.length+1;
   res.render("app/user", {
     layout: "app/layout",
     user: req.session.user,
@@ -20,43 +20,8 @@ router.get("/", async (req, res, next) => {
     supports: support,
   });
 });
-/*
+
 router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
-  
-  const imgPath = req.file.path;
-  const imgName = req.file.originalname;
-  try {
-    //await validateSignup(name, email, password);
-    //const passwordHash = await bcrypt.hashSync(password, saltRounds);
-    //await Auth.signUp(name, email, passwordHash);
-    //if (req.session.user.passwordHash === passwordHash) {
-    req.session.user = await UserController.set({
-      _id: req.session.user._id,
-     
-      imgPath,
-      imgName,
-    
-    });
-
-    res.redirect("/app/user");
-    //} else {
-    // throw new Error("Password incorrect. Try again.");
-    // }
-  } catch (err) {
-    res.render("app/user", {
-      layout: "app/layout",
-      name,
-      email,
-      password,
-      imgPath,
-      imgName,
-    
-      errorMessage: err.message,
-    });
-  }
-});*/
-
-router.post("/", uploadCloud.single("photo"),async (req, res, next) => {
   let {
     name,
     email,
@@ -70,40 +35,38 @@ router.post("/", uploadCloud.single("photo"),async (req, res, next) => {
     postalCode,
     about,
   } = req.body;
-  
-
 
   try {
-    if (req.file){
+    if (req.file) {
       imgPath = req.file.path;
       imgName = req.file.originalname;
-    }else{
+    } else {
       imgPath = req.session.user.imgPath;
       imgName = req.session.user.imgName;
     }
     await validateSignup(name, email, password);
     const passwordHash = await bcrypt.hashSync(password, saltRounds);
     //await Auth.signUp(name, email, passwordHash);
-    //if (req.session.user.passwordHash === passwordHash) {
-    req.session.user = await UserController.set({
-      _id: req.session.user._id,
-      name,
-      email,
-      passwordHash,
-      imgPath,
-      imgName,
-      occupation,
-      adress,
-      city,
-      country,
-      postalCode,
-      about,
-    });
+    if (req.session.user.passwordHash === passwordHash) {
+      req.session.user = await UserController.set({
+        _id: req.session.user._id,
+        name,
+        email,
+        passwordHash,
+        imgPath,
+        imgName,
+        occupation,
+        adress,
+        city,
+        country,
+        postalCode,
+        about,
+      });
 
-    res.redirect("/app/user");
-    //} else {
-    // throw new Error("Password incorrect. Try again.");
-    // }
+      res.redirect("/app/user");
+    } else {
+      throw new Error("Password incorrect. Try again.");
+    }
   } catch (err) {
     res.render("app/user", {
       layout: "app/layout",

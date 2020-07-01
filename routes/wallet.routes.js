@@ -18,7 +18,7 @@ router.get("/", async (req, res, next) => {
   );
 
   console.log(balanceInvest);
-  let supportCount = support.length;
+  let supportCount = support.length + 1;
   let benefits = 0;
   let percentBenefits = 0;
   let buyAmount = 0;

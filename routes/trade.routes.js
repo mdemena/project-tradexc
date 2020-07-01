@@ -33,7 +33,7 @@ router.get('/', async (req, res, next) => {
 		sellAmount: sellAmount,
 		trades: trades,
 		transactions: transactions,
-		supportCount: support.length,
+		supportCount: tickets.length + 1,
 		supports: support,
 	});
 });
@@ -43,7 +43,7 @@ router.get('/buy', async (req, res, next) => {
 	res.render('app/trade/trade', {
 		layout: 'app/layout',
 		user: req.session.user,
-		supportCount: support.length,
+		supportCount: tickets.length + 1,
 		supports: support,
 		title: 'Buy',
 		action: 'buy',
@@ -63,7 +63,7 @@ router.get('/buy/:type/:symbol-:name', async (req, res, next) => {
 	res.render('app/trade/trade', {
 		layout: 'app/layout',
 		user: req.session.user,
-		supportCount: support.length,
+		supportCount: tickets.length + 1,
 		supports: support,
 		title: 'Buy',
 		action: 'buy',
@@ -115,7 +115,7 @@ router.get('/sell/:type/:units/:symbol-:name', async (req, res, next) => {
 		isCrypto: req.params.type === 'crypto',
 		price: priceSymbol,
 		walletAmount: priceSymbol * req.params.units,
-		supportCount: support.length,
+		supportCount: tickets.length + 1,
 		supports: support,
 	});
 });
