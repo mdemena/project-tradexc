@@ -1,7 +1,7 @@
-const User = require("../models/user.model");
-const WalletController = require("../controllers/wallet.controller");
-const LogController = require("../controllers/log.controller");
-const SupportController = require("../controllers/support.controller");
+const User = require('../models/user.model');
+const WalletController = require('../controllers/wallet.controller');
+const LogController = require('../controllers/log.controller');
+const SupportController = require('../controllers/support.controller');
 
 class UserController {
 	static async get(_id) {
@@ -28,6 +28,19 @@ class UserController {
 				amount: 0,
 				movements: [],
 			});
+			const subject = 'Introducing Tradexc’s Global Privacy Policy';
+			const message =
+				'Hi there, protecting your data and your privacy are essential priorities for Tradexc. That’s why we make sure to keep you informed of how and why we collect and use your data. Sincerely, The Tradexc Team';
+			await SupportController.add();
+			const newTicket = await SupportController.add({
+				user: newUser._id,
+				name: newUser.name,
+				email: newUser.email,
+				subject: subject,
+				message: message,
+				status: 'Succes',
+			});
+
 			await this.registerLog(newUser, 'New');
 			return { newUser, newWallet };
 		} catch (err) {
