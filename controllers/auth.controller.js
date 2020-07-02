@@ -18,23 +18,24 @@ class authController {
 	}
 	static async signUp(_name, _email, _password) {
 		try {
-			const newUser = await userController.add({
+			const { newUser, newWallet } = await userController.add({
 				name: _name,
 				email: _email,
 				passwordHash: _password,
-				imgPath:"https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png",
-				imgName:"avatar",
-				occupation:"",
-				adress:"",
-				city:"",
-				country:"",
-				postalCode:"",
-				about:"",
-				
+				imgPath:
+					'https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png',
+				imgName: 'avatar',
+				occupation: '',
+				adress: '',
+				city: '',
+				country: '',
+				postalCode: '',
+				about: '',
 			});
-			
+			console.log(newUser);
+			console.log(newWallet);
 			await this.registerLog(newUser, 'Registered new user');
-			return newUser;
+			return { newUser, newWallet };
 		} catch (err) {
 			throw err;
 		}

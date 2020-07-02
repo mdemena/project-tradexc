@@ -7,7 +7,7 @@ class UserController {
 		return await User.findById(_id);
 	}
 	static async set(_user) {
-		try{
+		try {
 			const editUser = await User.findByIdAndUpdate(_user._id, _user, {
 				new: true,
 			});
@@ -15,12 +15,9 @@ class UserController {
 				await this.registerLog(editUser, 'Editing');
 			}
 			return editUser;
-		}catch(err){
+		} catch (err) {
 			console.log(err);
-			
 		}
-		
-		
 	}
 	static async add(_user) {
 		try {
@@ -31,7 +28,7 @@ class UserController {
 				movements: [],
 			});
 			await this.registerLog(newUser, 'New');
-			return newUser;
+			return { newUser, newWallet };
 		} catch (err) {
 			throw err;
 		}

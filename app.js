@@ -64,6 +64,8 @@ app.use('/', public);
 const auth = require('./routes/auth.routes');
 app.use('/auth', auth);
 app.all('/app', (req, res, next) => {
+	console.log(req.session.user);
+	console.log(req.session.wallet);
 	if (req.session.user && req.session.wallet) {
 		return next();
 	}
