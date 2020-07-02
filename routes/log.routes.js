@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
 	res.render('app/logs/index', {
 		layout: 'app/layout',
 		user: req.session.user,
-		supportCount: tickets.length + 1,
+		supportCount: support.length + 1,
 		supports: support,
 		logs: logRegistry,
 	});
