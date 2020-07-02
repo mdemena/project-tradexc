@@ -239,7 +239,7 @@ Log model
 
 ## Links
 
-### Git
+### GitHub Reapository
 
 The url to your repository and to your deployed project
 

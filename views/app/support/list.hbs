@@ -46,18 +46,12 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr role="row" class="odd">
-                                            <td class="sorting_1">{{dateFormat this.date}}</td>
-                                            <td>Introducing Tradexc’s Global Privacy Policy</td>
-                                            <td>{{> alertWelcome this }}</td>
-                                            <td>Read</td>
-                                        </tr>
                                         {{#each supports}}
                                         <tr role="row" class="odd">
                                             <td class="sorting_1">{{dateFormat this.date}}</td>
                                             <td>{{this.subject}}</td>
                                             <td>{{this.message}}</td>
-                                            <td>{{this.status}}</td>
+                                            <td><span class="badge badge-pill badge-{{supportStatus this.status}}">{{this.status}}</span></td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
