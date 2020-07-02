@@ -8,7 +8,7 @@ router.get("/", async (req, res, next) => {
   res.render("app/market", {
 	layout: "app/layout",
     user: req.session.user,
-    supportCount: support.length + 1,
+    supportCount: support.length,
     supports: support,
   });
 });

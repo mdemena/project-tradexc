@@ -1,6 +1,7 @@
 const userController = require('../controllers/user.controller');
 const walletController = require('../controllers/wallet.controller');
 const LogController = require('../controllers/log.controller');
+const supportController = require('../controllers/support.controller');
 const bcrypt = require('bcryptjs');
 
 class authController {
@@ -32,8 +33,6 @@ class authController {
 				postalCode: '',
 				about: '',
 			});
-			console.log(newUser);
-			console.log(newWallet);
 			await this.registerLog(newUser, 'Registered new user');
 			return { newUser, newWallet };
 		} catch (err) {

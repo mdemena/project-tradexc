@@ -1,6 +1,7 @@
-const User = require('../models/user.model');
-const WalletController = require('../controllers/wallet.controller');
-const LogController = require('../controllers/log.controller');
+const User = require("../models/user.model");
+const WalletController = require("../controllers/wallet.controller");
+const LogController = require("../controllers/log.controller");
+const SupportController = require("../controllers/support.controller");
 
 class UserController {
 	static async get(_id) {

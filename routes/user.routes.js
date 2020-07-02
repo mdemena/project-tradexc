@@ -12,7 +12,7 @@ const saltRounds = 10;
 
 router.get("/", async (req, res, next) => {
   const support = await supportController.listByUser(req.session.user._id);
-  let supportCount = support.length + 1;
+  let supportCount = support.length;
   res.render("app/user", {
     layout: "app/layout",
     user: req.session.user,
