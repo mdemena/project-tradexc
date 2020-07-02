@@ -245,7 +245,7 @@ The url to your repository and to your deployed project
 
 - [Repository Link](https://github.com/mdemena/project-tradexc)
 - [Wireframe Link](https://excalidraw.com/#json=6259784651112448,g2qMNaIjYwxs_xurY2bU1Q)
-- [Trello Linl](https://trello.com/b/rCNCcPCD/tradexc)
+- [Trello Link](https://trello.com/b/rCNCcPCD/tradexc)
 - [Deploy Link](https://www.tradexc.net/)
 
 ### Slides
