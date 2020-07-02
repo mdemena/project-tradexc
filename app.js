@@ -61,6 +61,7 @@ hbs.registerPartials(__dirname + "/views/app/partials", function (err) {});
 const public = require("./routes/public.routes");
 app.use("/", public);
 
+
 const auth = require("./routes/auth.routes");
 app.use("/auth", auth);
 app.all("/app", (req, res, next) => {
