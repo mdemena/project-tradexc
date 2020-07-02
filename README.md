@@ -155,49 +155,49 @@ body:
 
 ```
 User model
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    passwordHash: { type: String, required: true },
-    imgPath: { type: String },
-    imgName: { type: String },
-    occupation: { type: String },
-    adress: { type: String },
-    city: { type: String },
-    country: { type: String },
-    postalCode: { type: String },
-    about: { type: String },
-  }
+{
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  imgPath: { type: String },
+  imgName: { type: String },
+  occupation: { type: String },
+  adress: { type: String },
+  city: { type: String },
+  country: { type: String },
+  postalCode: { type: String },
+  about: { type: String },
+}
 ```
 
 ```
 Wallet model
-  {
-		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
-		amount: { type: Number, required: true },
-		movements: [
-			{
-				date: { type: Date, required: true },
-				type: {
-					type: String,
-					enum: ['deposit', 'widthdraw', 'buy', 'sell'],
-					required: true,
-				},
-				amount: { type: Number, required: true },
-			},
-		],
-	}
+{
+  user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+  amount: { type: Number, required: true },
+  movements: [
+    {
+      date: { type: Date, required: true },
+      type: {
+        type: String,
+        enum: ['deposit', 'widthdraw', 'buy', 'sell'],
+        required: true,
+      },
+      amount: { type: Number, required: true },
+    },
+  ],
+}
 ```
 
 ```
 Stock model
   {
-		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
-		symbol: { type: String, required: true },
-		name: { type: String, required: true },
-		type: { type: String, enum: ['stock', 'crypto'], required: true },
-		units: { type: Number, required: true },
-	}
+    user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+    symbol: { type: String, required: true },
+    name: { type: String, required: true },
+    type: { type: String, enum: ['stock', 'crypto'], required: true },
+    units: { type: Number, required: true },
+  }
 ```
 
 ```
