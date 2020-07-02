@@ -7,6 +7,7 @@ const tradeController = require("../controllers/trade.controller");
 /* GET home page */
 
 router.get("/", async (req, res, next) => {
+
   const tickets = await supportController.listByUser(req.session.user._id);
   const transactions = await transactionsController.listByUser(
     req.session.user._id
@@ -49,7 +50,7 @@ router.get("/", async (req, res, next) => {
     transBuys: transBuysCount,
     transSells: transSellsCount,
     balanceBuySell: balanceBuySell * 100,
-    supportCount: tickets.length + 1,
+    supportCount: tickets.length,
     supports: tickets,
   });
 });
