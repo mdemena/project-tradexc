@@ -12,7 +12,7 @@ const saltRounds = 10;
 
 router.get("/", async (req, res, next) => {
   const support = await supportController.listByUser(req.session.user._id);
-  let supportCount = support.length+1;
+  let supportCount = support.length + 1;
   res.render("app/user", {
     layout: "app/layout",
     user: req.session.user,
@@ -47,7 +47,7 @@ router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
     await validateSignup(name, email, password);
     const passwordHash = await bcrypt.hashSync(password, saltRounds);
     //await Auth.signUp(name, email, passwordHash);
-    if (req.session.user.passwordHash === passwordHash) {
+    //if (req.session.user.passwordHash == passwordHash) {
       req.session.user = await UserController.set({
         _id: req.session.user._id,
         name,
@@ -64,9 +64,9 @@ router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
       });
 
       res.redirect("/app/user");
-    } else {
-      throw new Error("Password incorrect. Try again.");
-    }
+    //} else {
+    //  throw new Error("Password incorrect. Try again.");
+    //}
   } catch (err) {
     res.render("app/user", {
       layout: "app/layout",
