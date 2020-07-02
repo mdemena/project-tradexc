@@ -191,41 +191,41 @@ Wallet model
 
 ```
 Stock model
-  {
-    user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
-    symbol: { type: String, required: true },
-    name: { type: String, required: true },
-    type: { type: String, enum: ['stock', 'crypto'], required: true },
-    units: { type: Number, required: true },
-  }
+{
+  user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+  symbol: { type: String, required: true },
+  name: { type: String, required: true },
+  type: { type: String, enum: ['stock', 'crypto'], required: true },
+  units: { type: Number, required: true },
+}
 ```
 
 ```
 Transaction model
-	{
-		date: { type: Date, required: true },
-		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
-		stock: {
-			type: mongoose.SchemaTypes.ObjectId,
-			ref: 'Stock',
-			required: true,
-		},
-		type: { type: String, enum: ['buy', 'sell'], required: true },
-		units: { type: Number, required: true },
-		price: { type: Number, required: true },
-	}
+{
+  date: { type: Date, required: true },
+  user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+  stock: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Stock',
+    required: true,
+  },
+  type: { type: String, enum: ['buy', 'sell'], required: true },
+  units: { type: Number, required: true },
+  price: { type: Number, required: true },
+}
 ```
 
 ```
 Support model
-	{
-		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
-		name: { type: String, required: true },
-		email: { type: String, required: true },
-		subject: { type: String },
-		message: { type: String },
-		status: { type: String, required: true },
-	}
+{
+  user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  subject: { type: String },
+  message: { type: String },
+  status: { type: String, required: true },
+}
 ```
 
 ```
