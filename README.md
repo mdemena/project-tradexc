@@ -31,18 +31,19 @@ An app for improve your money gaming with a Global Digital Coin Exchange.
 - Applicaction
 
   - **dashboard** - As a logged user I want to trade whit global exchange markets like NASDAQ, IBEX35 or CryptoMoney
-  - **wallet** - As a user I want to work and know all the information of my money and my investments.
   - **trade** - As a user I want trade with investments, buy or selling in the market.
+  - **wallet** - As a user I want to work and know all the information of my money and my investments.
 
 - Reports
 
+  - **markets** - As a user I want to see all information in trade and cryptocurrency markets.
   - **transactions** - As a user I want to see all the transaction I made.
-  - **markets** - As a user I want to be able to attend to event so that the organizers can count me in.
 
 - Utilities
 
-  - **profile** - As a user I want to see which escape-rooms are available so I can explore them.
-  - **support** - As a user I want to see which escape-rooms are available so I can explore them.
+  - **profile** - As a user I want to see and update all information refered to me.
+  - **support** - As a user I want te see and crete suppor tickets.
+  - **log** - As a user I want to see all my activity in application.
 
 ## Backlog
 
@@ -78,121 +79,162 @@ body:
     - password
 ```
 
-| Method | URL                   | Description                                                               |
-| ------ | --------------------- | ------------------------------------------------------------------------- |
-| GET    | /app/                 | Redirects to /auth/login/ if user not logged in. Renders dashboard        |
-| GET    | /app/wallet           | Redirects to /auth/login/ if user not logged in. Renders wallet           |
-| GET    | /app/wallet           | Redirects to /auth/login/ if user not logged in. Renders wallet           |
-| GET    | /app/wallet/widthdraw | Redirects to /auth/login/ if user not logged in. Renders wallet/widthdraw |
-| POST   | /app/wallet/widthdraw | Redirects to /auth/login/ if user not logged in. Redirect app/wallet      |
+| Method | URL         | Description                                                        |
+| ------ | ----------- | ------------------------------------------------------------------ |
+| GET    | /app/       | Redirects to /auth/login/ if user not logged in. Renders dashboard |
+| GET    | /app/wallet | Redirects to /auth/login/ if user not logged in. Renders wallet    |
+| GET    | /app/wallet | Redirects to /auth/login/ if user not logged in. Renders wallet    |
+
+| Method | URL                                | Description                                                               |
+| ------ | ---------------------------------- | ------------------------------------------------------------------------- |
+| GET    | /app/trade                         | Redirects to /auth/login/ if user not logged in. Renders app/trade/index  |
+| GET    | /app/trade/buy                     | Redirects to /auth/login/ if user not logged in. Renders app/trade/trade  |
+| GET    | /app/trade/buy/:type/:symbol-:name | Redirects to /auth/login/ if user not logged in. Renders app/trade/trade  |
+| POST   | /app/trade/buy                     | Redirects to /auth/login/ if user not logged in. Redirect app/trade/index |
 
 ```
 body:
-    - amount
-```
-
-| Method | URL                 | Description                                                             |
-| ------ | ------------------- | ----------------------------------------------------------------------- |
-| GET    | /app/wallet/deposit | Redirects to /auth/login/ if user not logged in. Renders wallet/deposit |
-| POST   | /app/wallet/deposit | Redirects to /auth/login/ if user not logged in. Redirect app/wallet    |
-
-```
-body:
-    - amount
-```
-
-| Method | URL                      | Description                                                         |
-| ------ | ------------------------ | ------------------------------------------------------------------- |
-| GET    | /app/trade               | Redirects to /auth/login/ if user not logged in. Renders trade      |
-| GET    | /app/trade/buy           | Redirects to /auth/login/ if user not logged in. Renders trade/buy  |
-| GET    | /app/trade/buy/:symbolId | Redirects to /auth/login/ if user not logged in. Renders trade/buy  |
-| POST   | /app/trade/buy           | Redirects to /auth/login/ if user not logged in. Redirect app/trade |
-
-```
-body:
-    - symbol
-    - amount
-```
-
-| Method | URL                       | Description                                                         |
-| ------ | ------------------------- | ------------------------------------------------------------------- |
-| GET    | /app/trade/sell/:symbolId | Redirects to /auth/login/ if user not logged in. Renders trade/sell |
-| POST   | /app/trade/sell           | Redirects to /auth/login/ if user not logged in. Redirect app/trade |
-
-```
-body:
-    - symbol
+    - symbolCode
+    - symbolName
+    - type
     - units
     - price
 ```
 
-| Method | URL       | Description                                                        |
-| ------ | --------- | ------------------------------------------------------------------ |
-| GET    | /app/user | Redirects to /auth/login/ if user not logged in. Renders user      |
-| POST   | /app/user | Redirects to /auth/login/ if user not logged in. Redirect app/user |
+| Method | URL                                        | Description                                                               |
+| ------ | ------------------------------------------ | ------------------------------------------------------------------------- |
+| GET    | /app/trade/sell/:type/:units/:symbol-:name | Redirects to /auth/login/ if user not logged in. Renders app/trade/trade  |
+| POST   | /app/trade/sell                            | Redirects to /auth/login/ if user not logged in. Redirect app/trade/index |
+
+```
+body:
+    - symbolCode
+    - symbolName
+    - type
+    - units
+    - price
+```
+
+| Method | URL       | Description                                                              |
+| ------ | --------- | ------------------------------------------------------------------------ |
+| GET    | /app/user | Redirects to /auth/login/ if user not logged in. Renders app/user/index  |
+| POST   | /app/user | Redirects to /auth/login/ if user not logged in. Redirect app/user/index |
 
 ```
 body:
     - name
     - email
     - password
+    - imgPath
+    - imgName
+    - occupation
+    - adress
+    - city
+    - country
+    - postalCode
+    - about
 ```
 
-| Method | URL               | Description                                                           |
-| ------ | ----------------- | --------------------------------------------------------------------- |
-| GET    | /app/transactions | Redirects to /auth/login/ if user not logged in. Renders transactions |
-| GET    | /app/markets      | Redirects to /auth/login/ if user not logged in. Renders markets      |
-| GET    | /app/support      | Redirects to /auth/login/ if user not logged in. Renders support      |
-| POST   | /app/support      | Redirects to /auth/login/ if user not logged in. Redirect app/support |
+| Method | URL                 | Description                                                                 |
+| ------ | ------------------- | --------------------------------------------------------------------------- |
+| GET    | /app/transactions   | Redirects to /auth/login/ if user not logged in. Renders app/transactions   |
+| GET    | /app/markets        | Redirects to /auth/login/ if user not logged in. Renders app/markets        |
+| GET    | /app/support        | Redirects to /auth/login/ if user not logged in. Renders app/support/list   |
+| GET    | /app/support/ticket | Redirects to /auth/login/ if user not logged in. Renders app/support/ticket |
+| POST   | /app/support/ticket | Redirects to /auth/login/ if user not logged in. Redirect app/support       |
 
 ```
 body:
     - name
     - email
     - subject
-    - description
+    - message
 ```
 
 ## Models
 
 ```
 User model
-- name: String
-- password: String
-- email: String
-- avatar: String
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    passwordHash: { type: String, required: true },
+    imgPath: { type: String },
+    imgName: { type: String },
+    occupation: { type: String },
+    adress: { type: String },
+    city: { type: String },
+    country: { type: String },
+    postalCode: { type: String },
+    about: { type: String },
+  }
 ```
 
 ```
 Wallet model
-- user: Object ID
-- amount: Number
-- movements: [{ date: Date, type: String, amount: Number}]
+  {
+		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+		amount: { type: Number, required: true },
+		movements: [
+			{
+				date: { type: Date, required: true },
+				type: {
+					type: String,
+					enum: ['deposit', 'widthdraw', 'buy', 'sell'],
+					required: true,
+				},
+				amount: { type: Number, required: true },
+			},
+		],
+	}
 ```
 
 ```
 Stock model
-- user: Object ID
-- symbol: String
-- name: String
-- units: Number
+  {
+		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+		symbol: { type: String, required: true },
+		name: { type: String, required: true },
+		type: { type: String, enum: ['stock', 'crypto'], required: true },
+		units: { type: Number, required: true },
+	}
 ```
 
 ```
 Transaction model
-- date: Date
-- user: Object ID
-- stock: Object ID
-- type: String
-- units: Number
-- price: Number
+	{
+		date: { type: Date, required: true },
+		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+		stock: {
+			type: mongoose.SchemaTypes.ObjectId,
+			ref: 'Stock',
+			required: true,
+		},
+		type: { type: String, enum: ['buy', 'sell'], required: true },
+		units: { type: Number, required: true },
+		price: { type: Number, required: true },
+	}
+```
+
+```
+Support model
+	{
+		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+		name: { type: String, required: true },
+		email: { type: String, required: true },
+		subject: { type: String },
+		message: { type: String },
+		status: { type: String, required: true },
+	}
 ```
 
 ```
 Log model
-- date: Date
-- user: Object ID
-- description: String
+	{
+		date: { type: Date, required: true },
+		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+		description: { type: String, required: true },
+	}
 ```
 
 ## Links
@@ -204,10 +246,10 @@ The url to your repository and to your deployed project
 - [Repository Link](https://github.com/mdemena/project-tradexc)
 - [Wireframe Link](https://excalidraw.com/#json=6259784651112448,g2qMNaIjYwxs_xurY2bU1Q)
 - [Trello Linl](https://trello.com/b/rCNCcPCD/tradexc)
-- [Deploy Link](https://tradexc-dev.herokuapp.com/)
+- [Deploy Link](https://www.tradexc.net/)
 
 ### Slides
 
 The url to your presentation slides
 
-[Slides Link](http://slides.com)
+[Slides Link](https://docs.google.com/presentation/d/121Bs_Kb2vDh4nO5iUrQiOZEq4tYSb8JYKCiKXQcbfJI/edit?usp=sharing)
