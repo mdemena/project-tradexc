@@ -27,11 +27,12 @@ class WalletController {
 		return editWallet;
 	}
 	static async add(_wallet) {
-		const newWallet = await Wallet.create(_wallet);
+		let newWallet = await Wallet.create(_wallet);
 		if (newWallet) {
+			await this.deposit(newWallet._id, 10000);
 			await this.registerLog(newWallet, 'New');
-			this.deposit(newWallet._id, 10000);
 		}
+		newWallet = this.get(newWallet._id);
 		return newWallet;
 	}
 	static async sell(_id, _amount) {

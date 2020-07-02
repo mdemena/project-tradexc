@@ -49,8 +49,10 @@ router.post('/signup', async (req, res, next) => {
 	try {
 		await validateSignup(name, email, password);
 		const passwordHash = await bcrypt.hashSync(password, saltRounds);
-		await Auth.signUp(name, email, passwordHash);
-		res.redirect('/auth/login');
+		const { newUser, newWallet } = await Auth.signUp(name, email, passwordHash);
+		req.session.user = newUser;
+		req.session.wallet = newWallet;
+		res.redirect('/app');
 	} catch (error) {
 		if (error instanceof mongoose.Error.ValidationError) {
 			res.status(500).render('auth/signup', {
