@@ -230,11 +230,11 @@ Support model
 
 ```
 Log model
-	{
-		date: { type: Date, required: true },
-		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
-		description: { type: String, required: true },
-	}
+{
+  date: { type: Date, required: true },
+  user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+  description: { type: String, required: true },
+}
 ```
 
 ## Links
