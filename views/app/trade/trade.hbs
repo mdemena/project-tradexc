@@ -1,7 +1,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-gradient-primary">
                         <h4 class="card-title text-center" style="color: white">{{title}}</h4>
@@ -73,7 +73,6 @@
                                 <div class="col-md-12">
                                     <a href="/app/trade" class="btn btn-secondary pull-right ml-2">Cancel</a>
                                     <button type="submit" class="btn btn-primary pull-right">{{title}}</button>
-                                    <div class="clearfix"></div>
                                 </div>
                             </div>
                             <div class="row">
@@ -82,6 +81,24 @@
                                     <hr>
                                     <p class="btn btn-google btn-user btn-block">{{errorMessage}}</p>
                                     {{/if}}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Last 30 days evolutions of
+                                                <span id="symbolGraph">TBD</span></h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="chart-area">
+                                                <canvas id="evolutionChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -96,5 +113,7 @@
 {{> jsCdn this }}
 
 <!-- Page level plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="/javascripts/private.js"></script>
 <script src="/javascripts/tradeSearch.js"></script>

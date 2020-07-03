@@ -1,9 +1,12 @@
-document.addEventListener('DOMContentLoaded', function (event) {
-	document.getElementById('typeStock').checked =
-		document.getElementById('typeId').value === 'stock';
+document.addEventListener('DOMContentLoaded', async function (event) {
+	const type = document.getElementById('typeId').value;
+	const symbol = document.getElementById('symbolCodeId').value;
+	const name = document.getElementById('symbolNameId').value;
+	document.getElementById('typeStock').checked = type === 'stock';
 	document.getElementById('typeCrypto').checked = !document.getElementById(
 		'typeStock'
 	).checked;
+	await drawAllCharts(type, symbol, name);
 });
 
 document.getElementById('typeStock').addEventListener('click', (event) => {
@@ -16,7 +19,6 @@ document.getElementById('typeCrypto').addEventListener('click', (event) => {
 async function searchSymbol(_keywords) {
 	const _type = document.getElementById('typeId').value;
 	const apiUrl = `/app/trade/searchSymbol/${_type}/${_keywords}`;
-	console.log(apiUrl);
 	try {
 		const responseFromAPI = await axios.get(apiUrl);
 		return responseFromAPI.data;
@@ -31,7 +33,6 @@ async function getSymbolPrice(_symbol) {
 	let price = 1;
 	try {
 		const responseFromAPI = await axios.get(apiUrl);
-		console.log(responseFromAPI.data);
 		return responseFromAPI.data;
 	} catch (err) {
 		console.log('Error while getting the data: ', err);
@@ -39,6 +40,7 @@ async function getSymbolPrice(_symbol) {
 	}
 }
 function autocomplete(inp) {
+	const _type = document.getElementById('typeId').value;
 	var currentFocus;
 	inp.addEventListener('input', async function (e) {
 		var a,
@@ -92,6 +94,11 @@ function autocomplete(inp) {
 						this.getElementsByTagName('input')[1].value
 					);
 
+					drawAllCharts(
+						_type,
+						this.getElementsByTagName('input')[1].value,
+						this.getElementsByTagName('input')[2].value
+					);
 					closeAllLists();
 				});
 				a.appendChild(b);
@@ -154,5 +161,130 @@ document.getElementById('unitsId').addEventListener('change', (elem) => {
 	if (elem.target.value * price <= wallet) {
 		document.getElementById('totalId').value = elem.target.value * price;
 	}
-	console.log(elem.target.value);
 });
+
+async function drawAllCharts(_type, _symbol, _name) {
+	// Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily =
+		'Nunito,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#858796';
+
+	const apiUrl = `/app/trade/getEvolutionSymbol/${_type}/${_symbol}-${_name}`;
+
+	try {
+		document.getElementById('symbolGraph').innerText = `${_name} (${_symbol})`;
+
+		const responseFromAPI = await axios.get(apiUrl);
+		const chartLabels = responseFromAPI.data.labels;
+		const chartDatasets = responseFromAPI.data.datasets;
+		const helperDatasets = chartDatasets.map((dataChart) => {
+			const colorDataset = getRandomGraphColor().background;
+			try {
+				return {
+					label: dataChart.symbol,
+					data: dataChart.dataset,
+					lineTension: 0.3,
+					fill: false,
+					borderColor: colorDataset,
+					pointRadius: 3,
+					pointBackgroundColor: colorDataset,
+					pointBorderColor: colorDataset,
+					pointHoverRadius: 3,
+					pointHoverBackgroundColor: colorDataset,
+					pointHoverBorderColor: colorDataset,
+					pointHitRadius: 10,
+					pointBorderWidth: 2,
+				};
+			} catch (err) {}
+		});
+		const ctxEvo = document.getElementById('evolutionChart');
+		const myEvoChart = new Chart(ctxEvo, {
+			type: 'line',
+			data: {
+				labels: chartLabels,
+				datasets: helperDatasets,
+			},
+			options: {
+				maintainAspectRatio: false,
+				responsive: true,
+				onResize: function (_chart, _newSize) {
+					_chart.options.legend.display = _newSize.width < 350 ? false : true;
+					_chart.update();
+				},
+				layout: {
+					padding: {
+						left: 10,
+						right: 25,
+						top: 25,
+						bottom: 0,
+					},
+				},
+				scales: {
+					xAxes: [
+						{
+							time: {
+								unit: 'date',
+							},
+							gridLines: {
+								display: false,
+								drawBorder: false,
+							},
+							ticks: {
+								maxTicksLimit: 7,
+							},
+						},
+					],
+					yAxes: [
+						{
+							ticks: {
+								maxTicksLimit: 5,
+								padding: 10,
+								// Include a EUR sign in the ticks
+								callback: function (value, index, values) {
+									return value.toFixed(2) + ' EUR';
+								},
+							},
+							gridLines: {
+								color: 'rgb(234, 236, 244)',
+								zeroLineColor: 'rgb(234, 236, 244)',
+								drawBorder: false,
+								borderDash: [2],
+								zeroLineBorderDash: [2],
+							},
+						},
+					],
+				},
+				legend: {
+					display: true,
+					position: 'top',
+				},
+				tooltips: {
+					backgroundColor: 'rgb(255,255,255)',
+					bodyFontColor: '#858796',
+					titleMarginBottom: 10,
+					titleFontColor: '#6e707e',
+					titleFontSize: 14,
+					borderColor: '#dddfeb',
+					borderWidth: 1,
+					xPadding: 15,
+					yPadding: 15,
+					displayColors: false,
+					intersect: false,
+					mode: 'index',
+					caretPadding: 10,
+					callbacks: {
+						label: function (tooltipItem, chart) {
+							var datasetLabel =
+								chart.datasets[tooltipItem.datasetIndex].label || '';
+							return (
+								datasetLabel + ': ' + tooltipItem.yLabel.toFixed(2) + ' EUR'
+							);
+						},
+					},
+				},
+			},
+		});
+	} catch (err) {
+		console.log('Error while getting the data: ', err);
+	}
+}
