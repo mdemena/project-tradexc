@@ -61,7 +61,6 @@ hbs.registerPartials(__dirname + "/views/app/partials", function (err) {});
 const public = require("./routes/public.routes");
 app.use("/", public);
 
-
 const auth = require("./routes/auth.routes");
 app.use("/auth", auth);
 app.all("/app", (req, res, next) => {
@@ -124,32 +123,6 @@ hbs.registerHelper("supportStatus", function (_status) {
   }
 });
 
-/*
-hbs.registerHelper("ifCond", function (v1, operator, v2, options) {
-  switch (operator) {
-    case "==":
-      return v1 == v2 ? options.fn(this) : options.inverse(this);
-    case "===":
-      return v1 === v2 ? options.fn(this) : options.inverse(this);
-    case "!=":
-      return v1 != v2 ? options.fn(this) : options.inverse(this);
-    case "!==":
-      return v1 !== v2 ? options.fn(this) : options.inverse(this);
-    case "<":
-      return v1 < v2 ? options.fn(this) : options.inverse(this);
-    case "<=":
-      return v1 <= v2 ? options.fn(this) : options.inverse(this);
-    case ">":
-      return v1 > v2 ? options.fn(this) : options.inverse(this);
-    case ">=":
-      return v1 >= v2 ? options.fn(this) : options.inverse(this);
-    case "&&":
-      return v1 && v2 ? options.fn(this) : options.inverse(this);
-    case "||":
-      return v1 || v2 ? options.fn(this) : options.inverse(this);
-    default:
-      return options.inverse(this);
-  }
-});*/
+
 
 module.exports = app;
