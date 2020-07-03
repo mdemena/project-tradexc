@@ -1,9 +1,4 @@
-/**
-* Template Name: Butterfly - v2.0.0
-* Template URL: https://bootstrapmade.com/butterfly-free-bootstrap-theme/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
+
 !(function($) {
   "use strict";
 
