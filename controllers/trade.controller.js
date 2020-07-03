@@ -251,6 +251,68 @@ class TradeController {
 			datasets: returnDatasets.filter((ds) => ds.dataset.length > 0),
 		};
 	}
+	static async getEvolutionSymbol(_type, _symbol, _name) {
+		const key = process.env.API_KEY;
+		const symbols = [{ type: _type, symbol: _symbol, name: _name }];
+		const tmpLabels = await UtilitiesController.getLastNDays(30);
+		const returnDatasets = await Promise.all(
+			symbols.map(async function (sym, index) {
+				const itemData = {
+					id: sym.symbol,
+					symbol: `${sym.name} (${sym.symbol})`,
+					dataset: [],
+				};
+				let dataArrayName =
+					sym.type === 'crypto'
+						? 'Time Series (Digital Currency Daily)'
+						: 'Time Series (Daily)';
+				let dataFieldName =
+					sym.type === 'crypto' ? '4a. close (EUR)' : '4. close';
+				let functionName =
+					sym.type === 'crypto'
+						? 'DIGITAL_CURRENCY_DAILY'
+						: 'TIME_SERIES_DAILY';
+
+				const apiUrl =
+					`https://www.alphavantage.co/query?function=${functionName}&symbol=${sym.symbol}&apikey=${key}` +
+					(sym.type === 'crypto' ? '&market=EUR' : '');
+				try {
+					const responseFromAPI = await axios.get(apiUrl);
+					if (responseFromAPI && responseFromAPI.data[dataArrayName]) {
+						const dataToProcess = responseFromAPI.data[dataArrayName];
+						const dataKeys = Object.keys(dataToProcess);
+						tmpLabels.forEach((date) => {
+							if (
+								dataKeys.find((d) => d === dayjs(date).format('YYYY-MM-DD'))
+							) {
+								itemData.dataset.push(
+									parseFloat(
+										dataToProcess[dayjs(date).format('YYYY-MM-DD')][
+											dataFieldName
+										]
+									)
+								);
+							} else {
+								itemData.dataset.push(0.0);
+							}
+						});
+						if (itemData.dataset.length > 0) {
+							itemData.dataset.reverse();
+						}
+					}
+					return itemData;
+				} catch (err) {
+					console.log('Error while getting the data: ', err);
+				}
+			})
+		);
+		tmpLabels.reverse();
+		const returnLabels = tmpLabels.map((d) => dayjs(d).format('DD/MM/YYYY'));
+		return {
+			labels: returnLabels,
+			datasets: returnDatasets.filter((ds) => ds.dataset.length > 0),
+		};
+	}
 
 	static async getSymbolsByUser(_id) {
 		const trades = await this.listByUser(_id);
