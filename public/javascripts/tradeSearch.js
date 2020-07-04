@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', async function (event) {
 	document.getElementById('typeCrypto').checked = !document.getElementById(
 		'typeStock'
 	).checked;
-	await drawAllCharts(type, symbol, name);
+	if (type && symbol && name){
+	    await drawAllCharts(type, symbol, name);
+	}
 });
 
 document.getElementById('typeStock').addEventListener('click', (event) => {
