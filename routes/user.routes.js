@@ -46,27 +46,22 @@ router.post("/", uploadCloud.single("photo"), async (req, res, next) => {
     }
     await validateSignup(name, email, password);
     const passwordHash = await bcrypt.hashSync(password, saltRounds);
-    //await Auth.signUp(name, email, passwordHash);
-    //if (req.session.user.passwordHash == passwordHash) {
-      req.session.user = await UserController.set({
-        _id: req.session.user._id,
-        name,
-        email,
-        passwordHash,
-        imgPath,
-        imgName,
-        occupation,
-        adress,
-        city,
-        country,
-        postalCode,
-        about,
-      });
+    req.session.user = await UserController.set({
+      _id: req.session.user._id,
+      name,
+      email,
+      passwordHash,
+      imgPath,
+      imgName,
+      occupation,
+      adress,
+      city,
+      country,
+      postalCode,
+      about,
+    });
 
-      res.redirect("/app/user");
-    //} else {
-    //  throw new Error("Password incorrect. Try again.");
-    //}
+    res.redirect("/app/user");
   } catch (err) {
     res.render("app/user", {
       layout: "app/layout",

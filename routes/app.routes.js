@@ -7,7 +7,6 @@ const tradeController = require("../controllers/trade.controller");
 /* GET home page */
 
 router.get("/", async (req, res, next) => {
-
   const tickets = await supportController.listByUser(req.session.user._id);
   const transactions = await transactionsController.listByUser(
     req.session.user._id
